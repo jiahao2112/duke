@@ -1,6 +1,8 @@
-read book
+todo read book
 list
-return book
+deadline return book /by Mon
+list
+event work /from 8am /to 5pm
 list
 mark 1
 list

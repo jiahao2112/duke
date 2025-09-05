@@ -4,26 +4,19 @@ public class TaskManager {
     private final ArrayList<Task> taskList = new ArrayList<>();
 
     public void manageTask(String userInput) {
-        int commandDivider = userInput.indexOf(" ");
-        String command;
-        if (commandDivider == -1){
-            command = userInput;
-        }else{
-            command = userInput.substring(0, commandDivider);
-        }
-        String taskName = userInput.substring(commandDivider + 1);
-        switch (command) {
+        ArrayList<String> commands = InputParser.parseInput(userInput);
+        switch (commands.get(0)) {
             case "list":
                 displayTasks();
                 break;
             case "mark":
-                markTask(taskName,true);
+                markTask(commands.get(1),true);
                 break;
             case "unmark":
-                markTask(taskName,false);
+                markTask(commands.get(1),false);
                 break;
             default:
-                addTask(userInput);
+                addTask(commands);
         }
     }
 
@@ -36,7 +29,7 @@ public class TaskManager {
     }
 
     public void markTask(String taskNumber, boolean markDone) {
-        int taskNum = Integer.parseInt(taskNumber);
+        int taskNum = InputParser.getTaskNumber(taskNumber);
         Task task = taskList.get(taskNum - 1);
         task.setIsDone(markDone);
         if (markDone) {
@@ -46,8 +39,26 @@ public class TaskManager {
         }
     }
 
-    public void addTask(String text) {
-        Task task = new Task(text);
+    public Task createTask(ArrayList<String> taskInfo){
+        Task task;
+        switch (taskInfo.get(0)) {
+            case "todo":
+                task = new ToDo(taskInfo.get(1));
+                break;
+            case "deadline":
+                task = new Deadline(taskInfo.get(1), taskInfo.get(2));
+                break;
+            case "event":
+                task = new Event(taskInfo.get(1), taskInfo.get(2), taskInfo.get(3));
+                break;
+            default:
+                return null;
+        }
+        return task;
+    }
+
+    public void addTask(ArrayList<String> text) {
+        Task task = createTask(text);
         taskList.add(task);
         Groot.echo("Task added: " + taskList.get(taskList.size()-1)); //get last added task
         Groot.echo("Now you have " + taskList.size() + " tasks in the list.");
