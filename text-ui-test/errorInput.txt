@@ -17,4 +17,7 @@ mark a
 unmark
 unmark 1
 unmark a
+delete
+delete 1
+delete a
 bye

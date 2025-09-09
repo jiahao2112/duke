@@ -15,6 +15,9 @@ public class InputParser {
             case "unmark":
                 userInput.add(parseMarkUnmark(input[0], input[1])); // check if task number available and is digit
                 break;
+            case "delete":
+                userInput.add(parseDelete(input[1]));
+                break;
             case "todo":
                 // add task name to userInput {"taskName"}
                 userInput.addAll(parseTodo(input[1]));
@@ -43,9 +46,18 @@ public class InputParser {
         return new String[]{taskType, taskInfo};
     }
 
-    public static String parseMarkUnmark(String markUnmark, String taskNumber) throws MarkUnmarkException {
+    public static String parseMarkUnmark(String markUnmark, String taskNumber) throws MarkUnmarkDeleteException {
         InputChecker.checkTaskNumberFormat(taskNumber, markUnmark);
         //return taskNumber if pass check
+        return taskNumber;
+    }
+    public static int getTaskNumber(String taskNumber, int tasklistSize) throws MarkUnmarkDeleteException {
+        int taskNumberInt = Integer.parseInt(taskNumber);
+        InputChecker.checkTaskNumberValid(taskNumberInt, tasklistSize);
+        return taskNumberInt;
+    }
+    public static String parseDelete(String taskNumber) throws MarkUnmarkDeleteException {
+        InputChecker.checkTaskNumberFormat(taskNumber,"delete");
         return taskNumber;
     }
 

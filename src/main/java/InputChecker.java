@@ -3,11 +3,17 @@ import exceptions.*;
 import java.util.ArrayList;
 
 public class InputChecker {
-    public static void checkTaskNumberFormat(String taskNumber, String markUnmark) throws MarkUnmarkException {
+    public static void checkTaskNumberFormat(String taskNumber, String markUnmark) throws MarkUnmarkDeleteException {
         if (taskNumber.isEmpty()) { //task number missing
-            throw new MarkUnmarkException.MissingTaskNumberException(markUnmark);
+            throw new MarkUnmarkDeleteException.MissingTaskNumberException(markUnmark);
         } else if (!taskNumber.matches("\\d+")) { //task number not a digit
-            throw new MarkUnmarkException.InvalidTaskNumberException(markUnmark);
+            throw new MarkUnmarkDeleteException.InvalidTaskNumberException(markUnmark);
+        }
+    }
+
+    public static void checkTaskNumberValid(int taskNumber, int tasklistSize) throws MarkUnmarkDeleteException {
+        if (taskNumber > tasklistSize) {
+            throw new MarkUnmarkDeleteException.TaskNotFoundException();
         }
     }
 

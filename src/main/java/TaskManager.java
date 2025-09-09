@@ -9,26 +9,28 @@ public class TaskManager {
         ArrayList<String> commands;
         try {
             commands = InputParser.parseInput(userInput);
+            switch (commands.get(0)) {
+                case "list":
+                    displayTasks();
+                    break;
+                case "mark":
+                    markTask(commands.get(1), true);
+                    break;
+                case "unmark":
+                    markTask(commands.get(1), false);
+                    break;
+                case "delete":
+                    deleteTask(commands.get(1));
+                    break;
+                case "todo":
+                case "deadline":
+                case "event":
+                    addTask(commands);
+                    break;
+                default:
+            }
         } catch (GrootException e) {
             printMessage(e.getMessage());
-            return;
-        }
-        switch (commands.get(0)) {
-            case "list":
-                displayTasks();
-                break;
-            case "mark":
-                markTask(commands.get(1), true);
-                break;
-            case "unmark":
-                markTask(commands.get(1), false);
-                break;
-            case "todo":
-            case "deadline":
-            case "event":
-                addTask(commands);
-                break;
-            default:
         }
 
     }
@@ -50,17 +52,14 @@ public class TaskManager {
     }
 
     public void markTask(String taskNumber, boolean markDone) {
-        Task task;
-        int taskNum;
         try {
-            taskNum = Integer.parseInt(taskNumber);
-            if (taskNum > taskList.size()) {
-                throw new MarkUnmarkException.TaskNotFoundException();
-            }
+            Task task;
+            int taskNum;
+            taskNum = InputParser.getTaskNumber(taskNumber, taskList.size());
             task = taskList.get(taskNum - 1);
 
             if (task.getIsDone() == markDone) {
-                throw new MarkUnmarkException.TaskAlreadyMarkedException(markDone ? "done" : "not done");
+                throw new MarkUnmarkDeleteException.TaskAlreadyMarkedException(markDone ? "done" : "not done");
             }
             task.setIsDone(markDone);
             if (markDone) {
@@ -68,10 +67,9 @@ public class TaskManager {
             } else {
                 printMessage("Task marked as not done yet: " + task);
             }
-        } catch (MarkUnmarkException e) {
+        } catch (MarkUnmarkDeleteException e) {
             printMessage(e.getMessage());
         }
-
     }
 
     public Task createTask(ArrayList<String> taskInfo) {
@@ -97,6 +95,18 @@ public class TaskManager {
         taskList.add(task);
         printMessage("Task added: " + task,
                 "Now you have " + taskList.size() + " tasks in the list.");
+    }
+
+    public void deleteTask(String taskNumber) throws MarkUnmarkDeleteException {
+        try {
+            int taskNum = InputParser.getTaskNumber(taskNumber, taskList.size()); //will check if task number valid after changing to int
+            Task task = taskList.get(taskNum - 1);
+            taskList.remove(taskNum - 1);
+            printMessage("Task deleted: " + task,
+                    "Now you have " + taskList.size() + " tasks in the list.");
+        } catch (MarkUnmarkDeleteException e) {
+            printMessage(e.getMessage());
+        }
     }
 
     public void printMessage(String... messages) {
