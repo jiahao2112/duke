@@ -1,45 +1,80 @@
 import java.util.ArrayList;
 
+import exceptions.*;
+
 public class TaskManager {
     private final ArrayList<Task> taskList = new ArrayList<>();
 
     public void manageTask(String userInput) {
-        ArrayList<String> commands = InputParser.parseInput(userInput);
+        ArrayList<String> commands;
+        try {
+            commands = InputParser.parseInput(userInput);
+        } catch (GrootException e) {
+            printMessage(e.getMessage());
+            return;
+        }
         switch (commands.get(0)) {
             case "list":
                 displayTasks();
                 break;
             case "mark":
-                markTask(commands.get(1),true);
+                markTask(commands.get(1), true);
                 break;
             case "unmark":
-                markTask(commands.get(1),false);
+                markTask(commands.get(1), false);
+                break;
+            case "todo":
+            case "deadline":
+            case "event":
+                addTask(commands);
                 break;
             default:
-                addTask(commands);
         }
+
     }
 
     public void displayTasks() {
-        int taskNumber = 1;
-        for (Task task : taskList) {
-            Groot.echo(taskNumber + ": " + task.toString());
-            taskNumber++;
+        try {
+            if (taskList.isEmpty()) {
+                throw new GrootException.EmptyListException();
+            }
+            int taskNumber = 1;
+            for (Task task : taskList) {
+                Groot.echo(taskNumber + ": " + task.toString());
+                taskNumber++;
+            }
+        } catch (GrootException.EmptyListException e) {
+            printMessage(e.getMessage());
         }
+
     }
 
     public void markTask(String taskNumber, boolean markDone) {
-        int taskNum = InputParser.getTaskNumber(taskNumber);
-        Task task = taskList.get(taskNum - 1);
-        task.setIsDone(markDone);
-        if (markDone) {
-            Groot.echo("Task marked as done: " + task);
-        } else {
-            Groot.echo("Task marked as not done yet: " + task);
+        Task task;
+        int taskNum;
+        try {
+            taskNum = Integer.parseInt(taskNumber);
+            if (taskNum > taskList.size()) {
+                throw new MarkUnmarkException.TaskNotFoundException();
+            }
+            task = taskList.get(taskNum - 1);
+
+            if (task.getIsDone() == markDone) {
+                throw new MarkUnmarkException.TaskAlreadyMarkedException(markDone ? "done" : "not done");
+            }
+            task.setIsDone(markDone);
+            if (markDone) {
+                printMessage("Task marked as done: " + task);
+            } else {
+                printMessage("Task marked as not done yet: " + task);
+            }
+        } catch (MarkUnmarkException e) {
+            printMessage(e.getMessage());
         }
+
     }
 
-    public Task createTask(ArrayList<String> taskInfo){
+    public Task createTask(ArrayList<String> taskInfo) {
         Task task;
         switch (taskInfo.get(0)) {
             case "todo":
@@ -52,7 +87,7 @@ public class TaskManager {
                 task = new Event(taskInfo.get(1), taskInfo.get(2), taskInfo.get(3));
                 break;
             default:
-                return null;
+                task = null;
         }
         return task;
     }
@@ -60,7 +95,13 @@ public class TaskManager {
     public void addTask(ArrayList<String> text) {
         Task task = createTask(text);
         taskList.add(task);
-        Groot.echo("Task added: " + taskList.get(taskList.size()-1)); //get last added task
-        Groot.echo("Now you have " + taskList.size() + " tasks in the list.");
+        printMessage("Task added: " + task,
+                "Now you have " + taskList.size() + " tasks in the list.");
+    }
+
+    public void printMessage(String... messages) {
+        for (String message : messages) {
+            Groot.echo(message);
+        }
     }
 }

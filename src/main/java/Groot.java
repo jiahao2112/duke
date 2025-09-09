@@ -4,9 +4,10 @@ public class Groot {
     TaskManager taskManager = new TaskManager();
     private boolean isExit = false;
 
-    public Groot(){
+    public Groot() {
         greet();
     }
+
     public static void iAmGroot() {
         System.out.print("I am Groot. ");
     }

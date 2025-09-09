@@ -1,0 +1,20 @@
+blah
+todo
+deadline
+deadline /by
+deadline return book
+deadline return book /by
+event
+event work
+event /from /to
+event work /from
+event work /from /to
+event work /from mon
+event work /from mon /to
+mark
+mark 1
+mark a
+unmark
+unmark 1
+unmark a
+bye

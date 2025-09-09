@@ -13,20 +13,25 @@ public class Task {
         isDone = false;
     }
 
-    public String getStatusIcon(){
-        return (isDone? "X" : " ");
+    public String getStatusIcon() {
+        return (isDone ? "X" : " ");
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public void setIsDone(boolean isDone){
+    public boolean getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(boolean isDone) {
         this.isDone = isDone;
     }
+
     @Override
-    public String toString(){
-        return "[" +getStatusIcon() + "] " + getDescription();
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + getDescription();
     }
 
 
