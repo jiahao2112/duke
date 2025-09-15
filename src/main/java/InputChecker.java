@@ -1,13 +1,34 @@
+import enums.CommandType;
 import exceptions.*;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class InputChecker {
-    public static void checkTaskNumberFormat(String taskNumber, String markUnmark) throws MarkUnmarkDeleteException {
+    public static void checkTaskNumberFormat(String taskNumber, CommandType markUnmark) throws MarkUnmarkDeleteException {
         if (taskNumber.isEmpty()) { //task number missing
-            throw new MarkUnmarkDeleteException.MissingTaskNumberException(markUnmark);
+            throw new MarkUnmarkDeleteException.MissingTaskNumberException(markUnmark.toString().toLowerCase());
         } else if (!taskNumber.matches("\\d+")) { //task number not a digit
-            throw new MarkUnmarkDeleteException.InvalidTaskNumberException(markUnmark);
+            throw new MarkUnmarkDeleteException.InvalidTaskNumberException(markUnmark.toString().toLowerCase());
+        }
+    }
+
+    public static void checkInput (AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws GrootException {
+        if (input.getValue().isEmpty()) {
+            switch (input.getKey()) { // minimum missing these parameters
+                case MARK:
+                    throw new MarkUnmarkDeleteException.MissingTaskNumberException("mark");
+                case UNMARK:
+                    throw new MarkUnmarkDeleteException.MissingTaskNumberException("unmark");
+                case DELETE:
+                    throw new MarkUnmarkDeleteException.MissingTaskNumberException("delete");
+                case TODO:
+                    throw new TodoException.MissingTodoTaskNameException();
+                case DEADLINE:
+                    throw new DeadlineException.MissingDeadlineByKeywordException();
+                case EVENT:
+                    throw new EventException.MissingEventKeywordsException();
+            }
         }
     }
 
@@ -59,5 +80,10 @@ public class InputChecker {
         }
     }
 
+    public static void checkTaskStatus (Task task, boolean markDone) throws MarkUnmarkDeleteException {
+        if (task.getIsDone() == markDone) {
+            throw new MarkUnmarkDeleteException.TaskAlreadyMarkedException(markDone? "done":"not done");
+        }
+    }
 
 }

@@ -14,6 +14,9 @@ IF ERRORLEVEL 1 (
 )
 REM no error here, errorlevel == 0
 
+REM reset tasklist.txt so tests always start with empty file
+type nul > data\tasklist.txt
+
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
 java -classpath ..\bin Groot < errorInput.txt > ERRORACTUAL.TXT
 

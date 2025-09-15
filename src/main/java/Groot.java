@@ -22,7 +22,7 @@ public class Groot {
         System.out.println("(" + text + ")");
     }
 
-    public void exit() {
+    public static void exit() {
         System.out.println("We are Groot. (Goodbye.)");
     }
 
@@ -42,6 +42,6 @@ public class Groot {
             String userInput = input.nextLine();
             groot.manageUserInput(userInput);
         }
-        groot.exit();
+        exit();
     }
 }

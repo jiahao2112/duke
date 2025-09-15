@@ -1,30 +1,43 @@
+import java.util.AbstractMap;
 import java.util.ArrayList;
 
+import enums.*;
 import exceptions.*;
 
 public class TaskManager {
-    private final ArrayList<Task> taskList = new ArrayList<>();
+    private static ArrayList<Task> taskList = new ArrayList<>();
 
+    public TaskManager(){
+        try{
+            FileManager.createFile();
+            taskList = FileManager.readFile();
+        }catch(FileException e){
+            printMessage(e.getMessage());
+            Groot.exit();
+        }catch (GrootException e){
+            printMessage(e.getMessage());
+        }
+    }
     public void manageTask(String userInput) {
-        ArrayList<String> commands;
         try {
-            commands = InputParser.parseInput(userInput);
-            switch (commands.get(0)) {
-                case "list":
+            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commands = InputParser.parseInput(userInput);
+            CommandType command = commands.getKey();
+            switch (command) {
+                case LIST:
                     displayTasks();
                     break;
-                case "mark":
-                    markTask(commands.get(1), true);
+                case MARK:
+                    markTask(commands.getValue().get(0), true);
                     break;
-                case "unmark":
-                    markTask(commands.get(1), false);
+                case UNMARK:
+                    markTask(commands.getValue().get(0), false);
                     break;
-                case "delete":
-                    deleteTask(commands.get(1));
+                case DELETE:
+                    deleteTask(commands.getValue().get(0));
                     break;
-                case "todo":
-                case "deadline":
-                case "event":
+                case TODO:
+                case DEADLINE:
+                case EVENT:
                     addTask(commands);
                     break;
                 default:
@@ -57,10 +70,7 @@ public class TaskManager {
             int taskNum;
             taskNum = InputParser.getTaskNumber(taskNumber, taskList.size());
             task = taskList.get(taskNum - 1);
-
-            if (task.getIsDone() == markDone) {
-                throw new MarkUnmarkDeleteException.TaskAlreadyMarkedException(markDone ? "done" : "not done");
-            }
+            InputChecker.checkTaskStatus(task, markDone);
             task.setIsDone(markDone);
             if (markDone) {
                 printMessage("Task marked as done: " + task);
@@ -72,39 +82,40 @@ public class TaskManager {
         }
     }
 
-    public Task createTask(ArrayList<String> taskInfo) {
-        Task task;
-        switch (taskInfo.get(0)) {
-            case "todo":
-                task = new ToDo(taskInfo.get(1));
-                break;
-            case "deadline":
-                task = new Deadline(taskInfo.get(1), taskInfo.get(2));
-                break;
-            case "event":
-                task = new Event(taskInfo.get(1), taskInfo.get(2), taskInfo.get(3));
-                break;
-            default:
-                task = null;
+    public Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> taskInfo) {
+        try{
+            Task task;
+            TaskType taskType = InputParser.parseTask(taskInfo.getKey());
+            task = switch (taskType) {
+                case TODO -> new ToDo(taskInfo.getValue().get(0));
+                case DEADLINE -> new Deadline(taskInfo.getValue().get(0), taskInfo.getValue().get(1));
+                case EVENT -> new Event(taskInfo.getValue().get(0), taskInfo.getValue().get(1), taskInfo.getValue().get(2));
+            };
+            return task;
+        }catch (GrootException e){
+            printMessage(e.getMessage());
+            return null;
         }
-        return task;
+
     }
 
-    public void addTask(ArrayList<String> text) {
+    public void addTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> text) throws  GrootException {
         Task task = createTask(text);
         taskList.add(task);
+        FileManager.saveFile(taskList);
         printMessage("Task added: " + task,
                 "Now you have " + taskList.size() + " tasks in the list.");
     }
 
-    public void deleteTask(String taskNumber) throws MarkUnmarkDeleteException {
+    public void deleteTask(String taskNumber) throws GrootException {
         try {
             int taskNum = InputParser.getTaskNumber(taskNumber, taskList.size()); //will check if task number valid after changing to int
             Task task = taskList.get(taskNum - 1);
             taskList.remove(taskNum - 1);
+            FileManager.saveFile(taskList);
             printMessage("Task deleted: " + task,
                     "Now you have " + taskList.size() + " tasks in the list.");
-        } catch (MarkUnmarkDeleteException e) {
+        } catch (GrootException e) {
             printMessage(e.getMessage());
         }
     }
