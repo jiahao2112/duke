@@ -1,0 +1,21 @@
+import exceptions.EventException;
+import exceptions.FileException;
+
+import java.util.ArrayList;
+
+public class EventFileParser {
+    public static void parseEventFile(ArrayList<String> eventFile) throws FileException {
+        try {
+            eventFile.set(0, eventFile.get(0).trim());
+            String taskInfo = eventFile.get(0);
+            String[] taskInfoArray = taskInfo.split("\\| from:");
+            eventFile.set(0, taskInfoArray[0].trim());
+            taskInfoArray = taskInfoArray[1].split(", to:");
+            eventFile.add(taskInfoArray[0].trim());
+            eventFile.add(taskInfoArray[1].trim());
+            EventChecker.checkEventFormat(eventFile);
+        } catch (EventException e) {
+            throw new FileException.FileCorruptedException();
+        }
+    }
+}

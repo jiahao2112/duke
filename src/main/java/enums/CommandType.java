@@ -1,6 +1,7 @@
 package enums;
 
 public enum CommandType {
+    BYE,
     LIST,
     MARK,
     UNMARK,

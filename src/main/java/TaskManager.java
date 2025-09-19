@@ -7,22 +7,24 @@ import exceptions.*;
 public class TaskManager {
     private static ArrayList<Task> taskList = new ArrayList<>();
 
-    public TaskManager(){
-        try{
+    public TaskManager() {
+        try {
             FileManager.createFile();
             taskList = FileManager.readFile();
-        }catch(FileException e){
-            printMessage(e.getMessage());
-            Groot.exit();
-        }catch (GrootException e){
-            printMessage(e.getMessage());
+        } catch (FileException e) {
+            UserInteraction.printMessage(e.getMessage());
         }
     }
+
     public void manageTask(String userInput) {
         try {
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commands = InputParser.parseInput(userInput);
+            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commands = UserInputParser.parseUserInput(userInput);
             CommandType command = commands.getKey();
             switch (command) {
+                case BYE:
+                    UserInteraction.exit();
+                    break;
+                case NONE:
                 case LIST:
                     displayTasks();
                     break;
@@ -42,8 +44,9 @@ public class TaskManager {
                     break;
                 default:
             }
+            FileManager.saveFile(taskList);
         } catch (GrootException e) {
-            printMessage(e.getMessage());
+            UserInteraction.printMessage(e.getMessage());
         }
 
     }
@@ -55,11 +58,11 @@ public class TaskManager {
             }
             int taskNumber = 1;
             for (Task task : taskList) {
-                Groot.echo(taskNumber + ": " + task.toString());
+                UserInteraction.printMessage(taskNumber + ": " + task);
                 taskNumber++;
             }
         } catch (GrootException.EmptyListException e) {
-            printMessage(e.getMessage());
+            UserInteraction.printMessage(e.getMessage());
         }
 
     }
@@ -68,61 +71,48 @@ public class TaskManager {
         try {
             Task task;
             int taskNum;
-            taskNum = InputParser.getTaskNumber(taskNumber, taskList.size());
+            taskNum = MarkUnmarkDeleteParser.getTaskNumber(taskNumber, taskList.size());
             task = taskList.get(taskNum - 1);
-            InputChecker.checkTaskStatus(task, markDone);
+            MarkUnmarkDeleteChecker.checkTaskStatus(task.getIsDone(), markDone);
             task.setIsDone(markDone);
             if (markDone) {
-                printMessage("Task marked as done: " + task);
+                UserInteraction.printMessage("Task marked as done: " + task);
             } else {
-                printMessage("Task marked as not done yet: " + task);
+                UserInteraction.printMessage("Task marked as not done yet: " + task);
             }
         } catch (MarkUnmarkDeleteException e) {
-            printMessage(e.getMessage());
+            UserInteraction.printMessage(e.getMessage());
         }
     }
 
-    public Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> taskInfo) {
-        try{
-            Task task;
-            TaskType taskType = InputParser.parseTask(taskInfo.getKey());
-            task = switch (taskType) {
-                case TODO -> new ToDo(taskInfo.getValue().get(0));
-                case DEADLINE -> new Deadline(taskInfo.getValue().get(0), taskInfo.getValue().get(1));
-                case EVENT -> new Event(taskInfo.getValue().get(0), taskInfo.getValue().get(1), taskInfo.getValue().get(2));
-            };
-            return task;
-        }catch (GrootException e){
-            printMessage(e.getMessage());
-            return null;
-        }
+    public static Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> taskInfo) {
+        Task task;
+        task = switch (taskInfo.getKey()) {
+            case TODO -> new ToDo(taskInfo.getValue().get(0));
+            case DEADLINE -> new Deadline(taskInfo.getValue().get(0), taskInfo.getValue().get(1));
+            case EVENT -> new Event(taskInfo.getValue().get(0), taskInfo.getValue().get(1), taskInfo.getValue().get(2));
+            default -> null;
+        };
+        return task;
 
     }
 
-    public void addTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> text) throws  GrootException {
+    public void addTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> text) throws GrootException {
         Task task = createTask(text);
         taskList.add(task);
-        FileManager.saveFile(taskList);
-        printMessage("Task added: " + task,
+        UserInteraction.printMessage("Task added: " + task,
                 "Now you have " + taskList.size() + " tasks in the list.");
     }
 
     public void deleteTask(String taskNumber) throws GrootException {
         try {
-            int taskNum = InputParser.getTaskNumber(taskNumber, taskList.size()); //will check if task number valid after changing to int
+            int taskNum = MarkUnmarkDeleteParser.getTaskNumber(taskNumber, taskList.size()); //will check if task number valid after changing to int
             Task task = taskList.get(taskNum - 1);
             taskList.remove(taskNum - 1);
-            FileManager.saveFile(taskList);
-            printMessage("Task deleted: " + task,
+            UserInteraction.printMessage("Task deleted: " + task,
                     "Now you have " + taskList.size() + " tasks in the list.");
         } catch (GrootException e) {
-            printMessage(e.getMessage());
-        }
-    }
-
-    public void printMessage(String... messages) {
-        for (String message : messages) {
-            Groot.echo(message);
+            UserInteraction.printMessage(e.getMessage());
         }
     }
 }
