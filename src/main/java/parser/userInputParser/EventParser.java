@@ -1,3 +1,6 @@
+package parser.userInputParser;
+
+import checker.EventChecker;
 import enums.CommandType;
 import exceptions.GrootException;
 

@@ -31,7 +31,7 @@ public class FileException extends GrootException {
 
     public static class FileCorruptedException extends FileException {
         public FileCorruptedException() {
-            super("Corrupted file.");
+            super("Tasklist file is corrupted.");
         }
     }
 }

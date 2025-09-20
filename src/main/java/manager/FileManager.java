@@ -1,4 +1,8 @@
+package manager;
+
 import exceptions.*;
+import parser.fileParser.FileParser;
+import tasks.Task;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,7 +13,7 @@ public class FileManager {
     private static final File file = new File(folder, "tasklist.txt");
     private static final FileParser fileParser = new FileParser();
 
-    public static void createFile() throws FileException {
+    protected static void createFile() throws FileException {
         if (!folder.exists()) {
             if (!folder.mkdirs()) {
                 throw new FileException.UnableToCreateDirectoryException();
@@ -27,7 +31,7 @@ public class FileManager {
 
     }
 
-    public static ArrayList<Task> readFile() throws FileException {
+    protected static ArrayList<Task> readFile() throws FileException {
         try {
             Scanner scanTasklist = new Scanner(file);
 

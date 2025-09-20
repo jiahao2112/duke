@@ -1,10 +1,13 @@
+package parser.fileParser;
+
+import checker.EventChecker;
 import exceptions.EventException;
 import exceptions.FileException;
 
 import java.util.ArrayList;
 
 public class EventFileParser {
-    public static void parseEventFile(ArrayList<String> eventFile) throws FileException {
+    protected static void parseEventFile(ArrayList<String> eventFile) throws FileException {
         try {
             eventFile.set(0, eventFile.get(0).trim());
             String taskInfo = eventFile.get(0);

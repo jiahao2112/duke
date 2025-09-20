@@ -1,3 +1,5 @@
+package checker;
+
 import enums.CommandType;
 import exceptions.MarkUnmarkDeleteException;
 

@@ -1,19 +1,37 @@
+package manager;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import checker.MarkUnmarkDeleteChecker;
 import enums.*;
 import exceptions.*;
+import parser.userInputParser.MarkUnmarkDeleteParser;
+import parser.userInputParser.UserInputParser;
+import tasks.Deadline;
+import tasks.Event;
+import tasks.Task;
+import tasks.ToDo;
+import ui.UserInteraction;
 
 public class TaskManager {
     private static ArrayList<Task> taskList = new ArrayList<>();
 
     public TaskManager() {
         try {
-            FileManager.createFile();
-            taskList = FileManager.readFile();
-        } catch (FileException e) {
+            FileManager.createFile(); //create tasklist file if not exist
+            taskList = FileManager.readFile(); //load tasklist content
+        }catch (FileException.FileCorruptedException e) {
+            UserInteraction.printMessage(e.getMessage());
+            UserInteraction.fileCorruptedHandler();
+        }catch (FileException e) {
             UserInteraction.printMessage(e.getMessage());
         }
+    }
+
+    public static void clearTaskList() {
+        taskList.clear();
     }
 
     public void manageTask(String userInput) {

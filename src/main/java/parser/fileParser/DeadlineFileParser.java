@@ -1,10 +1,13 @@
+package parser.fileParser;
+
+import checker.DeadlineChecker;
 import exceptions.DeadlineException;
 import exceptions.FileException;
 
 import java.util.ArrayList;
 
 public class DeadlineFileParser {
-    public static void parseDeadlineFile(ArrayList<String> deadlineFile) throws FileException {
+    protected static void parseDeadlineFile(ArrayList<String> deadlineFile) throws FileException {
         try {
             deadlineFile.set(0, deadlineFile.get(0).trim());
             String taskInfo = deadlineFile.get(0);

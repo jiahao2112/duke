@@ -1,3 +1,5 @@
+package checker;
+
 import exceptions.TodoException;
 
 public class TodoChecker {

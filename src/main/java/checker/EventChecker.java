@@ -1,3 +1,5 @@
+package checker;
+
 import exceptions.EventException;
 
 import java.util.ArrayList;
