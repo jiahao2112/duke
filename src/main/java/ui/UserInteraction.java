@@ -28,7 +28,7 @@ public class UserInteraction {
         Scanner sc = new Scanner(System.in);
         String userResponse = sc.nextLine();
         if (userResponse.equalsIgnoreCase("y")) {
-            TaskManager.clearTaskList();
+            TaskManager.clearTasklist();
         }else if (userResponse.equalsIgnoreCase("n")) {
             exit();
         }else{

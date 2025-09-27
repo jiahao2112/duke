@@ -1,5 +1,7 @@
 package parser.fileParser;
 
+import commands.AddCommand;
+import commands.Command;
 import enums.CommandType;
 import exceptions.FileException;
 
@@ -29,7 +31,10 @@ public class FileParser {
             default:
                 throw new FileException.FileCorruptedException();
         }
-        Task task = TaskManager.createTask(new AbstractMap.SimpleEntry<>(taskType, taskInfoInput));
+        Task task = AddCommand.createTask(new AbstractMap.SimpleEntry<>(taskType, taskInfoInput));
+        if (task == null){
+            return null;
+        }
         task.setIsDone(taskDone);
         return task;
     }

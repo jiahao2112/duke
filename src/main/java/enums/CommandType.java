@@ -9,5 +9,6 @@ public enum CommandType {
     TODO,
     DEADLINE,
     EVENT,
-    NONE
+    NONE,
+    VIEW
 }

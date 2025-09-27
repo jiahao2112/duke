@@ -4,13 +4,15 @@ deadline
 deadline /by
 deadline return book
 deadline return book /by
+deadline return book /by 32-10-20
 event
 event work
 event /from /to
 event work /from
 event work /from /to
-event work /from mon
-event work /from mon /to
+event work /from 11-2-20
+event work /from 11-2-20 /to
+event work /from 111-1-2 /to 111-1-2
 mark
 mark 1
 mark a
@@ -20,4 +22,5 @@ unmark a
 delete
 delete 1
 delete a
+view 31/13/20
 bye

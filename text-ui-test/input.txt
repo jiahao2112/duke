@@ -1,8 +1,8 @@
 todo read book
 list
-deadline return book /by Mon
+deadline return book /by 22-10-2022 10:00
 list
-event work /from 8am /to 5pm
+event work /from 21-10-2022 10:00 /to 22-10-2022 10:00
 list
 mark 1
 list
@@ -10,4 +10,5 @@ unmark 1
 list
 delete 2
 list
+view 22/10/22
 bye

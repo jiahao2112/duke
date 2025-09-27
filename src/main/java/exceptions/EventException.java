@@ -3,7 +3,7 @@ package exceptions;
 //For any exceptions regarding event task
 public class EventException extends TaskException {
     public EventException(String message) {
-        super(message + " Usage: event <task name> /from <from> /to <to>");
+        super(message + " Usage: event <task name> /from <dd/MM/yyyy> <HH:mm (24-hour)> /to <dd/MM/yyyy> <HH:mm (24-hour)>");
     }
 
     public static class MissingEventKeywordsException extends EventException {
@@ -32,13 +32,19 @@ public class EventException extends TaskException {
 
     public static class MissingEventFromException extends EventException {
         public MissingEventFromException() {
-            super("Missing <from> in event command.");
+            super("Missing from-date and time in event command.");
         }
     }
 
     public static class MissingEventToException extends EventException {
         public MissingEventToException() {
-            super("Missing <to> in event command.");
+            super("Missing to-date and time in event command.");
+        }
+    }
+
+    public static class InvalidEventDateTimeException extends EventException {
+        public InvalidEventDateTimeException() {
+            super("Invalid date/time.");
         }
     }
 }

@@ -23,5 +23,4 @@ public class DeadlineParser {
         deadlineInformation.set(0, taskName);
         deadlineInformation.add(by);
     }
-
 }
