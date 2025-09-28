@@ -14,18 +14,35 @@ import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+/**
+ * Used to display the tasks in task list
+ */
 public class ShowListCommand extends Command {
-    CommandType commandType;
-    LocalDate date;
+    /**
+     * commandType: list or view
+     * date: date for view command
+     */
+    private final CommandType commandType;
+    private LocalDate date;
 
+    /**
+     * Populate required parameters
+     *
+     * @param commandLine parsed user's input
+     * @param tasklist    tasklist from task manager
+     * @throws GrootException if there are any errors in populating
+     */
     protected ShowListCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
         super(tasklist);
         this.commandType = commandLine.getKey();
-        if (commandType == CommandType.VIEW){
+        if (commandType == CommandType.VIEW) {
             date = DateTimeParser.parseDate(commandLine.getValue().get(0));
         }
     }
 
+    /**
+     * Display entire tasklist
+     */
     public void displayTasks() {
         int taskNumber = 1;
         for (Task task : tasklist) {
@@ -34,30 +51,44 @@ public class ShowListCommand extends Command {
         }
     }
 
-    public void viewTasksOnDate() throws ViewException{
-            ArrayList<Task> viewList = new ArrayList<>();
-            for (Task task : tasklist) {
-                if (task instanceof Deadline) { //if task is a deadline task
-                    viewDeadline(task, date, viewList);
-                } else if (task instanceof Event) { //if task is an event task
-                    viewEvent(task,date,viewList);
-                }
+    /**
+     * Show tasks with dates, i.e. deadline or event tasks
+     * Only shows deadline tasks that have the date as deadline and event tasks where date is between from and to of event
+     *
+     * @throws ViewException.NoTaskForViewException if there are no errors for viewing
+     */
+    public void viewTasksOnDate() throws ViewException.NoTaskForViewException {
+        ArrayList<Task> viewList = new ArrayList<>();
+        for (Task task : tasklist) {
+            if (task instanceof Deadline) { //if task is a deadline task
+                viewDeadline(task, date, viewList);
+            } else if (task instanceof Event) { //if task is an event task
+                viewEvent(task, date, viewList);
             }
-            if (viewList.isEmpty()){
-                throw new ViewException.NoTaskForViewException();
-            }
-            for (Task task : viewList) {
-                UserInteraction.printMessage(task.toString());
-            }
+        }
+        if (viewList.isEmpty()) {
+            throw new ViewException.NoTaskForViewException();
+        }
+        for (Task task : viewList) {
+            UserInteraction.printMessage(task.toString());
+        }
     }
 
-    private void viewDeadline(Task task, LocalDate date, ArrayList<Task> viewList){
-        LocalDateTime by = ((Deadline)task).getBy();
+    /*
+     * Used by viewTasksOnDate function.
+     * Add deadline task if it has the date given as deadline
+     */
+    private void viewDeadline(Task task, LocalDate date, ArrayList<Task> viewList) {
+        LocalDateTime by = ((Deadline) task).getBy();
         if (by.toLocalDate().equals(date)) {
             viewList.add(task);
         }
     }
 
+    /*
+     * Used by viewTasksOnDate function
+     * Add event task if the date given is between the from and to of event
+     */
     private void viewEvent(Task task, LocalDate date, ArrayList<Task> viewList) {
         LocalDateTime from = ((Event) task).getStartDateTime();
         LocalDateTime to = ((Event) task).getEndDateTime();
@@ -68,12 +99,18 @@ public class ShowListCommand extends Command {
         }
     }
 
+    /**
+     * Execution of command
+     * Display entire list or display tasks that fit the date given
+     *
+     * @throws GrootException if tasklist is empty, i.e. no task to be checked
+     */
     @Override
     public void execute() throws GrootException {
-        if (tasklist.isEmpty()){
+        if (tasklist.isEmpty()) {
             throw new GrootException.EmptyListException();
         }
-        switch (commandType){
+        switch (commandType) {
             case VIEW -> viewTasksOnDate();
             case LIST -> displayTasks();
         }

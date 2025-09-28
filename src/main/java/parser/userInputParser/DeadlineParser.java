@@ -7,7 +7,16 @@ import exceptions.DeadlineException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+/**
+ * To extract out relevant sections for deadline task
+ */
 public class DeadlineParser {
+    /**
+     * Extract information for deadline task creation
+     *
+     * @param deadline information given by user
+     * @throws DeadlineException if any errors in user input
+     */
     protected static void parseDeadline(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline) throws DeadlineException {
         ArrayList<String> deadlineInformation = deadline.getValue();
         DeadlineChecker.checkDeadlineByKeyword(deadlineInformation.get(0));
@@ -16,6 +25,9 @@ public class DeadlineParser {
         deadline.setValue(deadlineInformation);
     }
 
+    /*
+     * Extract the relevant sections from user input, i.e. task name and by-date and time
+     */
     private static void splitDeadlineInformation(ArrayList<String> deadlineInformation) {
         String[] info = deadlineInformation.get(0).split("/by", -1);
         String taskName = info[0].trim();

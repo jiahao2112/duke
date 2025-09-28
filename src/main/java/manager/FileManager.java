@@ -1,18 +1,29 @@
 package manager;
 
-import exceptions.*;
+import exceptions.FileException;
 import parser.fileParser.FileParser;
 import tasks.Task;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Manages all functions to be used for file access
+ */
 public class FileManager {
     private static final File folder = new File("data");
     private static final File file = new File(folder, "tasklist.txt");
     private static final FileParser fileParser = new FileParser();
 
+    /**
+     * Creates directory and file if it does not exist
+     *
+     * @throws FileException if directory and/or file cannot be created
+     */
     protected static void createFile() throws FileException {
         if (!folder.exists()) {
             if (!folder.mkdirs()) {
@@ -31,6 +42,12 @@ public class FileManager {
 
     }
 
+    /**
+     * Populate tasklist of program with file content
+     *
+     * @return populated tasklist
+     * @throws FileException if there are any errors during populating
+     */
     protected static ArrayList<Task> readFile() throws FileException {
         try {
             Scanner scanTasklist = new Scanner(file);
@@ -50,7 +67,12 @@ public class FileManager {
         }
     }
 
-
+    /**
+     * Update file with tasklist content in program
+     *
+     * @param tasklist tasklist of program
+     * @throws FileException if there are any errors in updating
+     */
     public static void saveFile(ArrayList<Task> tasklist) throws FileException {
         if (tasklist.isEmpty()) {
             return;

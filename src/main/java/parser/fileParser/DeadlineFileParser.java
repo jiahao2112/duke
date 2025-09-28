@@ -6,8 +6,17 @@ import exceptions.FileException;
 
 import java.util.ArrayList;
 
+/**
+ * To extract all the relevant sections for deadline task saved in file
+ */
 public class DeadlineFileParser {
-    protected static void parseDeadlineFile(ArrayList<String> deadlineFile) throws FileException {
+    /**
+     * Main parser for deadline task
+     *
+     * @param deadlineFile task information from file
+     * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
+     */
+    protected static void parseDeadlineFile(ArrayList<String> deadlineFile) throws FileException.FileCorruptedException {
         try {
             deadlineFile.set(0, deadlineFile.get(0).trim());
             String taskInfo = deadlineFile.get(0);

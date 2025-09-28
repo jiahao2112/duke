@@ -7,13 +7,32 @@ import tasks.Task;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+/**
+ * Main class for all other command types.
+ */
 public abstract class Command {
+    /**
+     * tasklist is used for all commands
+     */
     protected ArrayList<Task> tasklist;
 
+    /**
+     * Initialise Command
+     *
+     * @param tasklist tasklist in task manager
+     */
     public Command(ArrayList<Task> tasklist) {
         this.tasklist = tasklist;
     }
 
+    /**
+     * Create the various command objects based on commandType
+     *
+     * @param commandLine parsed user's input
+     * @param tasklist    tasklist from task manager
+     * @return various commands
+     * @throws GrootException if there are any error in creating command
+     */
     public static Command createCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
         try {
             return switch (commandLine.getKey()) {
@@ -24,7 +43,7 @@ public abstract class Command {
                 case NONE -> null;
                 case BYE -> new ExitCommand(tasklist);
             };
-        }catch (DateTimeException e){
+        } catch (DateTimeException e) {
             switch (commandLine.getKey()) {
                 case DEADLINE -> throw new DeadlineException.InvalidDeadlineDateTimeException();
                 case EVENT -> throw new EventException.InvalidEventDateTimeException();
@@ -34,5 +53,10 @@ public abstract class Command {
         }
     }
 
+    /**
+     * Function used by all commands to execute itself
+     *
+     * @throws GrootException if there are any errors during execution by all commands
+     */
     public abstract void execute() throws GrootException;
 }

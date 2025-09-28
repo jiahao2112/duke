@@ -7,8 +7,16 @@ import exceptions.GrootException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+/**
+ * To extract relevant sections for event task
+ */
 public class EventParser {
-
+    /**
+     * Extract information for event task creation
+     *
+     * @param event information given by user
+     * @throws GrootException if there are any errors in user input
+     */
     protected static void parseEvent(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event) throws GrootException {
         ArrayList<String> eventInput = event.getValue();
         EventChecker.checkEventKeywords(eventInput.get(0));
@@ -17,6 +25,9 @@ public class EventParser {
         event.setValue(eventInput);
     }
 
+    /*
+     * Extract the relevant sections\
+     */
     private static void splitEventInformation(ArrayList<String> eventInfo) {
         String[] eventParts = eventInfo.get(0).split("/from|/to", -1);
         String taskName = eventParts[0].trim();

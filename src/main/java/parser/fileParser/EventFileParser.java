@@ -6,7 +6,16 @@ import exceptions.FileException;
 
 import java.util.ArrayList;
 
+/**
+ * To extract all the relevant sections for event task saved in file
+ */
 public class EventFileParser {
+    /**
+     * Main parser for event task
+     *
+     * @param eventFile task information from file
+     * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
+     */
     protected static void parseEventFile(ArrayList<String> eventFile) throws FileException {
         try {
             eventFile.set(0, eventFile.get(0).trim());
