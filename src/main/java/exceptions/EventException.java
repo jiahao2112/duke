@@ -45,7 +45,7 @@ public class EventException extends TaskException {
      */
     public static class MissingEventTaskNameException extends EventException {
         public MissingEventTaskNameException() {
-            super("Missing <task name> in event command.");
+            super("Missing task name in event command.");
         }
     }
 

@@ -13,7 +13,7 @@ public class TodoException extends TaskException {
      */
     public static class MissingTodoTaskNameException extends TodoException {
         public MissingTodoTaskNameException() {
-            super("Missing <task name> in todo command.");
+            super("Missing task name in todo command.");
         }
     }
 }

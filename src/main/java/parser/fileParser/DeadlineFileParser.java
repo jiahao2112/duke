@@ -24,7 +24,7 @@ public class DeadlineFileParser {
             deadlineFile.set(0, taskInfoArray[0].trim());
             deadlineFile.add(1, taskInfoArray[1].trim());
             DeadlineChecker.checkDeadlineFormat(deadlineFile);
-        } catch (DeadlineException e) {
+        } catch (DeadlineException|ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
         }
     }

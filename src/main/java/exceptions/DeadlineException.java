@@ -36,7 +36,7 @@ public class DeadlineException extends TaskException {
      */
     public static class MissingDeadlineTaskNameException extends DeadlineException {
         public MissingDeadlineTaskNameException() {
-            super("Missing <task name> in deadline command.");
+            super("Missing task name in deadline command.");
         }
     }
 

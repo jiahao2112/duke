@@ -16,20 +16,20 @@ public class ExitCommand extends Command {
      * Populate parameter
      *
      * @param tasklist task list to be saved to tasklist file
+     * @throws FileException if there are any errors in saving the tasklist
      */
-    protected ExitCommand(ArrayList<Task> tasklist) {
+    protected ExitCommand(ArrayList<Task> tasklist) throws FileException{
         super(tasklist);
+        FileManager.saveFile(tasklist); //ensure tasklist file updated before exit
     }
 
     /**
      * Execution of command.
      * Save tasklist to file and end program
      *
-     * @throws FileException if there are any errors in saving the tasklist
      */
     @Override
-    public void execute() throws FileException {
-        FileManager.saveFile(tasklist); //ensure tasklist file updated before exit
+    public void execute() {
         UserInteraction.exit();
     }
 }

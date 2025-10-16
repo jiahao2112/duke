@@ -16,19 +16,14 @@ dependencies {
 test {
     useJUnitPlatform()
 
-    testLogging {
-        events "passed", "skipped", "failed"
-
-        showExceptions true
-        exceptionFormat "full"
-        showCauses true
-        showStackTraces true
-        showStandardStreams = false
+    reports {
+        html.required.set(true) //get a html report
+        junitXml.required.set(false)
     }
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("Groot")
 }
 
 shadowJar {

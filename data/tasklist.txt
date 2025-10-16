@@ -1,2 +1,1 @@
-[D][ ] task | by: 22 Oct 2020 1800
-[E][ ] task | from: 23 Oct 2020 1800, to: 23 Oct 2020 1900
+[T][ ] test

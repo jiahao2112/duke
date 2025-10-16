@@ -55,8 +55,6 @@ public abstract class Command {
 
     /**
      * Function used by all commands to execute itself
-     *
-     * @throws GrootException if there are any errors during execution by all commands
      */
-    public abstract void execute() throws GrootException;
+    public abstract void execute();
 }

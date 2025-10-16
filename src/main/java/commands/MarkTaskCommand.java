@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class MarkTaskCommand extends Command {
     int taskNumber;
     boolean markDone;
+    Task task;
 
     /**
      * Populate required parameters
@@ -34,17 +35,14 @@ public class MarkTaskCommand extends Command {
             case UNMARK:
                 markDone = false;
         }
+        task = tasklist.get(taskNumber - 1);
+        MarkUnmarkDeleteChecker.checkTaskStatus(task.getIsDone(), markDone);
     }
 
     /**
      * Mark task as done or not done
-     *
-     * @throws MarkUnmarkDeleteException.TaskAlreadyMarkedException if task is already marked as done or not done
      */
-    public void markTask() throws MarkUnmarkDeleteException.TaskAlreadyMarkedException {
-        Task task;
-        task = tasklist.get(taskNumber - 1);
-        MarkUnmarkDeleteChecker.checkTaskStatus(task.getIsDone(), markDone);
+    public void markTask() {
         task.setIsDone(markDone);
         if (markDone) {
             UserInteraction.printMessage("Task marked as done: " + task);
@@ -55,11 +53,9 @@ public class MarkTaskCommand extends Command {
 
     /**
      * Execution of command
-     *
-     * @throws MarkUnmarkDeleteException if task is already marked
      */
     @Override
-    public void execute() throws MarkUnmarkDeleteException {
+    public void execute(){
         markTask();
     }
 

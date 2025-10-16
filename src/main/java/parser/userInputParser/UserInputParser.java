@@ -21,8 +21,12 @@ public class UserInputParser {
         AbstractMap.SimpleEntry<CommandType, ArrayList<String>> inputs = splitInput(input); //split and trim the 2 parts of command {command, info}
         switch (inputs.getKey()) {
             case NONE:
+                //Fallthrough
             case LIST:
                 break; //no additional information to parse
+            case VIEW:
+                ViewParser.parseView(inputs); //check if date is given
+                break;
             case MARK:
             case UNMARK:
             case DELETE:
@@ -48,6 +52,9 @@ public class UserInputParser {
     private static CommandType parseCommand(String command) throws GrootException.InvalidCommandException {
         try {
             command = command.trim();
+            if (command.isEmpty()) {
+                return CommandType.NONE;
+            }
             return CommandType.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new GrootException.InvalidCommandException(command);

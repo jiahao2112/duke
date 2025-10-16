@@ -18,6 +18,15 @@ public class ViewException extends GrootException {
     }
 
     /**
+     * Thrown when date is not given
+     */
+    public static class MissingViewDateException extends ViewException {
+        public MissingViewDateException() {
+            super("Missing date. Usage: view <dd/MM/yyyy>");
+        }
+    }
+
+    /**
      * Thrown when no tasks fit the date given
      */
     public static class NoTaskForViewException extends ViewException {

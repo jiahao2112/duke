@@ -15,9 +15,15 @@ import java.util.Scanner;
  * Manages all functions to be used for file access
  */
 public class FileManager {
-    private static final File folder = new File("data");
-    private static final File file = new File(folder, "tasklist.txt");
+    private static File folder = new File("data");
+    private static File file = new File(folder, "tasklist.txt");
     private static final FileParser fileParser = new FileParser();
+
+    /** For testing only **/
+    protected static void setFolderAndFile(File newFolder, File newFile) {
+        folder = newFolder;
+        file = newFile;
+    }
 
     /**
      * Creates directory and file if it does not exist
@@ -49,9 +55,7 @@ public class FileManager {
      * @throws FileException if there are any errors during populating
      */
     protected static ArrayList<Task> readFile() throws FileException {
-        try {
-            Scanner scanTasklist = new Scanner(file);
-
+        try (Scanner scanTasklist = new Scanner(file)) {
             ArrayList<Task> tasklist = new ArrayList<>();
             while (scanTasklist.hasNextLine()) {
                 String line = scanTasklist.nextLine();
@@ -77,13 +81,11 @@ public class FileManager {
         if (tasklist.isEmpty()) {
             return;
         }
-        try {
-            FileWriter fileWriter = new FileWriter(file);
+        try (FileWriter fileWriter = new FileWriter(file)){
             for (Task task : tasklist) {
                 fileWriter.write(task.toString());
                 fileWriter.write(System.lineSeparator());
             }
-            fileWriter.close();
 
         } catch (IOException e) {
             throw new FileException.UnableToWriteFileException();

@@ -1,6 +1,7 @@
 package commands;
 
 import enums.CommandType;
+import exceptions.DateTimeException;
 import exceptions.GrootException;
 import exceptions.ViewException;
 import parser.DateTimeParser;
@@ -19,11 +20,11 @@ import java.util.ArrayList;
  */
 public class ShowListCommand extends Command {
     /**
+     * list: list to display
      * commandType: list or view
-     * date: date for view command
      */
+    private final ArrayList<Task> list;
     private final CommandType commandType;
-    private LocalDate date;
 
     /**
      * Populate required parameters
@@ -32,11 +33,18 @@ public class ShowListCommand extends Command {
      * @param tasklist    tasklist from task manager
      * @throws GrootException if there are any errors in populating
      */
-    protected ShowListCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
+    protected ShowListCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine,
+                              ArrayList<Task> tasklist) throws GrootException {
         super(tasklist);
         this.commandType = commandLine.getKey();
         if (commandType == CommandType.VIEW) {
-            date = DateTimeParser.parseDate(commandLine.getValue().get(0));
+            LocalDate date = DateTimeParser.parseDate(commandLine.getValue().get(0));
+            list = viewTasksOnDate(date);
+        } else {
+            list = tasklist;
+            if (list.isEmpty()) {
+                throw new GrootException.EmptyListException();
+            }
         }
     }
 
@@ -45,19 +53,27 @@ public class ShowListCommand extends Command {
      */
     public void displayTasks() {
         int taskNumber = 1;
-        for (Task task : tasklist) {
+        for (Task task : list) {
             UserInteraction.printMessage(taskNumber + ": " + task);
             taskNumber++;
         }
     }
 
     /**
-     * Show tasks with dates, i.e. deadline or event tasks
-     * Only shows deadline tasks that have the date as deadline and event tasks where date is between from and to of event
-     *
-     * @throws ViewException.NoTaskForViewException if there are no errors for viewing
+     * Display filtered tasks for viewing
      */
-    public void viewTasksOnDate() throws ViewException.NoTaskForViewException {
+    public void viewTasks() {
+        for (Task task : list) {
+            UserInteraction.printMessage(task.toString());
+        }
+    }
+
+    /*
+     * Add tasks with dates, i.e. deadline or event tasks
+     * Only add deadline tasks that have the date as deadline and
+     * event tasks where date is between from and to of event to list
+     */
+    private ArrayList<Task> viewTasksOnDate(LocalDate date) throws ViewException.NoTaskForViewException {
         ArrayList<Task> viewList = new ArrayList<>();
         for (Task task : tasklist) {
             if (task instanceof Deadline) { //if task is a deadline task
@@ -69,9 +85,7 @@ public class ShowListCommand extends Command {
         if (viewList.isEmpty()) {
             throw new ViewException.NoTaskForViewException();
         }
-        for (Task task : viewList) {
-            UserInteraction.printMessage(task.toString());
-        }
+        return viewList;
     }
 
     /*
@@ -102,16 +116,11 @@ public class ShowListCommand extends Command {
     /**
      * Execution of command
      * Display entire list or display tasks that fit the date given
-     *
-     * @throws GrootException if tasklist is empty, i.e. no task to be checked
      */
     @Override
-    public void execute() throws GrootException {
-        if (tasklist.isEmpty()) {
-            throw new GrootException.EmptyListException();
-        }
+    public void execute() {
         switch (commandType) {
-            case VIEW -> viewTasksOnDate();
+            case VIEW -> viewTasks();
             case LIST -> displayTasks();
         }
     }

@@ -26,7 +26,7 @@ public class EventFileParser {
             eventFile.add(taskInfoArray[0].trim());
             eventFile.add(taskInfoArray[1].trim());
             EventChecker.checkEventFormat(eventFile);
-        } catch (EventException e) {
+        } catch (EventException|ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
         }
     }

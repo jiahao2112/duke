@@ -39,9 +39,6 @@ public class FileParser {
                 throw new FileException.FileCorruptedException();
         }
         Task task = AddCommand.createTask(new AbstractMap.SimpleEntry<>(taskType, taskInfoInput));
-        if (task == null) {
-            return null;
-        }
         task.setIsDone(taskDone);
         return task;
     }
@@ -50,11 +47,11 @@ public class FileParser {
      * Get type of task from task information and convert to CommandType enum
      */
     private CommandType parseCommandType(String taskLine) throws FileException {
-        String taskType = taskLine.substring(1, 2);
+        String taskType = taskLine.substring(0, 3);
         return switch (taskType) {
-            case "T" -> CommandType.TODO;
-            case "D" -> CommandType.DEADLINE;
-            case "E" -> CommandType.EVENT;
+            case "[T]" -> CommandType.TODO;
+            case "[D]" -> CommandType.DEADLINE;
+            case "[E]" -> CommandType.EVENT;
             default -> throw new FileException.FileCorruptedException();
         };
     }
@@ -62,8 +59,11 @@ public class FileParser {
     /*
      * Get task is marked as done or undone from task information
      */
-    private boolean taskIsDone(String taskLine) {
-        String taskIsDone = taskLine.substring(4, 5);
-        return taskIsDone.equals("X");
+    private boolean taskIsDone(String taskLine) throws FileException {
+        String taskIsDone = taskLine.substring(3, 6);
+        if (taskIsDone.equals("[X]") || taskIsDone.equals("[ ]")) {
+            return taskIsDone.charAt(1)=='X';
+        }
+        throw new FileException.FileCorruptedException();
     }
 }

@@ -3,7 +3,6 @@ package commands;
 import enums.CommandType;
 import exceptions.DateTimeException;
 import exceptions.FileException;
-import exceptions.GrootException;
 import parser.DateTimeParser;
 import tasks.Deadline;
 import tasks.Event;
@@ -36,9 +35,9 @@ public class AddCommand extends Command {
      *
      * @param commandLine user's input, where key is command type and value is the information for command
      * @param tasklist    task list passed from task manager, shared task list
-     * @throws GrootException if there are any errors in constructing
+     * @throws DateTimeException if date and time given are not correct
      */
-    protected AddCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
+    protected AddCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws DateTimeException {
         super(tasklist);
         this.commandType = commandLine.getKey();
         this.taskName = commandLine.getValue().get(0);
@@ -84,19 +83,18 @@ public class AddCommand extends Command {
                         new Deadline(commandLine.getValue().get(0), DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
                 case EVENT ->
                         new Event(commandLine.getValue().get(0), DateTimeParser.parseDateTime(commandLine.getValue().get(1)), DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
-                default -> null;
+                default -> throw new FileException.FileCorruptedException();
             };
             return task;
-        } catch (DateTimeException e) {
+        } catch (DateTimeException|IndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
-
         }
     }
 
     /**
      * Adds task to tasklist
      */
-    public void addTask() {
+    private void addTask() {
         Task task = createTask();
         if (task == null) {
             return;
