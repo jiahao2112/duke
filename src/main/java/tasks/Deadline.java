@@ -30,6 +30,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Setter function for by-date
+     *
+     * @param by to set by-date as
+     */
+    public void setBy(LocalDateTime by) {
+        this.by = by;
+    }
+
+    /**
      * Print format of deadline task
      *
      * @return deadline task in string

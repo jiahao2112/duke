@@ -19,9 +19,9 @@ public class DeadlineParserTests {
     class ParseDeadlineTests {
         @Test
         @DisplayName("Success")
-        public void parseDeadline_Success(){
+        public void parseDeadline_Success() {
             deadline.getValue().add("task /by 13/10/25 0000");
-            assertDoesNotThrow(()-> DeadlineParser.parseDeadline(deadline));
+            assertDoesNotThrow(() -> DeadlineParser.parseDeadline(deadline));
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadlineCheck =
                     new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
             deadlineCheck.getValue().add("task");

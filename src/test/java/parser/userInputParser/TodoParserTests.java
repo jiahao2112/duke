@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class TodoParserTests {
     @Nested
     @DisplayName("parseTodo()")
-    class ParseTodoTest{
+    class ParseTodoTest {
         @Test
         @DisplayName("Success")
-        public void parseTodoTest_Success(){
+        public void parseTodoTest_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> todo =
                     new AbstractMap.SimpleEntry<>(CommandType.TODO,
-                    new ArrayList<>(List.of("task1")));
-            assertDoesNotThrow(()->TodoParser.parseTodo(todo));
+                            new ArrayList<>(List.of("task1")));
+            assertDoesNotThrow(() -> TodoParser.parseTodo(todo));
         }
     }
 }

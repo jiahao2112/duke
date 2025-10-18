@@ -10,20 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TodoCheckerTests {
     @Nested
     @DisplayName("checkTodoTaskName()")
-    class CheckTodoTaskNameTest{
+    class CheckTodoTaskNameTest {
         String taskName;
+
         @Test
         @DisplayName("Success")
-        public void checkTodoTaskNameTest_Success(){
-            taskName = "Task1";
-            assertDoesNotThrow(()->TodoChecker.checkTodoTaskName(taskName));
+        public void checkTodoTaskNameTest_Success() {
+            taskName = "task1";
+            assertDoesNotThrow(() -> TodoChecker.checkTodoTaskName(taskName));
         }
+
         @Test
         @DisplayName("Throws MissingTodoTaskNameException")
-        public void checkTodoTaskNameTest_MissingTodoTaskName(){
+        public void checkTodoTaskNameTest_MissingTodoTaskName() {
             taskName = "";
             TodoException todoException = assertThrows(TodoException.MissingTodoTaskNameException.class,
-                    ()->TodoChecker.checkTodoTaskName(taskName));
+                    () -> TodoChecker.checkTodoTaskName(taskName));
             assertEquals("Missing task name in todo command. Usage: todo <task name>", todoException.getMessage());
         }
     }

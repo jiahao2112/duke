@@ -18,7 +18,7 @@ public class DeadlineFileParserTests {
         @DisplayName("Success")
         void parseDeadlineFile_Success() {
             ArrayList<String> input = new ArrayList<>(List.of("task1 | by: 13/10/25 0000"));
-            assertDoesNotThrow(()->DeadlineFileParser.parseDeadlineFile(input));
+            assertDoesNotThrow(() -> DeadlineFileParser.parseDeadlineFile(input));
             ArrayList<String> expectedOutput = new ArrayList<>(List.of("task1", "13/10/25 0000"));
             assertEquals(expectedOutput, input);
         }

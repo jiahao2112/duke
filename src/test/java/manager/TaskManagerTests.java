@@ -13,7 +13,6 @@ import tasks.ToDo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,10 +45,10 @@ public class TaskManagerTests {
 
     @Nested
     @DisplayName("TaskManager()")
-    class taskManagerTest{
+    class taskManagerTest {
         @Test
         @DisplayName("Success")
-        public void taskManagerTest_Success(){
+        public void taskManagerTest_Success() {
             assertDoesNotThrow(TaskManager::new);
 
             assertEquals(3, TaskManager.getTasklist().size());
@@ -62,27 +61,27 @@ public class TaskManagerTests {
             assertInstanceOf(Deadline.class, tasks.get(1));
             assertEquals("task2", tasks.get(1).getDescription());
             assertFalse(tasks.get(1).getIsDone());
-            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Deadline)tasks.get(1)).getBy());
+            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Deadline) tasks.get(1)).getBy());
 
             assertInstanceOf(Event.class, tasks.get(2));
             assertEquals("task3", tasks.get(2).getDescription());
             assertFalse(tasks.get(2).getIsDone());
-            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Event)tasks.get(2)).getStartDateTime());
-            assertEquals(LocalDateTime.parse("2025-10-14T00:00:00"), ((Event)tasks.get(2)).getEndDateTime());
+            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Event) tasks.get(2)).getStartDateTime());
+            assertEquals(LocalDateTime.parse("2025-10-14T00:00:00"), ((Event) tasks.get(2)).getEndDateTime());
         }
     }
 
     @Nested
     @DisplayName("manageTask()")
-    class ManageTaskTest{
+    class ManageTaskTest {
         @Test
         @DisplayName("Success")
-        public void manageTaskTest_Success(){
+        public void manageTaskTest_Success() {
             String userInput = "todo task4";
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
             assertEquals(3, TaskManager.getTasklist().size());
 
-            assertDoesNotThrow(()->taskManager.manageTask(userInput));
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
             assertEquals(4, TaskManager.getTasklist().size());
 
             assertInstanceOf(ToDo.class, TaskManager.getTasklist().get(3));
@@ -91,6 +90,20 @@ public class TaskManagerTests {
             List<String> lines = assertDoesNotThrow(() -> Files.readAllLines(testFile.toPath()));
             assertEquals(4, lines.size());
             assertEquals("[T][ ] task4", lines.get(3));
+        }
+
+        @Test
+        @DisplayName("Update Success")
+        public void manageTaskTest_Update_Success() {
+            String userInput = "update 3, taskName: task10, start: 31/12/25 1200, end: 1/1/26 2359";
+            TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
+
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+
+            assertInstanceOf(Event.class, TaskManager.getTasklist().get(2));
+            assertEquals("task10", TaskManager.getTasklist().get(2).getDescription());
+            assertEquals(LocalDateTime.parse("2025-12-31T12:00:00"), ((Event) TaskManager.getTasklist().get(2)).getStartDateTime());
+            assertEquals(LocalDateTime.parse("2026-01-01T23:59:00"),  ((Event) TaskManager.getTasklist().get(2)).getEndDateTime());
         }
 
         @Test

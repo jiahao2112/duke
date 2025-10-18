@@ -41,6 +41,8 @@ public class UserInputParser {
             case EVENT:
                 EventParser.parseEvent(inputs); //add additional parsing to userInput {"taskName", "from", "by"}
                 break;
+            case UPDATE:
+                UpdateParser.parseUpdate(inputs);
             default:
         }
         return inputs;

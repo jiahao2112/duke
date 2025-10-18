@@ -42,6 +42,7 @@ public abstract class Command {
                 case TODO, DEADLINE, EVENT -> new AddCommand(commandLine, tasklist);
                 case NONE -> null;
                 case BYE -> new ExitCommand(tasklist);
+                case UPDATE ->  new UpdateCommand(commandLine, tasklist);
             };
         } catch (DateTimeException e) {
             switch (commandLine.getKey()) {

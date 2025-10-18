@@ -18,7 +18,7 @@ public class TodoFileParserTests {
         @DisplayName("Success")
         void parseTodoFile_Success() {
             ArrayList<String> input = new ArrayList<>(List.of("task1"));
-            assertDoesNotThrow(()->TodoFileParser.parseTodoFile(input));
+            assertDoesNotThrow(() -> TodoFileParser.parseTodoFile(input));
         }
 
         @Test

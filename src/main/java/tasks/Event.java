@@ -43,6 +43,24 @@ public class Event extends Task {
     }
 
     /**
+     * Setter function for start-date
+     *
+     * @param startDateTime to set by-date as
+     */
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    /**
+     * Setter function for start-date
+     *
+     * @param endDateTime to set by-date as
+     */
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
+    /**
      * Print format for event task
      *
      * @return event task in string

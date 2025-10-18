@@ -55,6 +55,15 @@ public class Task {
     }
 
     /**
+     * Setter function for description
+     *
+     * @param description to set description as
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Setter function for isDone
      *
      * @param isDone to set isDone as

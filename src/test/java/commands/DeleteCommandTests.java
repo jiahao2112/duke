@@ -20,22 +20,22 @@ public class DeleteCommandTests {
 
     @Nested
     @DisplayName("DeleteCommand()")
-    class DeleteCommandTest{
+    class DeleteCommandTest {
         @Test
         @DisplayName("Success")
-        public void DeleteCommandTest_Success(){
+        public void DeleteCommandTest_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
             commandLine.getValue().add("1");
-            assertDoesNotThrow(()->new DeleteCommand(commandLine, tasklist));
+            assertDoesNotThrow(() -> new DeleteCommand(commandLine, tasklist));
         }
 
         @Test
         @DisplayName("Throws TaskNotFoundException")
-        public void DeleteCommandTest_TaskNotFound(){
+        public void DeleteCommandTest_TaskNotFound() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
             commandLine.getValue().add("2");
             MarkUnmarkDeleteException markUnmarkDeleteException = assertThrows(MarkUnmarkDeleteException.TaskNotFoundException.class,
-                    ()->new DeleteCommand(commandLine, tasklist));
+                    () -> new DeleteCommand(commandLine, tasklist));
             assertEquals("Task not found in task list.", markUnmarkDeleteException.getMessage());
         }
     }

@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class ViewParserTests {
     @Nested
     @DisplayName("parseView()")
-    class ParseViewTest{
+    class ParseViewTest {
         @Test
         @DisplayName("Success")
-        public void parseTodoTest_Success(){
+        public void parseTodoTest_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> view =
                     new AbstractMap.SimpleEntry<>(CommandType.VIEW,
-                    new ArrayList<>(List.of("13/10/25")));
-            assertDoesNotThrow(()->ViewParser.parseView(view));
+                            new ArrayList<>(List.of("13/10/25")));
+            assertDoesNotThrow(() -> ViewParser.parseView(view));
         }
     }
 }

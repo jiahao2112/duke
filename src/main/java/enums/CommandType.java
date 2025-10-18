@@ -13,5 +13,6 @@ public enum CommandType {
     DEADLINE,
     EVENT,
     NONE,
-    VIEW
+    VIEW,
+    UPDATE
 }

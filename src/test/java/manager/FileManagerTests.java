@@ -101,13 +101,13 @@ public class FileManagerTests {
         @DisplayName("Success")
         void ReadFileTest_Success() {
             assertDoesNotThrow(() -> {
-                        try (FileWriter writer = new FileWriter(testFile)) {
-                            writer.write("[T][X] task1\n");
-                            writer.write("[D][ ] task2 | by: 13 Oct 2025 0000\n");
-                            writer.write("[E][ ] task3 | from: 13 Oct 2025 0000, to: 14 Oct 2025 0000\n");
-                        }
-                    });
-                ArrayList<Task> tasks = assertDoesNotThrow(FileManager::readFile);
+                try (FileWriter writer = new FileWriter(testFile)) {
+                    writer.write("[T][X] task1\n");
+                    writer.write("[D][ ] task2 | by: 13 Oct 2025 0000\n");
+                    writer.write("[E][ ] task3 | from: 13 Oct 2025 0000, to: 14 Oct 2025 0000\n");
+                }
+            });
+            ArrayList<Task> tasks = assertDoesNotThrow(FileManager::readFile);
             assertEquals(3, tasks.size());
 
             assertInstanceOf(ToDo.class, tasks.get(0));
@@ -117,13 +117,13 @@ public class FileManagerTests {
             assertInstanceOf(Deadline.class, tasks.get(1));
             assertEquals("task2", tasks.get(1).getDescription());
             assertFalse(tasks.get(1).getIsDone());
-            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Deadline)tasks.get(1)).getBy());
+            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Deadline) tasks.get(1)).getBy());
 
             assertInstanceOf(Event.class, tasks.get(2));
             assertEquals("task3", tasks.get(2).getDescription());
             assertFalse(tasks.get(2).getIsDone());
-            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Event)tasks.get(2)).getStartDateTime());
-            assertEquals(LocalDateTime.parse("2025-10-14T00:00:00"), ((Event)tasks.get(2)).getEndDateTime());
+            assertEquals(LocalDateTime.parse("2025-10-13T00:00:00"), ((Event) tasks.get(2)).getStartDateTime());
+            assertEquals(LocalDateTime.parse("2025-10-14T00:00:00"), ((Event) tasks.get(2)).getEndDateTime());
         }
 
         @Test
@@ -139,6 +139,7 @@ public class FileManagerTests {
 
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());
         }
+
         @Test
         @DisplayName("MissingTaskType Throws FileCorruptedException")
         void ReadFileTest_FileCorrupted_MissingTaskType() {

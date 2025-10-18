@@ -20,9 +20,9 @@ public class EventParserTests {
     class ParseEventTests {
         @Test
         @DisplayName("Success")
-        public void parseEvent_Success(){
+        public void parseEvent_Success() {
             event.getValue().add("task /from 13/10/25 0000 /to 14/10/25 0000");
-            assertDoesNotThrow(()-> EventParser.parseEvent(event));
+            assertDoesNotThrow(() -> EventParser.parseEvent(event));
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> eventCheck =
                     new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             eventCheck.getValue().add("task");

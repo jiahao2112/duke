@@ -85,8 +85,8 @@ public class DateTimeParserTests {
         @Test
         @DisplayName("Success")
         void testParseDateTime_Success() {
-            for (String date :  acceptedDateTimeFormats) {
-                assertDoesNotThrow(()->DateTimeParser.parseDateTime(date));
+            for (String date : acceptedDateTimeFormats) {
+                assertDoesNotThrow(() -> DateTimeParser.parseDateTime(date));
             }
         }
 
@@ -111,8 +111,8 @@ public class DateTimeParserTests {
         @Test
         @DisplayName("Success")
         void testParseDate_Success() {
-            for (String date :  acceptedDateFormats) {
-                assertDoesNotThrow(()->DateTimeParser.parseDate(date));
+            for (String date : acceptedDateFormats) {
+                assertDoesNotThrow(() -> DateTimeParser.parseDate(date));
             }
         }
 
@@ -131,7 +131,7 @@ public class DateTimeParserTests {
         @DisplayName("Success")
         void FormatDateTimeTest_Success() {
             LocalDateTime date = LocalDateTime.parse("2025-05-25T00:00:00");
-            String dateTime = assertDoesNotThrow(()->DateTimeParser.formatDateTime(date));
+            String dateTime = assertDoesNotThrow(() -> DateTimeParser.formatDateTime(date));
             assertEquals("25 May 2025 0000", dateTime);
         }
     }

@@ -18,8 +18,8 @@ public class EventFileParserTests {
         @DisplayName("Success")
         void parseEventFile_Success() {
             ArrayList<String> input = new ArrayList<>(List.of("task1 | from: 13/10/25 0000, to: 14/10/25 0000"));
-            assertDoesNotThrow(()->EventFileParser.parseEventFile(input));
-            ArrayList<String> expectedOutput = new ArrayList<>(List.of("task1", "13/10/25 0000",  "14/10/25 0000"));
+            assertDoesNotThrow(() -> EventFileParser.parseEventFile(input));
+            ArrayList<String> expectedOutput = new ArrayList<>(List.of("task1", "13/10/25 0000", "14/10/25 0000"));
             assertEquals(expectedOutput, input);
         }
 
