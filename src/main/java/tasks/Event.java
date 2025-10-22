@@ -67,7 +67,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " | from: " + DateTimeParser.formatDateTime(startDateTime) + ", to: " + DateTimeParser.formatDateTime(endDateTime);
+        return "[E]" + super.toString() + " | from: " + DateTimeParser.formatDateTime(startDateTime) +
+                ", to: " + DateTimeParser.formatDateTime(endDateTime);
     }
 
 }

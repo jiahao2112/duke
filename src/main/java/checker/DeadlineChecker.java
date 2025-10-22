@@ -16,7 +16,8 @@ public class DeadlineChecker {
      * @param deadlineInput user's input for deadline command
      * @throws DeadlineException.MissingDeadlineByKeywordException if /by is missing in input
      */
-    public static void checkDeadlineByKeyword(String deadlineInput) throws DeadlineException.MissingDeadlineByKeywordException {
+    public static void checkDeadlineByKeyword(String deadlineInput)
+            throws DeadlineException.MissingDeadlineByKeywordException {
         if (!deadlineInput.contains("/by")) {
             throw new DeadlineException.MissingDeadlineByKeywordException();
         }
@@ -44,7 +45,8 @@ public class DeadlineChecker {
      * Used by checkDeadlineFormat function.
      * Checks if task name is missing
      */
-    private static void checkDeadlineTaskName(String taskName) throws DeadlineException.MissingDeadlineTaskNameException {
+    private static void checkDeadlineTaskName(String taskName)
+            throws DeadlineException.MissingDeadlineTaskNameException {
         if (taskName.isEmpty()) {
             throw new DeadlineException.MissingDeadlineTaskNameException();
         }

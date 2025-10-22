@@ -19,7 +19,8 @@ public class MarkUnmarkDeleteParser {
      * @param command information given
      * @throws GrootException if error during check
      */
-    protected static void parseMarkUnmarkDelete(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> command) throws GrootException {
+    protected static void parseMarkUnmarkDelete(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> command)
+            throws GrootException {
         MarkUnmarkDeleteChecker.checkTaskNumberFormat(command.getValue().get(0), command.getKey());
     }
 
@@ -31,7 +32,8 @@ public class MarkUnmarkDeleteParser {
      * @return task number if valid
      * @throws MarkUnmarkDeleteException.TaskNotFoundException if task number is out of range
      */
-    public static int getTaskNumber(String taskNumber, int tasklistSize) throws MarkUnmarkDeleteException.TaskNotFoundException {
+    public static int getTaskNumber(String taskNumber, int tasklistSize)
+            throws MarkUnmarkDeleteException.TaskNotFoundException {
         int taskNumberInt = Integer.parseInt(taskNumber);
         MarkUnmarkDeleteChecker.checkTaskNumberValid(taskNumberInt, tasklistSize);
         return taskNumberInt;

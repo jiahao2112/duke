@@ -16,7 +16,7 @@ public class EventFileParser {
      * @param eventFile task information from file
      * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
      */
-    protected static void parseEventFile(ArrayList<String> eventFile) throws FileException {
+    protected static void parseEventFile(ArrayList<String> eventFile) throws FileException.FileCorruptedException {
         try {
             eventFile.set(0, eventFile.get(0).trim());
             String taskInfo = eventFile.get(0);
@@ -26,7 +26,7 @@ public class EventFileParser {
             eventFile.add(taskInfoArray[0].trim());
             eventFile.add(taskInfoArray[1].trim());
             EventChecker.checkEventFormat(eventFile);
-        } catch (EventException|ArrayIndexOutOfBoundsException e) {
+        } catch (EventException | ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
         }
     }

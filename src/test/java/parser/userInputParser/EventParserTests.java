@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EventParserTests {
-    AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event = new AbstractMap.SimpleEntry<>(CommandType.EVENT,
-            new ArrayList<>());
+    AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event =
+            new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
 
     @Nested
     @DisplayName("parseEvent()")
-    class ParseEventTests {
+    class ParseEvent_Test {
         @Test
         @DisplayName("Success")
         public void parseEvent_Success() {

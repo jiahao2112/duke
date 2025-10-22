@@ -1,7 +1,6 @@
 package commands;
 
 import enums.CommandType;
-import exceptions.DateTimeException;
 import exceptions.GrootException;
 import exceptions.ViewException;
 import parser.DateTimeParser;

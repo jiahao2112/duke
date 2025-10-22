@@ -52,7 +52,8 @@ public class EventChecker {
      * Used by checkEventFormat.
      * Checks if task name is missing from userInput
      */
-    private static void checkEventTaskNameMissing(String taskName) throws EventException.MissingEventTaskNameException {
+    private static void checkEventTaskNameMissing(String taskName)
+            throws EventException.MissingEventTaskNameException {
         if (taskName.isEmpty()) {
             throw new EventException.MissingEventTaskNameException();
         }

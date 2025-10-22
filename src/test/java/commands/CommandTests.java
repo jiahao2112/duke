@@ -23,63 +23,27 @@ public class CommandTests {
 
     @Nested
     @DisplayName("Command()")
-    class CommandTest {
+    class Command_Test {
         @Test
         @DisplayName("Add Todo Success")
-        public void CommandTest_AddTodoSuccess() {
+        public void Command_Add_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             commandLine.getValue().add("task");
             Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(AddCommand.class, command);
-        }
 
-        @Test
-        @DisplayName("Add Deadline Success")
-        public void CommandTest_AddDeadlineSuccess() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("14/10/25 0000");
-            Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
+            command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(AddCommand.class, command);
-        }
 
-        @Test
-        @DisplayName("Add Deadline Throws InvalidDateTimeException")
-        public void CommandTest_AddDeadline_InvalidDateTime() {
-            commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
-            commandLine.getValue().add("task");
-            commandLine.getValue().add("14/10/25");
-            DeadlineException deadlineException =
-                    assertThrows(DeadlineException.InvalidDeadlineDateTimeException.class,
-                            () -> Command.createCommand(commandLine, tasklist));
-            assertEquals("Invalid date/time. Usage: deadline <task name> /by <dd/MM/yyyy> <HH:mm (24-hour)>",
-                    deadlineException.getMessage());
-        }
-
-        @Test
-        @DisplayName("Add Event Success")
-        public void CommandTest_AddEventSuccess() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("14/10/25 0000");
             commandLine.getValue().add("15/10/25 0000");
-            Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
+            command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(AddCommand.class, command);
-        }
-
-        @Test
-        @DisplayName("Add Event Throws InvalidDateTimeException")
-        public void CommandTest_AddEvent_InvalidDateTime() {
-            commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
-            commandLine.getValue().add("task");
-            commandLine.getValue().add("14/10/25");
-            commandLine.getValue().add("15/10/25 0000");
-            EventException eventException =
-                    assertThrows(EventException.InvalidEventDateTimeException.class,
-                            () -> Command.createCommand(commandLine, tasklist));
-            assertEquals("Invalid date/time. Usage: event <task name> /from <dd/MM/yyyy> <HH:mm (24-hour)> " +
-                            "/to <dd/MM/yyyy> <HH:mm (24-hour)>",
-                    eventException.getMessage());
         }
 
         @Test
@@ -90,16 +54,12 @@ public class CommandTests {
             commandLine.getValue().add("1");
             Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(MarkTaskCommand.class, command);
-        }
 
-        @Test
-        @DisplayName("Unmark Success")
-        public void CommandTest_Unmark_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.UNMARK, new ArrayList<>());
             tasklist.add(new ToDo("task"));
             tasklist.get(0).setIsDone(true);
             commandLine.getValue().add("1");
-            Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
+            command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(MarkTaskCommand.class, command);
         }
 
@@ -120,17 +80,6 @@ public class CommandTests {
             tasklist.add(new Deadline("task", LocalDateTime.parse("2025-10-14T00:00:00")));
             Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(ShowListCommand.class, command);
-        }
-
-        @Test
-        @DisplayName("View Throws InvalidViewDateException")
-        public void CommandTest_View_InvalidDateTime() {
-            commandLine = new AbstractMap.SimpleEntry<>(CommandType.VIEW, new ArrayList<>());
-            commandLine.getValue().add("101425");
-            tasklist.add(new Deadline("task", LocalDateTime.parse("2025-10-14T00:00:00")));
-            ViewException viewException = assertThrows(ViewException.InvalidViewDateException.class,
-                    () -> Command.createCommand(commandLine, tasklist));
-            assertEquals("Invalid date. Usage: view <dd/MM/yyyy>", viewException.getMessage());
         }
 
         @Test
@@ -157,6 +106,37 @@ public class CommandTests {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.BYE, new ArrayList<>());
             Command command = assertDoesNotThrow(() -> Command.createCommand(commandLine, tasklist));
             assertInstanceOf(ExitCommand.class, command);
+        }
+
+        @Test
+        @DisplayName("Add Deadline Throws InvalidDateTimeException")
+        public void CommandTest_InvalidDateTime_InvalidDateTimeException() {
+            commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
+            commandLine.getValue().add("task");
+            commandLine.getValue().add("14/10/25");
+            DeadlineException deadlineException =
+                    assertThrows(DeadlineException.InvalidDeadlineDateTimeException.class,
+                            () -> Command.createCommand(commandLine, tasklist));
+            assertEquals("Invalid date/time. Usage: deadline <task name> /by <dd/MM/yyyy> <HH:mm (24-hour)>",
+                    deadlineException.getMessage());
+
+            commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
+            commandLine.getValue().add("task");
+            commandLine.getValue().add("14/10/25");
+            commandLine.getValue().add("15/10/25 0000");
+            EventException eventException =
+                    assertThrows(EventException.InvalidEventDateTimeException.class,
+                            () -> Command.createCommand(commandLine, tasklist));
+            assertEquals("Invalid date/time. Usage: event <task name> /from <dd/MM/yyyy> <HH:mm (24-hour)> " +
+                            "/to <dd/MM/yyyy> <HH:mm (24-hour)>",
+                    eventException.getMessage());
+
+            commandLine = new AbstractMap.SimpleEntry<>(CommandType.VIEW, new ArrayList<>());
+            commandLine.getValue().add("101425");
+            tasklist.add(new Deadline("task", LocalDateTime.parse("2025-10-14T00:00:00")));
+            ViewException viewException = assertThrows(ViewException.InvalidViewDateException.class,
+                    () -> Command.createCommand(commandLine, tasklist));
+            assertEquals("Invalid date. Usage: view <dd/MM/yyyy>", viewException.getMessage());
         }
     }
 }

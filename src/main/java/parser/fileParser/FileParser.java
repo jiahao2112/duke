@@ -62,7 +62,7 @@ public class FileParser {
     private boolean taskIsDone(String taskLine) throws FileException {
         String taskIsDone = taskLine.substring(3, 6);
         if (taskIsDone.equals("[X]") || taskIsDone.equals("[ ]")) {
-            return taskIsDone.charAt(1)=='X';
+            return taskIsDone.charAt(1) == 'X';
         }
         throw new FileException.FileCorruptedException();
     }

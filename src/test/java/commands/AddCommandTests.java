@@ -22,27 +22,19 @@ public class AddCommandTests {
 
     @Nested
     @DisplayName("AddCommand()")
-    class AddCommandTest {
+    class AddCommand_Test {
         @Test
-        @DisplayName("Todo Success")
-        public void AddCommandTest_TodoSuccess() {
+        @DisplayName("Success")
+        public void AddCommand_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             commandLine.getValue().add("task");
             assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
-        }
 
-        @Test
-        @DisplayName("Deadline Success")
-        public void AddCommandTest_DeadlineSuccess() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 0000");
             assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
-        }
 
-        @Test
-        @DisplayName("Event Success")
-        public void AddCommandTest_EventSuccess() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 00:00");
@@ -52,7 +44,7 @@ public class AddCommandTests {
 
         @Test
         @DisplayName("Throws DateTimeException")
-        public void AddCommandTest_DateTime() {
+        public void AddCommandTest_InvalidDateTimeFormat_DateTimeException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25");
@@ -64,27 +56,19 @@ public class AddCommandTests {
 
     @Nested
     @DisplayName("createTask()")
-    class CreateTaskTest {
+    class CreateTask_Test {
         @Test
-        @DisplayName("Todo Success")
-        public void CreateTaskTest_Todo_Success() {
+        @DisplayName("Success")
+        public void createTask_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             commandLine.getValue().add("task");
             assertDoesNotThrow(() -> AddCommand.createTask(commandLine));
-        }
 
-        @Test
-        @DisplayName("Deadline Success")
-        public void CreateTaskTest_Deadline_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 0000");
             assertDoesNotThrow(() -> AddCommand.createTask(commandLine));
-        }
 
-        @Test
-        @DisplayName("Event Success")
-        public void CreateTaskTest_Event_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 0000");
@@ -94,7 +78,7 @@ public class AddCommandTests {
 
         @Test
         @DisplayName("Throws FileCorruptedException")
-        public void CreateTaskTest_FileCorrupted() {
+        public void createTask_IncorrectFormat_FileCorruptedException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> AddCommand.createTask(commandLine));
@@ -129,42 +113,33 @@ public class AddCommandTests {
 
     @Nested
     @DisplayName("execute()")
-    class AddTaskTest {
+    class Execute_Test {
         @Test
-        @DisplayName("Add Todo Task")
-        public void AddTaskTest_Todo() {
+        @DisplayName("Success")
+        public void execute_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             commandLine.getValue().add("task");
             AddCommand addCommand = assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
             addCommand.execute();
             assertEquals(1, tasklist.size());
             assertInstanceOf(ToDo.class, tasklist.get(0));
-        }
 
-        @Test
-        @DisplayName("Add Deadline Task")
-        public void AddTaskTest_Deadline() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 0000");
-            AddCommand addCommand = assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
+            addCommand = assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
             addCommand.execute();
-            assertEquals(1, tasklist.size());
-            assertInstanceOf(Deadline.class, tasklist.get(0));
-        }
+            assertEquals(2, tasklist.size());
+            assertInstanceOf(Deadline.class, tasklist.get(1));
 
-        @Test
-        @DisplayName("Add Event Task")
-        public void AddTaskTest_Event() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
             commandLine.getValue().add("task");
             commandLine.getValue().add("13/10/25 0000");
             commandLine.getValue().add("13/10/25 1200");
-            AddCommand addCommand = assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
+            addCommand = assertDoesNotThrow(() -> new AddCommand(commandLine, tasklist));
             addCommand.execute();
-            assertEquals(1, tasklist.size());
-            assertInstanceOf(Event.class, tasklist.get(0));
+            assertEquals(3, tasklist.size());
+            assertInstanceOf(Event.class, tasklist.get(2));
         }
     }
-
 }

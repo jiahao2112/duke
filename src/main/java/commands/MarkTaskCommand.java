@@ -25,7 +25,8 @@ public class MarkTaskCommand extends Command {
      * @param tasklist    tasklist from task manager
      * @throws MarkUnmarkDeleteException if there are any errors in populating
      */
-    protected MarkTaskCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws MarkUnmarkDeleteException {
+    protected MarkTaskCommand(AbstractMap.SimpleEntry<CommandType,
+            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws MarkUnmarkDeleteException {
         super(tasklist);
         taskNumber = MarkUnmarkDeleteParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
         switch (commandLine.getKey()) {
@@ -55,7 +56,7 @@ public class MarkTaskCommand extends Command {
      * Execution of command
      */
     @Override
-    public void execute(){
+    public void execute() {
         markTask();
     }
 

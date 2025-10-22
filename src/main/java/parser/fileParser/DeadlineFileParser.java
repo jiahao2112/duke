@@ -16,7 +16,8 @@ public class DeadlineFileParser {
      * @param deadlineFile task information from file
      * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
      */
-    protected static void parseDeadlineFile(ArrayList<String> deadlineFile) throws FileException.FileCorruptedException {
+    protected static void parseDeadlineFile(ArrayList<String> deadlineFile)
+            throws FileException.FileCorruptedException {
         try {
             deadlineFile.set(0, deadlineFile.get(0).trim());
             String taskInfo = deadlineFile.get(0);
@@ -24,7 +25,7 @@ public class DeadlineFileParser {
             deadlineFile.set(0, taskInfoArray[0].trim());
             deadlineFile.add(1, taskInfoArray[1].trim());
             DeadlineChecker.checkDeadlineFormat(deadlineFile);
-        } catch (DeadlineException|ArrayIndexOutOfBoundsException e) {
+        } catch (DeadlineException | ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
         }
     }

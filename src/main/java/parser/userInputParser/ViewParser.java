@@ -2,7 +2,6 @@ package parser.userInputParser;
 
 import checker.ViewChecker;
 import enums.CommandType;
-import exceptions.TodoException;
 import exceptions.ViewException;
 
 import java.util.AbstractMap;
@@ -15,7 +14,8 @@ public class ViewParser {
      * @param input information given by user
      * @throws ViewException.MissingViewDateException if date is missing, i.e. index 0 is ""
      */
-    protected static void parseView(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws ViewException.MissingViewDateException {
+    protected static void parseView(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input)
+            throws ViewException.MissingViewDateException {
         ViewChecker.checkViewDate(input.getValue().get(0));
     }
 }

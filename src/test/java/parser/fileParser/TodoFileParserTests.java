@@ -23,7 +23,7 @@ public class TodoFileParserTests {
 
         @Test
         @DisplayName("Empty Task Name Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_EmptyTaskName() {
+        void parseTodoFile_EmptyTaskName_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of(" "));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> TodoFileParser.parseTodoFile(input));
@@ -32,7 +32,7 @@ public class TodoFileParserTests {
 
         @Test
         @DisplayName("Missing TaskName Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingTaskName() {
+        void parseTodoFile_MissingTaskName_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>();
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> TodoFileParser.parseTodoFile(input));

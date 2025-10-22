@@ -37,7 +37,8 @@ public class AddCommand extends Command {
      * @param tasklist    task list passed from task manager, shared task list
      * @throws DateTimeException if date and time given are not correct
      */
-    protected AddCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws DateTimeException {
+    protected AddCommand(AbstractMap.SimpleEntry<CommandType,
+            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws DateTimeException {
         super(tasklist);
         this.commandType = commandLine.getKey();
         this.taskName = commandLine.getValue().get(0);
@@ -74,19 +75,23 @@ public class AddCommand extends Command {
      * @return todo, deadline or event task based on task information
      * @throws FileException if there is any error in creating the task where the only reason it cannot be created is where the tasklist file is corrupted
      */
-    public static Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine) throws FileException { //overload function for file parsing
+    public static Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine)
+            throws FileException { //overload function for file parsing
         try {
             Task task;
             task = switch (commandLine.getKey()) {
                 case TODO -> new ToDo(commandLine.getValue().get(0));
                 case DEADLINE ->
-                        new Deadline(commandLine.getValue().get(0), DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
+                        new Deadline(commandLine.getValue().get(0),
+                                DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
                 case EVENT ->
-                        new Event(commandLine.getValue().get(0), DateTimeParser.parseDateTime(commandLine.getValue().get(1)), DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
+                        new Event(commandLine.getValue().get(0),
+                                DateTimeParser.parseDateTime(commandLine.getValue().get(1)),
+                                DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
                 default -> throw new FileException.FileCorruptedException();
             };
             return task;
-        } catch (DateTimeException|IndexOutOfBoundsException e) {
+        } catch (DateTimeException | IndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
         }
     }

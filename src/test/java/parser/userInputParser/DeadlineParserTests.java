@@ -12,11 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeadlineParserTests {
-    AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline = new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
+    AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline =
+            new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
 
     @Nested
     @DisplayName("parseDeadline()")
-    class ParseDeadlineTests {
+    class ParseDeadline_Test {
         @Test
         @DisplayName("Success")
         public void parseDeadline_Success() {

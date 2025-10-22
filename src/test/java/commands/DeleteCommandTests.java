@@ -20,10 +20,10 @@ public class DeleteCommandTests {
 
     @Nested
     @DisplayName("DeleteCommand()")
-    class DeleteCommandTest {
+    class DeleteCommand_Test {
         @Test
         @DisplayName("Success")
-        public void DeleteCommandTest_Success() {
+        public void DeleteCommand_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
             commandLine.getValue().add("1");
             assertDoesNotThrow(() -> new DeleteCommand(commandLine, tasklist));
@@ -31,7 +31,7 @@ public class DeleteCommandTests {
 
         @Test
         @DisplayName("Throws TaskNotFoundException")
-        public void DeleteCommandTest_TaskNotFound() {
+        public void DeleteCommandTest_TaskNumberNotInRange_TaskNotFoundException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
             commandLine.getValue().add("2");
             MarkUnmarkDeleteException markUnmarkDeleteException = assertThrows(MarkUnmarkDeleteException.TaskNotFoundException.class,
@@ -42,10 +42,10 @@ public class DeleteCommandTests {
 
     @Nested
     @DisplayName("execute()")
-    class DeleteTaskTest {
+    class ExecuteTest {
         @Test
         @DisplayName("Success")
-        public void DeleteTaskTest_Success() {
+        public void execute_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
             commandLine.getValue().add("1");
             DeleteCommand deleteCommand = assertDoesNotThrow(() -> new DeleteCommand(commandLine, tasklist));

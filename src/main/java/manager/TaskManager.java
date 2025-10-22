@@ -56,7 +56,8 @@ public class TaskManager {
      */
     public void manageTask(String userInput) {
         try {
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine = UserInputParser.parseUserInput(userInput);
+            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
+                    UserInputParser.parseUserInput(userInput);
             Command cmd = Command.createCommand(commandLine, tasklist);
             if (cmd == null) { //No command given
                 return;

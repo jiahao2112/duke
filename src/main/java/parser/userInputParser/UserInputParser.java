@@ -17,8 +17,10 @@ public class UserInputParser {
      * @return a pair where the key is the command and value are the information for the command
      * @throws GrootException if there are any error during parsing
      */
-    public static AbstractMap.SimpleEntry<CommandType, ArrayList<String>> parseUserInput(String input) throws GrootException {
-        AbstractMap.SimpleEntry<CommandType, ArrayList<String>> inputs = splitInput(input); //split and trim the 2 parts of command {command, info}
+    public static AbstractMap.SimpleEntry<CommandType, ArrayList<String>> parseUserInput(String input)
+            throws GrootException {
+        //split and trim the 2 parts of command {command, info}
+        AbstractMap.SimpleEntry<CommandType, ArrayList<String>> inputs = splitInput(input);
         switch (inputs.getKey()) {
             case NONE:
                 //Fallthrough
@@ -66,7 +68,8 @@ public class UserInputParser {
     /*
      * Split user input into 2 parts, command and information
      */
-    private static AbstractMap.SimpleEntry<CommandType, ArrayList<String>> splitInput(String command) throws GrootException {
+    private static AbstractMap.SimpleEntry<CommandType, ArrayList<String>> splitInput(String command)
+            throws GrootException {
         String[] commandSplit = command.split(" ", 2);
         ArrayList<String> taskInfo = new ArrayList<>();
         CommandType commandType;

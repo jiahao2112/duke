@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MarkUnmarkDeleteParserTests {
     @Nested
     @DisplayName("parseMarkUnmarkDelete()")
-    class ParseMarkUnmarkDeleteTest {
-        AbstractMap.SimpleEntry<CommandType, ArrayList<String>> mark = new AbstractMap.SimpleEntry<>(CommandType.MARK,
-                new ArrayList<>(List.of("1")));
+    class ParseMarkUnmarkDelete_Test {
+        AbstractMap.SimpleEntry<CommandType, ArrayList<String>> mark =
+                new AbstractMap.SimpleEntry<>(CommandType.MARK, new ArrayList<>(List.of("1")));
 
         @Test
         @DisplayName("Success")
@@ -28,7 +28,7 @@ public class MarkUnmarkDeleteParserTests {
 
     @Nested
     @DisplayName("getTaskNumber()")
-    class GetTaskNumberTest {
+    class GetTaskNumber_Test {
         @Test
         @DisplayName("Success")
         public void getTaskNumber_Success() {

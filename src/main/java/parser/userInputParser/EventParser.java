@@ -17,7 +17,8 @@ public class EventParser {
      * @param event information given by user
      * @throws GrootException if there are any errors in user input
      */
-    protected static void parseEvent(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event) throws GrootException {
+    protected static void parseEvent(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event)
+            throws GrootException {
         ArrayList<String> eventInput = event.getValue();
         EventChecker.checkEventKeywords(eventInput.get(0));
         splitEventInformation(eventInput);

@@ -17,7 +17,8 @@ public class DeadlineParser {
      * @param deadline information given by user
      * @throws DeadlineException if any errors in user input
      */
-    protected static void parseDeadline(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline) throws DeadlineException {
+    protected static void parseDeadline(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline)
+            throws DeadlineException {
         ArrayList<String> deadlineInformation = deadline.getValue();
         DeadlineChecker.checkDeadlineByKeyword(deadlineInformation.get(0));
         splitDeadlineInformation(deadlineInformation);

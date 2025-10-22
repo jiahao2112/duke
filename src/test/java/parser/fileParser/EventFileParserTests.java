@@ -25,7 +25,7 @@ public class EventFileParserTests {
 
         @Test
         @DisplayName("Missing Task Name Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingTaskName() {
+        void parseTodoFile_MissingTaskName_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of("| from: 13/10/25 0000, to: 14/10/25 0000"));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> DeadlineFileParser.parseDeadlineFile(input));
@@ -34,7 +34,7 @@ public class EventFileParserTests {
 
         @Test
         @DisplayName("Missing From Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingFromKeyword() {
+        void parseTodoFile_MissingFromKeyword_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of("task 1 13/10/25 0000, to: 14/10/25 0000 "));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> DeadlineFileParser.parseDeadlineFile(input));
@@ -43,7 +43,7 @@ public class EventFileParserTests {
 
         @Test
         @DisplayName("Missing From-DateTime Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingFromDateTime() {
+        void parseTodoFile_MissingFromDateTime_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of("task 1 | from: , to: 14/10/25 0000"));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> DeadlineFileParser.parseDeadlineFile(input));
@@ -52,7 +52,7 @@ public class EventFileParserTests {
 
         @Test
         @DisplayName("Missing To Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingToKeyword() {
+        void parseTodoFile_MissingToKeyword_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of("task 1 | from: 13/10/25 0000, 14/10/25 0000 "));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> DeadlineFileParser.parseDeadlineFile(input));
@@ -61,7 +61,7 @@ public class EventFileParserTests {
 
         @Test
         @DisplayName("Missing To-DateTime Throws FileCorruptedException")
-        void parseTodoFile_FileCorrupted_MissingToDateTime() {
+        void parseTodoFile_MissingToDateTime_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of("task 1 | from: 13/10/25 0000, to: "));
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> DeadlineFileParser.parseDeadlineFile(input));

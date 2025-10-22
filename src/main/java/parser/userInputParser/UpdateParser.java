@@ -8,7 +8,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class UpdateParser {
-    public static void parseUpdate(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update) throws UpdateException {
+    public static void parseUpdate(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update)
+            throws UpdateException {
         ArrayList<String> updateInput = update.getValue();
         splitUpdateInformation(updateInput);
         update.setValue(updateInput);

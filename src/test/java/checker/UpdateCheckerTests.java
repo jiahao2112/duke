@@ -17,29 +17,31 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Success")
-        public void checkTaskNumberFormatTest_Success() {
+        public void checkTaskNumberFormat_Success() {
             taskNumber = "1";
             assertDoesNotThrow(() -> UpdateChecker.checkTaskNumberFormat(taskNumber));
         }
 
         @Test
         @DisplayName("Throws MissingTaskNumberException")
-        public void checkTaskNumberFormatTest_MissingTaskNumber() {
+        public void checkTaskNumberFormat_MissingTaskNumber_MissingTaskNumberException() {
             taskNumber = "";
             UpdateException updateException =
                     assertThrows(UpdateException.MissingTaskNumberException.class,
                             () -> UpdateChecker.checkTaskNumberFormat(taskNumber));
-            assertEquals("Missing task number. Usage: update <task number>, <update-field>: <update-info>", updateException.getMessage());
+            assertEquals("Missing task number. Usage: update <task number>, <update-field>: <update-info>"
+                    , updateException.getMessage());
         }
 
         @Test
         @DisplayName("Throws InvalidTaskNumberException")
-        public void checkTaskNumberFormatTest_InvalidTaskNumber() {
+        public void checkTaskNumberFormat_NotDigit_InvalidTaskNumberException() {
             taskNumber = "a";
             UpdateException updateException =
                     assertThrows(UpdateException.InvalidTaskNumberException.class,
                             () -> UpdateChecker.checkTaskNumberFormat(taskNumber));
-            assertEquals("Invalid task number. Usage: update <task number>, <update-field>: <update-info>", updateException.getMessage());
+            assertEquals("Invalid task number. Usage: update <task number>, <update-field>: <update-info>"
+                    , updateException.getMessage());
         }
     }
 
@@ -51,14 +53,14 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Success ->")
-        public void checkTaskNumberValidTest_Success() {
+        public void checkTaskNumberValid_Success() {
             taskNumber = 1;
             assertDoesNotThrow(() -> UpdateChecker.checkTaskNumberValid(taskNumber, taskListSize));
         }
 
         @Test
         @DisplayName("Throws TaskNotFoundException")
-        public void checkTaskNumberFormatTest_InvalidTaskNumber() {
+        public void checkTaskNumberFormat_TaskNumberNotInRange_InvalidTaskNumberException() {
             taskNumber = 3; //more than task list size
             UpdateException updateException =
                     assertThrows(UpdateException.TaskNotFoundException.class,
@@ -74,12 +76,12 @@ public class UpdateCheckerTests {
 
     @Nested
     @DisplayName("checkTodoValid()")
-    class CheckTodoValidTest {
+    class CheckTodoValid_Test {
         ArrayList<String> todoUpdate = new ArrayList<>();
 
         @Test
         @DisplayName("Success")
-        public void checkTodoValidTest_Success() {
+        public void checkTodoValid_Success() {
             todoUpdate.add("taskName");
             todoUpdate.add("task1");
             assertDoesNotThrow(() -> UpdateChecker.checkTodoUpdateValid(todoUpdate));
@@ -87,7 +89,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateTodoFieldException")
-        public void checkTodoValidTest_InvalidUpdateTodoField() {
+        public void checkTodoValid_MissingFieldForUpdate_InvalidUpdateTodoFieldException() {
             todoUpdate.add("");
             todoUpdate.add("task1");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateTodoFieldException.class,
@@ -98,7 +100,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateTodoInfoException")
-        public void checkTodoValidTest_InvalidUpdateInfoField() {
+        public void checkTodoValid_EmptyInfo_InvalidUpdateInfoFieldException() {
             todoUpdate.add("taskName");
             todoUpdate.add("");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateTodoInfoException.class,
@@ -109,7 +111,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateFormatException")
-        public void checkTodoValidTest_InvalidUpdateFormat() {
+        public void checkTodoValid_MissingInfo_InvalidUpdateFormatException() {
             todoUpdate.add("taskName");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateFormatException.class,
                     () -> UpdateChecker.checkTodoUpdateValid(todoUpdate));
@@ -120,28 +122,24 @@ public class UpdateCheckerTests {
 
     @Nested
     @DisplayName("checkDeadlineValid()")
-    class CheckDeadlineValidTest {
+    class CheckDeadlineValid_Test {
         ArrayList<String> deadlineUpdate = new ArrayList<>();
 
         @Test
-        @DisplayName("Task Name Success")
-        public void checkDeadlineValidTest_TaskName_Success() {
+        @DisplayName("Success")
+        public void checkDeadlineValid_Success() {
             deadlineUpdate.add("taskName");
             deadlineUpdate.add("task1");
             assertDoesNotThrow(() -> UpdateChecker.checkDeadlineUpdateValid(deadlineUpdate));
-        }
 
-        @Test
-        @DisplayName("By-Date Success")
-        public void checkDeadlineValidTest_ByDate_Success() {
+            deadlineUpdate.clear();
+
             deadlineUpdate.add("by");
             deadlineUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkDeadlineUpdateValid(deadlineUpdate));
-        }
 
-        @Test
-        @DisplayName("Task Name and By-Date Success")
-        public void checkDeadlineValidTest_TaskNameAndByDate_Success() {
+            deadlineUpdate.clear();
+
             deadlineUpdate.add("taskName");
             deadlineUpdate.add("task1");
             deadlineUpdate.add("by");
@@ -151,7 +149,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateDeadlineFieldException")
-        public void checkDeadlineValidTest_InvalidUpdateDeadlineField() {
+        public void checkDeadlineValid_MissingFieldForUpdate_InvalidUpdateDeadlineFieldException() {
             deadlineUpdate.add("");
             deadlineUpdate.add("task1");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateDeadlineFieldException.class,
@@ -163,7 +161,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateDeadlineInfoException")
-        public void checkDeadlineValidTest_InvalidUpdateInfoField() {
+        public void checkDeadlineValid_EmptyInfo_InvalidUpdateInfoFieldException() {
             deadlineUpdate.add("taskName");
             deadlineUpdate.add("");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateDeadlineInfoException.class,
@@ -175,7 +173,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateFormatException")
-        public void checkDeadlineValidTest_InvalidUpdateFormat() {
+        public void checkDeadlineValid_MissingInfo_InvalidUpdateFormatException() {
             deadlineUpdate.add("taskName");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateFormatException.class,
                     () -> UpdateChecker.checkDeadlineUpdateValid(deadlineUpdate));
@@ -186,66 +184,54 @@ public class UpdateCheckerTests {
 
     @Nested
     @DisplayName("checkEventValid()")
-    class CheckEventValidTest {
+    class CheckEventValid_Test {
         ArrayList<String> eventUpdate = new ArrayList<>();
 
         @Test
         @DisplayName("Task Name Success")
-        public void checkEventValidTest_TaskName_Success() {
+        public void checkEventValid_TaskName_Success() {
             eventUpdate.add("taskName");
             eventUpdate.add("task1");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("From-Date Success")
-        public void checkEventValidTest_FromDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("start");
             eventUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("To-Date Success")
-        public void checkEventValidTest_ToDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("end");
             eventUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("Task Name and From-Date Success")
-        public void checkEventValidTest_TaskNameAndFromDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("taskName");
             eventUpdate.add("task1");
             eventUpdate.add("start");
             eventUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("Task Name and To-Date Success")
-        public void checkEventValidTest_TaskNameAndToDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("taskName");
             eventUpdate.add("task1");
             eventUpdate.add("end");
             eventUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("From-Date and To-Date Success")
-        public void checkEventValidTest_FromDateAndToDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("start");
             eventUpdate.add("13/10/25 0000");
             eventUpdate.add("end");
             eventUpdate.add("13/10/25 0000");
             assertDoesNotThrow(() -> UpdateChecker.checkEventUpdateValid(eventUpdate));
-        }
 
-        @Test
-        @DisplayName("Task Name, From-Date and To-Date Success")
-        public void checkEventValidTest_TaskNameAndFromDateAndToDate_Success() {
+            eventUpdate.clear();
+
             eventUpdate.add("taskName");
             eventUpdate.add("task1");
             eventUpdate.add("start");
@@ -257,7 +243,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateEventFieldException")
-        public void checkEventValidTest_InvalidUpdateEventField() {
+        public void checkEventValid_MissingFieldForUpdate_InvalidUpdateEventFieldException() {
             eventUpdate.add("");
             eventUpdate.add("task1");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateEventFieldException.class,
@@ -269,7 +255,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateEventInfoException")
-        public void checkEventValidTest_InvalidUpdateInfoField() {
+        public void checkEventValid_EmptyInfo_InvalidUpdateInfoFieldException() {
             eventUpdate.add("taskName");
             eventUpdate.add("");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateEventInfoException.class,
@@ -281,7 +267,7 @@ public class UpdateCheckerTests {
 
         @Test
         @DisplayName("Throws InvalidUpdateFormatException")
-        public void checkTodoValidTest_InvalidUpdateFormat() {
+        public void checkEventValid_MissingInfo_InvalidUpdateFormatException() {
             eventUpdate.add("taskName");
             UpdateException updateException = assertThrows(UpdateException.InvalidUpdateFormatException.class,
                     () -> UpdateChecker.checkEventUpdateValid(eventUpdate));
