@@ -10,19 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ViewCheckerTests {
     @Nested
     @DisplayName("checkViewDate()")
-    class CheckViewDateTest {
+    class CheckViewDate_Test {
         String date;
 
         @Test
         @DisplayName("Success")
-        public void checkViewDateTest_Success() {
+        public void checkViewDate_Success() {
             date = "13/10/25";
             assertDoesNotThrow(() -> ViewChecker.checkViewDate(date));
         }
 
         @Test
         @DisplayName("Throws MissingViewDateException")
-        public void checkTodoTaskNameTest_MissingTodoTaskName() {
+        public void checkViewDate_MissingDate_MissingViewDateException() {
             date = "";
             ViewException viewException = assertThrows(ViewException.MissingViewDateException.class,
                     () -> ViewChecker.checkViewDate(date));

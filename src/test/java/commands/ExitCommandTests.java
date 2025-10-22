@@ -14,10 +14,10 @@ public class ExitCommandTests {
 
     @Nested
     @DisplayName("ExitCommand()")
-    public class ExitCommandTest {
+    public class ExitCommand_Test {
         @Test
         @DisplayName("Success")
-        public void exitCommandTest_Success() {
+        public void ExitCommand_Success() {
             assertDoesNotThrow(() -> new ExitCommand(tasklist));
         }
     }

@@ -18,7 +18,8 @@ public class TodoParser {
      * @param input information given by user
      * @throws TodoException.MissingTodoTaskNameException if task name is missing, i.e. index 0 is ""
      */
-    protected static void parseTodo(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws TodoException.MissingTodoTaskNameException {
+    protected static void parseTodo(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input)
+            throws TodoException.MissingTodoTaskNameException {
         TodoChecker.checkTodoTaskName(input.getValue().get(0));
     }
 }

@@ -18,7 +18,7 @@ public class ExitCommand extends Command {
      * @param tasklist task list to be saved to tasklist file
      * @throws FileException if there are any errors in saving the tasklist
      */
-    protected ExitCommand(ArrayList<Task> tasklist) throws FileException{
+    protected ExitCommand(ArrayList<Task> tasklist) throws FileException {
         super(tasklist);
         FileManager.saveFile(tasklist); //ensure tasklist file updated before exit
     }

@@ -10,7 +10,8 @@ public class EventException extends TaskException {
      * @param message message from sub EventExceptions
      */
     public EventException(String message) {
-        super(message + " Usage: event <task name> /from <dd/MM/yyyy> <HH:mm (24-hour)> /to <dd/MM/yyyy> <HH:mm (24-hour)>");
+        super(message + " Usage: event <task name> /from <dd/MM/yyyy> <HH:mm (24-hour)> " +
+                "/to <dd/MM/yyyy> <HH:mm (24-hour)>");
     }
 
     /**

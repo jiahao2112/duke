@@ -14,104 +14,59 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserInputParserTests {
     @Nested
     @DisplayName("parseUserInput()")
-    class ParseUserInputTests {
+    class ParseUserInput_Test {
         @Test
         @DisplayName("todo Success")
-        public void parseUserInput_Todo_Success() {
-            String input = "todo task1";
+        public void parseUserInput_Success() {
+            String todoInput = "todo task1";
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(todoInput));
             assertEquals(CommandType.TODO, result.getKey());
             assertEquals("task1", result.getValue().get(0));
-        }
 
-        @Test
-        @DisplayName("deadline Success")
-        public void parseUserInput_Deadline_Success() {
-            String input = "deadline task1 /by 13/10/25 0000";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String deadlineInput = "deadline task1 /by 13/10/25 0000";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(deadlineInput));
             assertEquals(CommandType.DEADLINE, result.getKey());
             assertEquals("task1", result.getValue().get(0));
             assertEquals("13/10/25 0000", result.getValue().get(1));
-        }
 
-        @Test
-        @DisplayName("event Success")
-        public void parseUserInput_Event_Success() {
-            String input = "event task1 /from 13/10/25 0000 /to 14/10/25 0000";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String eventInput = "event task1 /from 13/10/25 0000 /to 14/10/25 0000";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(eventInput));
             assertEquals(CommandType.EVENT, result.getKey());
             assertEquals("task1", result.getValue().get(0));
             assertEquals("13/10/25 0000", result.getValue().get(1));
             assertEquals("14/10/25 0000", result.getValue().get(2));
-        }
 
-        @Test
-        @DisplayName("list Success")
-        public void parseUserInput_List_Success() {
-            String input = "list";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String listInput = "list";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(listInput));
             assertEquals(CommandType.LIST, result.getKey());
-        }
 
-        @Test
-        @DisplayName("view Success")
-        public void parseUserInput_View_Success() {
-            String input = "view 13/10/25";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String viewInput = "view 13/10/25";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(viewInput));
             assertEquals(CommandType.VIEW, result.getKey());
             assertEquals("13/10/25", result.getValue().get(0));
-        }
 
-        @Test
-        @DisplayName("noInput Success")
-        public void parseUserInput_None_Success() {
-            String input = "";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String noInput = "";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(noInput));
             assertEquals(CommandType.NONE, result.getKey());
-        }
 
-        @Test
-        @DisplayName("mark Success")
-        public void parseUserInput_Mark_Success() {
-            String input = "mark 1";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String markInput = "mark 1";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(markInput));
             assertEquals(CommandType.MARK, result.getKey());
             assertEquals("1", result.getValue().get(0));
-        }
 
-        @Test
-        @DisplayName("unmark Success")
-        public void parseUserInput_Unmark_Success() {
-            String input = "unmark 1";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String unmarkInput = "unmark 1";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(unmarkInput));
             assertEquals(CommandType.UNMARK, result.getKey());
             assertEquals("1", result.getValue().get(0));
-        }
 
-        @Test
-        @DisplayName("delete Success")
-        public void parseUserInput_Delete_Success() {
-            String input = "delete 1";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String deleteInput = "delete 1";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(deleteInput));
             assertEquals(CommandType.DELETE, result.getKey());
             assertEquals("1", result.getValue().get(0));
-        }
 
-        @Test
-        @DisplayName("update Success")
-        public void parseUserInput_Update_Success() {
-            String input = "update 1, taskName: task1, start: 13/10/25 0000, to: 14/10/25 0000";
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            String updateInput = "update 1, taskName: task1, start: 13/10/25 0000, to: 14/10/25 0000";
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(updateInput));
             assertEquals(CommandType.UPDATE, result.getKey());
             assertEquals("1", result.getValue().get(0));
             assertEquals("taskName: task1", result.getValue().get(1));

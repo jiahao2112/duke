@@ -50,7 +50,8 @@ public class MarkUnmarkDeleteChecker {
      * @param tasklistSize size of task list
      * @throws MarkUnmarkDeleteException.TaskNotFoundException if task number is out of task list range, i.e. task number is more than task list size or less than 1
      */
-    public static void checkTaskNumberValid(int taskNumber, int tasklistSize) throws MarkUnmarkDeleteException.TaskNotFoundException {
+    public static void checkTaskNumberValid(int taskNumber, int tasklistSize)
+            throws MarkUnmarkDeleteException.TaskNotFoundException {
         if (taskNumber > tasklistSize || taskNumber <= 0) {
             throw new MarkUnmarkDeleteException.TaskNotFoundException();
         }
@@ -64,7 +65,8 @@ public class MarkUnmarkDeleteChecker {
      * @param isDone     user's intention to mark the task done or undone
      * @throws MarkUnmarkDeleteException.TaskAlreadyMarkedException if task is already marked according to user's intention
      */
-    public static void checkTaskStatus(boolean taskIsDone, boolean isDone) throws MarkUnmarkDeleteException.TaskAlreadyMarkedException {
+    public static void checkTaskStatus(boolean taskIsDone, boolean isDone)
+            throws MarkUnmarkDeleteException.TaskAlreadyMarkedException {
         if (taskIsDone == isDone) {
             throw new MarkUnmarkDeleteException.TaskAlreadyMarkedException(isDone ? "done" : "not done");
         }

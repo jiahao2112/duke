@@ -19,7 +19,9 @@ public class FileManager {
     private static File file = new File(folder, "tasklist.txt");
     private static final FileParser fileParser = new FileParser();
 
-    /** For testing only **/
+    /**
+     * For testing only
+     **/
     protected static void setFolderAndFile(File newFolder, File newFile) {
         folder = newFolder;
         file = newFile;
@@ -81,7 +83,7 @@ public class FileManager {
         if (tasklist.isEmpty()) {
             return;
         }
-        try (FileWriter fileWriter = new FileWriter(file)){
+        try (FileWriter fileWriter = new FileWriter(file)) {
             for (Task task : tasklist) {
                 fileWriter.write(task.toString());
                 fileWriter.write(System.lineSeparator());

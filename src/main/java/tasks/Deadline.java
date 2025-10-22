@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  */
 public class Deadline extends Task {
     protected LocalDateTime by;
+
     /**
      * Initialise deadline task with task name and by-date and time
      *

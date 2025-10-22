@@ -41,23 +41,23 @@ public class FileManagerTests {
 
     @Nested
     @DisplayName("createFile()")
-    class CreateFileTest {
+    class CreateFile_Test {
         @Test
         @DisplayName("Success")
-        void createFileTest_Success() {
+        void createFile_Success() {
             assertDoesNotThrow(FileManager::createFile);
             assertTrue(testFolder.exists());
             assertTrue(testFile.exists());
         }
 
         @Test
-        void createFileTest_folderExists() {
+        void createFile_folderExists() {
             // Folder already exists, created in setup
             assertDoesNotThrow(FileManager::createFile);
         }
 
         @Test
-        void createFileTest_fileExists() {
+        void createFile_fileExists() {
             assertDoesNotThrow(FileManager::createFile);
         }
     }
@@ -67,7 +67,7 @@ public class FileManagerTests {
     class SaveFileTest {
         @Test
         @DisplayName("Success")
-        void SaveFileTest_Success() {
+        void SaveFile_Success() {
             ArrayList<Task> tasks = new ArrayList<>();
             tasks.add(new ToDo("Task1"));
 
@@ -80,7 +80,7 @@ public class FileManagerTests {
 
         @Test
         @DisplayName("Throws UnableToWriteFileException")
-        void SaveFileTest_UnableToWriteFile() {
+        void SaveFile_UnableToWriteFileException() {
             assertTrue(testFile.setReadOnly());
             ArrayList<Task> tasks = new ArrayList<>();
             tasks.add(new ToDo("Task1"));
@@ -99,7 +99,7 @@ public class FileManagerTests {
     class ReadFileTest {
         @Test
         @DisplayName("Success")
-        void ReadFileTest_Success() {
+        void ReadFile_Success() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[T][X] task1\n");
@@ -128,7 +128,7 @@ public class FileManagerTests {
 
         @Test
         @DisplayName("MissingTaskDoneStatus Throws FileCorruptedException")
-        void ReadFileTest_FileCorrupted_MissingTaskDoneStatus() {
+        void ReadFile_MissingTaskDoneStatus_FileCorruptedException() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[T] task1\n");
@@ -142,7 +142,7 @@ public class FileManagerTests {
 
         @Test
         @DisplayName("MissingTaskType Throws FileCorruptedException")
-        void ReadFileTest_FileCorrupted_MissingTaskType() {
+        void ReadFile_MissingTaskType_FileCorruptedException() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[] task1\n");
@@ -156,7 +156,7 @@ public class FileManagerTests {
 
         @Test
         @DisplayName("MissingTodoTaskName Throws FileCorruptedException")
-        void ReadFileTest_FileCorrupted_MissingTodoTaskName() {
+        void ReadFile_MissingInfo_FileCorruptedException() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[T][ ]\n");
@@ -166,31 +166,23 @@ public class FileManagerTests {
                     FileManager::readFile);
 
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());
-        }
 
-        @Test
-        @DisplayName("MissingDeadlineInfo Throws FileCorruptedException")
-        void ReadFileTest_FileCorrupted_MissingDeadlineInfo() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[D][ ] \n");
                 }
             });
-            FileException fileException = assertThrows(FileException.FileCorruptedException.class,
+            fileException = assertThrows(FileException.FileCorruptedException.class,
                     FileManager::readFile);
 
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());
-        }
 
-        @Test
-        @DisplayName("MissingEventInfo Throws FileCorruptedException")
-        void ReadFileTest_FileCorrupted_MissingEventInfo() {
             assertDoesNotThrow(() -> {
                 try (FileWriter writer = new FileWriter(testFile)) {
                     writer.write("[E][ ] \n");
                 }
             });
-            FileException fileException = assertThrows(FileException.FileCorruptedException.class,
+            fileException = assertThrows(FileException.FileCorruptedException.class,
                     FileManager::readFile);
 
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());

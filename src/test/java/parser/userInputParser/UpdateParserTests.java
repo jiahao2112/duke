@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UpdateParserTests {
     @Nested
     @DisplayName("parseUpdate()")
-    class parseUpdateTests {
+    class parseUpdate_Test {
         @Test
         @DisplayName("Success")
-        public void parseUpdateTest_Success() {
+        public void parseUpdate_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update =
                     new AbstractMap.SimpleEntry<>(CommandType.UPDATE, new ArrayList<>());
             update.getValue().add("1, task name: task2, start: 13/10/25 0000"); //task number
@@ -30,10 +30,10 @@ public class UpdateParserTests {
 
     @Nested
     @DisplayName("getTaskNumber()")
-    class getTaskNumberTests {
+    class getTaskNumber_Test {
         @Test
         @DisplayName("Success")
-        public void getTaskNumberTest_Success() {
+        public void getTaskNumber_Success() {
             int taskNumber = assertDoesNotThrow(()->UpdateParser.getTaskNumber("1",2));
             assertEquals(1, taskNumber);
         }

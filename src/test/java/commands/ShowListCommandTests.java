@@ -29,17 +29,13 @@ public class ShowListCommandTests {
 
     @Nested
     @DisplayName("ShowListCommand()")
-    class ShowListCommandTest {
+    class ShowListCommand_Test {
         @Test
         @DisplayName("Display Success")
-        public void ShowListCommandTest_List_Success() {
+        public void ShowListCommand_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.LIST, new ArrayList<>());
             assertDoesNotThrow(() -> new ShowListCommand(commandLine, tasklist));
-        }
 
-        @Test
-        @DisplayName("View Success")
-        public void MarkTaskCommandTest_View_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.VIEW, new ArrayList<>());
             commandLine.getValue().add("14-10-25");
             assertDoesNotThrow(() -> new ShowListCommand(commandLine, tasklist));
@@ -47,7 +43,7 @@ public class ShowListCommandTests {
 
         @Test
         @DisplayName("Throws DateTimeException")
-        public void MarkTaskCommandTest_View_DateTimeException() {
+        public void ShowListCommand_InvalidDateTime_DateTimeException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.VIEW, new ArrayList<>());
             commandLine.getValue().add("141025");
             DateTimeException dateTimeException = assertThrows(DateTimeException.class,
@@ -57,7 +53,7 @@ public class ShowListCommandTests {
 
         @Test
         @DisplayName("Throws EmptyListException")
-        public void MarkTaskCommandTest_List_EmptyListException() {
+        public void ShowListCommand_EmptyList_EmptyListException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.LIST, new ArrayList<>());
             tasklist.clear();
             GrootException grootException = assertThrows(GrootException.EmptyListException.class,
@@ -67,7 +63,7 @@ public class ShowListCommandTests {
 
         @Test
         @DisplayName("Throws NoTasksForViewException")
-        public void MarkTaskCommandTest_View_NoTasksForViewException() {
+        public void ShowListCommand_NoTasksOnViewDate_NoTasksForViewException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.VIEW, new ArrayList<>());
             commandLine.getValue().add("01-12-25");
             ViewException viewException = assertThrows(ViewException.NoTaskForViewException.class,

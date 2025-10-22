@@ -3,7 +3,6 @@ package commands;
 import checker.UpdateChecker;
 import enums.CommandType;
 import exceptions.DateTimeException;
-import exceptions.DeadlineException;
 import exceptions.UpdateException;
 import parser.DateTimeParser;
 import parser.userInputParser.UpdateParser;
@@ -36,13 +35,13 @@ public class UpdateCommand extends Command {
     private void setUpdateFields(ArrayList<String> updateFields) throws UpdateException {
 
         ArrayList<String> update = new ArrayList<>();
-        try{
+        try {
             for (String field : updateFields) {
                 String[] fields = field.split(":", -1);
                 update.add(fields[0].trim());
                 update.add(fields[1].trim());
             }
-        }catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw new UpdateException.InvalidUpdateFormatException();
         }
         if (task instanceof ToDo) {
@@ -85,26 +84,25 @@ public class UpdateCommand extends Command {
         }
     }
 
-    private void updateTask(){
+    private void updateTask() {
         if (task instanceof ToDo) {
             task.setDescription(taskName);
-        }
-        else if (task instanceof Deadline) {
+        } else if (task instanceof Deadline) {
             if (taskName != null) {
                 task.setDescription(taskName);
             }
-            if (byDate != null){
-                ((Deadline)task).setBy(byDate);
+            if (byDate != null) {
+                ((Deadline) task).setBy(byDate);
             }
-        }else if (task instanceof Event) {
+        } else if (task instanceof Event) {
             if (taskName != null) {
                 task.setDescription(taskName);
             }
-            if (fromDate != null){
-                ((Event)task).setStartDateTime(fromDate);
+            if (fromDate != null) {
+                ((Event) task).setStartDateTime(fromDate);
             }
-            if (toDate != null){
-                ((Event)task).setEndDateTime(toDate);
+            if (toDate != null) {
+                ((Event) task).setEndDateTime(toDate);
             }
         }
 

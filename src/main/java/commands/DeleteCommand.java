@@ -22,7 +22,8 @@ public class DeleteCommand extends Command {
      * @param tasklist    task list from task manager
      * @throws MarkUnmarkDeleteException if there are any errors in populating
      */
-    protected DeleteCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws MarkUnmarkDeleteException {
+    protected DeleteCommand(AbstractMap.SimpleEntry<CommandType,
+            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws MarkUnmarkDeleteException {
         super(tasklist);
         taskNumber = MarkUnmarkDeleteParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
     }

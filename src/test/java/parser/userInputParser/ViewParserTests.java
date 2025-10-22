@@ -17,7 +17,7 @@ public class ViewParserTests {
     class ParseViewTest {
         @Test
         @DisplayName("Success")
-        public void parseTodoTest_Success() {
+        public void parseView_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> view =
                     new AbstractMap.SimpleEntry<>(CommandType.VIEW,
                             new ArrayList<>(List.of("13/10/25")));

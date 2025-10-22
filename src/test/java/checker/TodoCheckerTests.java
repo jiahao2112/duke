@@ -15,14 +15,14 @@ public class TodoCheckerTests {
 
         @Test
         @DisplayName("Success")
-        public void checkTodoTaskNameTest_Success() {
+        public void checkTodoTaskName_Success() {
             taskName = "task1";
             assertDoesNotThrow(() -> TodoChecker.checkTodoTaskName(taskName));
         }
 
         @Test
         @DisplayName("Throws MissingTodoTaskNameException")
-        public void checkTodoTaskNameTest_MissingTodoTaskName() {
+        public void checkTodoTaskName_MissingTaskName_MissingTodoTaskNameException() {
             taskName = "";
             TodoException todoException = assertThrows(TodoException.MissingTodoTaskNameException.class,
                     () -> TodoChecker.checkTodoTaskName(taskName));

@@ -33,7 +33,8 @@ public abstract class Command {
      * @return various commands
      * @throws GrootException if there are any error in creating command
      */
-    public static Command createCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
+    public static Command createCommand(AbstractMap.SimpleEntry<CommandType,
+            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
         try {
             return switch (commandLine.getKey()) {
                 case MARK, UNMARK -> new MarkTaskCommand(commandLine, tasklist);
@@ -42,8 +43,7 @@ public abstract class Command {
                 case TODO, DEADLINE, EVENT -> new AddCommand(commandLine, tasklist);
                 case NONE -> null;
                 case BYE -> new ExitCommand(tasklist);
-                case UPDATE ->  new UpdateCommand(commandLine, tasklist);
-                case FIND ->  new FindCommand(commandLine, tasklist);
+                case UPDATE -> new UpdateCommand(commandLine, tasklist);
             };
         } catch (DateTimeException e) {
             switch (commandLine.getKey()) {

@@ -81,10 +81,10 @@ public class DateTimeParserTests {
 
     @Nested
     @DisplayName("parseDateTime()")
-    class ParseDateTimeTests {
+    class ParseDateTime_Test {
         @Test
         @DisplayName("Success")
-        void testParseDateTime_Success() {
+        void parseDateTime_Success() {
             for (String date : acceptedDateTimeFormats) {
                 assertDoesNotThrow(() -> DateTimeParser.parseDateTime(date));
             }
@@ -92,14 +92,14 @@ public class DateTimeParserTests {
 
         @Test
         @DisplayName("InvalidDate Throws DateTimeException")
-        void testParseDateTime_InvalidDate() {
+        void parseDateTime_InvalidDate_DateTimeException() {
             String date = "131025 0000";
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDateTime(date));
         }
 
         @Test
         @DisplayName("InvalidTime Throws DateTimeException")
-        void testParseDateTime_InvalidTime() {
+        void parseDateTime_InvalidTime_DateTimeException() {
             String date = "13-10-25 2500";
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDateTime(date));
         }
@@ -107,10 +107,10 @@ public class DateTimeParserTests {
 
     @Nested
     @DisplayName("parseDate()")
-    class ParseDateTests {
+    class ParseDate_Test {
         @Test
         @DisplayName("Success")
-        void testParseDate_Success() {
+        void parseDate_Success() {
             for (String date : acceptedDateFormats) {
                 assertDoesNotThrow(() -> DateTimeParser.parseDate(date));
             }
@@ -118,7 +118,7 @@ public class DateTimeParserTests {
 
         @Test
         @DisplayName("InvalidDate Throws DateTimeException")
-        void testParseDate_InvalidDate() {
+        void parseDate_InvalidDate_DateTimeException() {
             String date = "13-13-25";
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDate(date));
         }
@@ -129,7 +129,7 @@ public class DateTimeParserTests {
     class FormatDateTimeTests {
         @Test
         @DisplayName("Success")
-        void FormatDateTimeTest_Success() {
+        void formatDateTime_Success() {
             LocalDateTime date = LocalDateTime.parse("2025-05-25T00:00:00");
             String dateTime = assertDoesNotThrow(() -> DateTimeParser.formatDateTime(date));
             assertEquals("25 May 2025 0000", dateTime);

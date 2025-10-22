@@ -20,7 +20,8 @@ public class UpdateChecker {
      * Used by checkTaskNumberFormat
      * Checks if task number is empty
      */
-    private static void checkTaskNumberEmpty(String taskNumber) throws UpdateException.MissingTaskNumberException {
+    private static void checkTaskNumberEmpty(String taskNumber)
+            throws UpdateException.MissingTaskNumberException {
         if (taskNumber.isEmpty()) {
             throw new UpdateException.MissingTaskNumberException();
         }
@@ -30,7 +31,8 @@ public class UpdateChecker {
      * Used by checkTaskNumberFormat
      * Checks if task number is a digit
      */
-    private static void checkTaskNumberDigits(String taskNumber) throws UpdateException.InvalidTaskNumberException {
+    private static void checkTaskNumberDigits(String taskNumber)
+            throws UpdateException.InvalidTaskNumberException {
         if (!taskNumber.matches("\\d+")) {
             throw new UpdateException.InvalidTaskNumberException();
         }
@@ -42,9 +44,10 @@ public class UpdateChecker {
      * @param taskNumber   task number given by user
      * @param tasklistSize size of task list
      * @throws UpdateException.TaskNotFoundException if task number is out of task list range, i.e. task number is more than
-     * task list size or less than 1
+     *                                               task list size or less than 1
      */
-    public static void checkTaskNumberValid(int taskNumber, int tasklistSize) throws UpdateException.TaskNotFoundException {
+    public static void checkTaskNumberValid(int taskNumber, int tasklistSize)
+            throws UpdateException.TaskNotFoundException {
         if (taskNumber > tasklistSize || taskNumber <= 0) {
             throw new UpdateException.TaskNotFoundException();
         }
@@ -64,7 +67,7 @@ public class UpdateChecker {
     }
 
     public static void checkDeadlineUpdateValid(ArrayList<String> update) throws UpdateException {
-        try{
+        try {
             for (int i = 0; i < update.size(); i += 2) {
                 String field = update.get(i);
                 if (!field.equals("taskName") && !field.equals("by")) {
@@ -74,13 +77,13 @@ public class UpdateChecker {
                     throw new UpdateException.InvalidUpdateDeadlineInfoException();
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw new UpdateException.InvalidUpdateFormatException();
         }
     }
 
     public static void checkEventUpdateValid(ArrayList<String> update) throws UpdateException {
-        try{
+        try {
             for (int i = 0; i < update.size(); i += 2) {
                 String field = update.get(i);
                 if (!field.equals("taskName") && !field.equals("start") && !field.equals("end")) {
@@ -90,7 +93,7 @@ public class UpdateChecker {
                     throw new UpdateException.InvalidUpdateEventInfoException();
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw new UpdateException.InvalidUpdateFormatException();
         }
     }
