@@ -90,15 +90,10 @@ public class TaskManagerTests {
             List<String> lines = assertDoesNotThrow(() -> Files.readAllLines(testFile.toPath()));
             assertEquals(4, lines.size());
             assertEquals("[T][ ] task4", lines.get(3));
-        }
 
-        @Test
-        @DisplayName("Update Success")
-        public void manageTaskTest_Update_Success() {
-            String userInput = "update 3, taskName: task10, start: 31/12/25 1200, end: 1/1/26 2359";
-            TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
+            String updateInput = "update 3, taskName: task10, start: 31/12/25 1200, end: 1/1/26 2359";
 
-            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+            assertDoesNotThrow(() -> taskManager.manageTask(updateInput));
 
             assertInstanceOf(Event.class, TaskManager.getTasklist().get(2));
             assertEquals("task10", TaskManager.getTasklist().get(2).getDescription());

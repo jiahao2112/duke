@@ -14,5 +14,6 @@ public enum CommandType {
     EVENT,
     NONE,
     VIEW,
-    UPDATE
+    UPDATE,
+    FIND
 }

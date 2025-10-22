@@ -120,6 +120,16 @@ public class UserInputParserTests {
         }
 
         @Test
+        @DisplayName("find Success")
+        public void parseUserInput_Find_Success() {
+            String input = "find task";
+            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
+                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            assertEquals(CommandType.FIND, result.getKey());
+            assertEquals("task", result.getValue().get(0));
+        }
+
+        @Test
         @DisplayName("Throws InvalidCommandException")
         public void parseUserInput_InvalidCommand() {
             String input = "invalid";

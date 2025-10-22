@@ -20,30 +20,36 @@ public class UserInputParser {
     public static AbstractMap.SimpleEntry<CommandType, ArrayList<String>> parseUserInput(String input) throws GrootException {
         AbstractMap.SimpleEntry<CommandType, ArrayList<String>> inputs = splitInput(input); //split and trim the 2 parts of command {command, info}
         switch (inputs.getKey()) {
-            case NONE:
-                //Fallthrough
-            case LIST:
-                break; //no additional information to parse
-            case VIEW:
-                ViewParser.parseView(inputs); //check if date is given
-                break;
-            case MARK:
-            case UNMARK:
-            case DELETE:
-                MarkUnmarkDeleteParser.parseMarkUnmarkDelete(inputs); // check if task number available and is digit
-                break;
-            case TODO:
-                TodoParser.parseTodo(inputs); // add task name to userInput {"taskName"}
-                break;
-            case DEADLINE:
-                DeadlineParser.parseDeadline(inputs); //add additional parsing to userInput {"taskName", "by"}
-                break;
-            case EVENT:
-                EventParser.parseEvent(inputs); //add additional parsing to userInput {"taskName", "from", "by"}
-                break;
-            case UPDATE:
-                UpdateParser.parseUpdate(inputs);
-            default:
+        case NONE:
+            //Fallthrough
+        case LIST:
+            break; //no additional information to parse
+        case VIEW:
+            ViewParser.parseView(inputs); //check if date is given
+            break;
+        case MARK:
+            //Fallthrough
+        case UNMARK:
+            //Fallthrough
+        case DELETE:
+            MarkUnmarkDeleteParser.parseMarkUnmarkDelete(inputs); // check if task number available and is digit
+            break;
+        case TODO:
+            TodoParser.parseTodo(inputs); // add task name to userInput {"taskName"}
+            break;
+        case DEADLINE:
+            DeadlineParser.parseDeadline(inputs); //add additional parsing to userInput {"taskName", "by"}
+            break;
+        case EVENT:
+            EventParser.parseEvent(inputs); //add additional parsing to userInput {"taskName", "from", "by"}
+            break;
+        case UPDATE:
+            UpdateParser.parseUpdate(inputs);
+            break;
+        case FIND:
+            FindParser.parseFind(inputs);
+            break;
+        default:
         }
         return inputs;
     }

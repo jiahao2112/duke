@@ -11,6 +11,7 @@ import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
 import tasks.ToDo;
+import ui.UserInteraction;
 
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
@@ -106,6 +107,8 @@ public class UpdateCommand extends Command {
                 ((Event)task).setEndDateTime(toDate);
             }
         }
+
+        UserInteraction.printMessage("task updated: " + task);
     }
 
     @Override
