@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class UserInteraction {
     private static TaskManager taskManager;
-    private static boolean isExit = false;
+    private static boolean isRunning = true;
 
     /**
      * Start program with greet and end when exit command is given
@@ -18,7 +18,7 @@ public class UserInteraction {
         greet();
         taskManager = new TaskManager();
         Scanner input = new Scanner(System.in);
-        while (!isExit) {
+        while (isRunning) {
             String userInput = input.nextLine();
             manageUserInput(userInput);
         }
@@ -91,6 +91,6 @@ public class UserInteraction {
      */
     public static void exit() {
         System.out.println("We are Groot. (Goodbye.)");
-        isExit = true;
+        isRunning = false;
     }
 }

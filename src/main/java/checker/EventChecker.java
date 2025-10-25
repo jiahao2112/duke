@@ -17,13 +17,15 @@ public class EventChecker {
      * @throws EventException.MissingEventToKeywordException   if only /to is missing
      */
     public static void checkEventKeywords(String eventInput) throws EventException {
-        boolean hasFromKeyword = eventInput.contains("/from");
-        boolean hasToKeyword = eventInput.contains("/to");
-        if (!hasFromKeyword && !hasToKeyword) {
+        boolean isFromKeywordMissing = !eventInput.contains("/from");
+        boolean isToKeywordMissing = !eventInput.contains("/to");
+        boolean isKeywordsMissing = isFromKeywordMissing && isToKeywordMissing;
+
+        if (isKeywordsMissing) {
             throw new EventException.MissingEventKeywordsException();
-        } else if (!hasFromKeyword) {
+        } else if (isFromKeywordMissing) {
             throw new EventException.MissingEventFromKeywordException();
-        } else if (!hasToKeyword) {
+        } else if (isToKeywordMissing) {
             throw new EventException.MissingEventToKeywordException();
         }
     }
@@ -54,6 +56,7 @@ public class EventChecker {
      */
     private static void checkEventTaskNameMissing(String taskName)
             throws EventException.MissingEventTaskNameException {
+
         if (taskName.isEmpty()) {
             throw new EventException.MissingEventTaskNameException();
         }

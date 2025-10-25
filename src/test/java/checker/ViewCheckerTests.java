@@ -17,6 +17,7 @@ public class ViewCheckerTests {
         @DisplayName("Success")
         public void checkViewDate_Success() {
             date = "13/10/25";
+
             assertDoesNotThrow(() -> ViewChecker.checkViewDate(date));
         }
 
@@ -24,8 +25,10 @@ public class ViewCheckerTests {
         @DisplayName("Throws MissingViewDateException")
         public void checkViewDate_MissingDate_MissingViewDateException() {
             date = "";
+
             ViewException viewException = assertThrows(ViewException.MissingViewDateException.class,
                     () -> ViewChecker.checkViewDate(date));
+
             assertEquals("Missing date. Usage: view <dd/MM/yyyy>", viewException.getMessage());
         }
     }

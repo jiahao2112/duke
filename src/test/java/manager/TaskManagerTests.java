@@ -30,8 +30,9 @@ public class TaskManagerTests {
     @BeforeEach
     void setup() throws IOException {
         testFolder = new File(tempDir, "data");
-        assertTrue(testFolder.mkdirs());
         testFile = new File(testFolder, "tasklist.txt");
+
+        assertTrue(testFolder.mkdirs());
         assertTrue(testFile.createNewFile());
 
         FileManager.setFolderAndFile(testFolder, testFile);
@@ -54,6 +55,7 @@ public class TaskManagerTests {
             assertEquals(3, TaskManager.getTasklist().size());
 
             ArrayList<Task> tasks = TaskManager.getTasklist();
+
             assertInstanceOf(ToDo.class, tasks.get(0));
             assertEquals("task1", tasks.get(0).getDescription());
             assertTrue(tasks.get(0).getIsDone());
@@ -78,6 +80,7 @@ public class TaskManagerTests {
         @DisplayName("Success")
         public void manageTask_Success() {
             String userInput = "todo task4";
+
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
             assertEquals(3, TaskManager.getTasklist().size());
 
@@ -96,6 +99,7 @@ public class TaskManagerTests {
         @DisplayName("Update Success")
         public void manageTask_Update_Success() {
             String userInput = "update 3, taskName: task10, start: 31/12/25 1200, end: 1/1/26 2359";
+
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
 
             assertDoesNotThrow(() -> taskManager.manageTask(userInput));

@@ -19,12 +19,17 @@ public class EventFileParser {
     protected static void parseEventFile(ArrayList<String> eventFile) throws FileException.FileCorruptedException {
         try {
             eventFile.set(0, eventFile.get(0).trim());
+
             String taskInfo = eventFile.get(0);
             String[] taskInfoArray = taskInfo.split("\\| from:");
+
             eventFile.set(0, taskInfoArray[0].trim());
+
             taskInfoArray = taskInfoArray[1].split(", to:");
+
             eventFile.add(taskInfoArray[0].trim());
             eventFile.add(taskInfoArray[1].trim());
+
             EventChecker.checkEventFormat(eventFile);
         } catch (EventException | ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();

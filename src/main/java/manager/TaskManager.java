@@ -22,8 +22,10 @@ public class TaskManager {
      */
     public TaskManager() {
         try {
-            FileManager.createFile(); //create tasklist file if not exist
+            FileManager.createTasklistFile(); //create tasklist file if not exist
+
             clearTasklist(); //ensure tasklist is empty before updating with file content
+
             tasklist.addAll(FileManager.readFile()); //load tasklist content
         } catch (FileException.FileCorruptedException e) {
             UserInteraction.printMessage(e.getMessage());
@@ -59,10 +61,13 @@ public class TaskManager {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
                     UserInputParser.parseUserInput(userInput);
             Command cmd = Command.createCommand(commandLine, tasklist);
+
             if (cmd == null) { //No command given
                 return;
             }
+
             cmd.execute();
+
             FileManager.saveFile(tasklist);
         } catch (GrootException e) {
             UserInteraction.printMessage(e.getMessage());

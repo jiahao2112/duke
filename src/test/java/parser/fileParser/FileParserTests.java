@@ -24,12 +24,14 @@ public class FileParserTests {
         void parseTaskFile_Success() {
             String todoTask = "[T][X] task1";
             Task taskCreated = assertDoesNotThrow(() -> fileParser.parseTaskFile(todoTask));
+
             assertInstanceOf(ToDo.class, taskCreated);
             assertTrue(taskCreated.getIsDone());
             assertEquals("task1", taskCreated.getDescription());
 
             String deadlineTask = "[D][ ] task1 | by: 13/10/25 0000";
             taskCreated = assertDoesNotThrow(() -> fileParser.parseTaskFile(deadlineTask));
+
             assertInstanceOf(Deadline.class, taskCreated);
             assertFalse(taskCreated.getIsDone());
             assertEquals("task1", taskCreated.getDescription());
@@ -37,6 +39,7 @@ public class FileParserTests {
 
             String eventTask = "[E][ ] task1 | from: 13/10/25 0000, to: 14/10/25 0000";
             taskCreated = assertDoesNotThrow(() -> fileParser.parseTaskFile(eventTask));
+
             assertInstanceOf(Event.class, taskCreated);
             assertFalse(taskCreated.getIsDone());
             assertEquals("task1", taskCreated.getDescription());
@@ -48,6 +51,7 @@ public class FileParserTests {
         @DisplayName("Invalid Task Type Throws FileCorruptedException")
         void parseTaskFile_InvalidTaskType_FileCorruptedException() {
             String task = "[A][X] task1";
+
             assertThrows(FileException.FileCorruptedException.class, () -> fileParser.parseTaskFile(task));
         }
 
@@ -55,6 +59,7 @@ public class FileParserTests {
         @DisplayName("Invalid Task Done Throws FileCorruptedException")
         void parseTaskFile_InvalidTaskDone_FileCorruptedException() {
             String task = "[T][A] task1";
+
             assertThrows(FileException.FileCorruptedException.class, () -> fileParser.parseTaskFile(task));
         }
     }

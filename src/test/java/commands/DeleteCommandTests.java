@@ -1,7 +1,7 @@
 package commands;
 
 import enums.CommandType;
-import exceptions.MarkUnmarkDeleteException;
+import exceptions.TaskNumberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,9 @@ public class DeleteCommandTests {
         @DisplayName("Success")
         public void DeleteCommand_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
+
             commandLine.getValue().add("1");
+            
             assertDoesNotThrow(() -> new DeleteCommand(commandLine, tasklist));
         }
 
@@ -33,9 +35,12 @@ public class DeleteCommandTests {
         @DisplayName("Throws TaskNotFoundException")
         public void DeleteCommandTest_TaskNumberNotInRange_TaskNotFoundException() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.DELETE, new ArrayList<>());
+
             commandLine.getValue().add("2");
-            MarkUnmarkDeleteException markUnmarkDeleteException = assertThrows(MarkUnmarkDeleteException.TaskNotFoundException.class,
+
+            TaskNumberException markUnmarkDeleteException = assertThrows(TaskNumberException.TaskNotFoundException.class,
                     () -> new DeleteCommand(commandLine, tasklist));
+
             assertEquals("Task not found in task list.", markUnmarkDeleteException.getMessage());
         }
     }
@@ -47,9 +52,12 @@ public class DeleteCommandTests {
         @DisplayName("Success")
         public void execute_Success() {
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>());
+
             commandLine.getValue().add("1");
+
             DeleteCommand deleteCommand = assertDoesNotThrow(() -> new DeleteCommand(commandLine, tasklist));
             deleteCommand.execute();
+
             assertEquals(0, tasklist.size());
         }
     }

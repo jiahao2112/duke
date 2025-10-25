@@ -14,12 +14,13 @@ public class DeadlineCheckerTests {
     @Nested
     @DisplayName("checkDeadlineByKeyword()")
     class CheckDeadlineByKeyword_Test {
-        private String keywordTest = "";
+        private String keywordTest;
 
         @Test
         @DisplayName("Success")
         public void checkDeadlineByKeyword_Success() {
             keywordTest = "deadline task /by 02/10/2025 00:00";
+
             assertDoesNotThrow(() -> DeadlineChecker.checkDeadlineByKeyword(keywordTest));
         }
 
@@ -58,6 +59,7 @@ public class DeadlineCheckerTests {
 
             DeadlineException deadlineException = assertThrows(DeadlineException.MissingDeadlineTaskNameException.class
                     , () -> DeadlineChecker.checkDeadlineFormat(formatTest));
+
             assertEquals("Missing task name in deadline command. Usage: deadline <task name> " +
                             "/by <dd/MM/yyyy> <HH:mm (24-hour)>", deadlineException.getMessage());
         }
@@ -70,6 +72,7 @@ public class DeadlineCheckerTests {
 
             DeadlineException deadlineException = assertThrows(DeadlineException.MissingDeadlineByException.class
                     , () -> DeadlineChecker.checkDeadlineFormat(formatTest));
+
             assertEquals("Missing by-date and time in deadline command. Usage: deadline <task name> " +
                             "/by <dd/MM/yyyy> <HH:mm (24-hour)>", deadlineException.getMessage());
         }

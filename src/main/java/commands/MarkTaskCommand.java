@@ -1,9 +1,9 @@
 package commands;
 
-import checker.MarkUnmarkDeleteChecker;
+import checker.TaskNumberChecker;
 import enums.CommandType;
-import exceptions.MarkUnmarkDeleteException;
-import parser.userInputParser.MarkUnmarkDeleteParser;
+import exceptions.TaskNumberException;
+import parser.userInputParser.TaskNumberParser;
 import tasks.Task;
 import ui.UserInteraction;
 
@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * Used to mark the task in tasklist as done or not done
  */
 public class MarkTaskCommand extends Command {
-    int taskNumber;
     boolean markDone;
     Task task;
 
@@ -23,21 +22,20 @@ public class MarkTaskCommand extends Command {
      *
      * @param commandLine parsed user's input
      * @param tasklist    tasklist from task manager
-     * @throws MarkUnmarkDeleteException if there are any errors in populating
+     * @throws TaskNumberException if there are any errors in populating
      */
     protected MarkTaskCommand(AbstractMap.SimpleEntry<CommandType,
-            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws MarkUnmarkDeleteException {
+            ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws TaskNumberException {
         super(tasklist);
-        taskNumber = MarkUnmarkDeleteParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
+        int taskNumber = TaskNumberParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
+
         switch (commandLine.getKey()) {
-            case MARK:
-                markDone = true;
-                break;
-            case UNMARK:
-                markDone = false;
+            case MARK -> markDone = true;
+            case UNMARK -> markDone = false;
         }
+
         task = tasklist.get(taskNumber - 1);
-        MarkUnmarkDeleteChecker.checkTaskStatus(task.getIsDone(), markDone);
+        TaskNumberChecker.checkTaskStatus(task.getIsDone(), markDone);
     }
 
     /**
@@ -45,6 +43,7 @@ public class MarkTaskCommand extends Command {
      */
     public void markTask() {
         task.setIsDone(markDone);
+
         if (markDone) {
             UserInteraction.printMessage("Task marked as done: " + task);
         } else {

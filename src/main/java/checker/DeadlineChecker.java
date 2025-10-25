@@ -18,7 +18,8 @@ public class DeadlineChecker {
      */
     public static void checkDeadlineByKeyword(String deadlineInput)
             throws DeadlineException.MissingDeadlineByKeywordException {
-        if (!deadlineInput.contains("/by")) {
+        boolean containsByKeyword = deadlineInput.contains("/by");
+        if (!containsByKeyword) {
             throw new DeadlineException.MissingDeadlineByKeywordException();
         }
     }
@@ -47,6 +48,7 @@ public class DeadlineChecker {
      */
     private static void checkDeadlineTaskName(String taskName)
             throws DeadlineException.MissingDeadlineTaskNameException {
+
         if (taskName.isEmpty()) {
             throw new DeadlineException.MissingDeadlineTaskNameException();
         }

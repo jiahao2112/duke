@@ -36,14 +36,12 @@ public class ShowListCommand extends Command {
                               ArrayList<Task> tasklist) throws GrootException {
         super(tasklist);
         this.commandType = commandLine.getKey();
+
         if (commandType == CommandType.VIEW) {
             LocalDate date = DateTimeParser.parseDate(commandLine.getValue().get(0));
             list = viewTasksOnDate(date);
         } else {
             list = tasklist;
-            if (list.isEmpty()) {
-                throw new GrootException.EmptyListException();
-            }
         }
     }
 
@@ -74,13 +72,18 @@ public class ShowListCommand extends Command {
      */
     private ArrayList<Task> viewTasksOnDate(LocalDate date) throws ViewException.NoTaskForViewException {
         ArrayList<Task> viewList = new ArrayList<>();
+
         for (Task task : tasklist) {
-            if (task instanceof Deadline) { //if task is a deadline task
+            boolean isDeadline = task instanceof Deadline;
+            boolean isEvent = task instanceof Event;
+
+            if (isDeadline) { // if task is a deadline task
                 viewDeadline(task, date, viewList);
-            } else if (task instanceof Event) { //if task is an event task
+            } else if (isEvent) { //if task is an event task
                 viewEvent(task, date, viewList);
             }
         }
+
         if (viewList.isEmpty()) {
             throw new ViewException.NoTaskForViewException();
         }
@@ -92,8 +95,13 @@ public class ShowListCommand extends Command {
      * Add deadline task if it has the date given as deadline
      */
     private void viewDeadline(Task task, LocalDate date, ArrayList<Task> viewList) {
-        LocalDateTime by = ((Deadline) task).getBy();
-        if (by.toLocalDate().equals(date)) {
+        LocalDateTime deadlineDateTime = ((Deadline) task).getBy();
+
+        LocalDate deadlineDate = deadlineDateTime.toLocalDate();
+
+        boolean isDeadlineOnDate = deadlineDate.equals(date);
+
+        if (isDeadlineOnDate) {
             viewList.add(task);
         }
     }
@@ -105,9 +113,14 @@ public class ShowListCommand extends Command {
     private void viewEvent(Task task, LocalDate date, ArrayList<Task> viewList) {
         LocalDateTime from = ((Event) task).getStartDateTime();
         LocalDateTime to = ((Event) task).getEndDateTime();
-        if ((from.toLocalDate().isBefore(date) && to.toLocalDate().isAfter(date)) || //given date is between
-                (from.toLocalDate().equals(date) || to.toLocalDate().equals(date)) //given date is either from or to date
-        ) {
+
+        LocalDate fromDate = from.toLocalDate();
+        LocalDate toDate = to.toLocalDate();
+
+        boolean isOnDate = fromDate.equals(date) || toDate.equals(date);
+        boolean isWithinPeriod = fromDate.isBefore(date) && toDate.isAfter(date);
+
+        if (isWithinPeriod || isOnDate){ //given date is from <= date <= to
             viewList.add(task);
         }
     }

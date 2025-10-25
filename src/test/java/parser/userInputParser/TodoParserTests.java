@@ -20,6 +20,7 @@ public class TodoParserTests {
         public void parseTodoTest_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> todo =
                     new AbstractMap.SimpleEntry<>(CommandType.TODO, new ArrayList<>(List.of("task1")));
+
             assertDoesNotThrow(() -> TodoParser.parseTodo(todo));
         }
     }

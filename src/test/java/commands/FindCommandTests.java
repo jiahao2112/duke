@@ -35,6 +35,7 @@ public class FindCommandTests {
         @DisplayName("Success")
         public void findCommand_Success() {
             commandLine.getValue().add("book");
+
             assertDoesNotThrow(() -> new FindCommand(commandLine, tasklist));
         }
 
@@ -42,8 +43,10 @@ public class FindCommandTests {
         @DisplayName("Throws TaskNotFoundException")
         public void findCommand_EmptyList_TaskNotFoundException() {
             commandLine.getValue().add("task");
+
             FindException findException = assertThrows(FindException.TaskNotFoundException.class,
                     () -> new FindCommand(commandLine, tasklist));
+
             assertEquals("No tasks found.", findException.getMessage());
         }
     }
@@ -55,7 +58,9 @@ public class FindCommandTests {
         @DisplayName("Success")
         public void execute_Success() {
             commandLine.getValue().add("book");
+
             Command command = assertDoesNotThrow(() -> new FindCommand(commandLine, tasklist));
+
             assertDoesNotThrow(command::execute);
         }
     }

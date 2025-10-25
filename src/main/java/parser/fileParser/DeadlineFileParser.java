@@ -20,10 +20,13 @@ public class DeadlineFileParser {
             throws FileException.FileCorruptedException {
         try {
             deadlineFile.set(0, deadlineFile.get(0).trim());
+
             String taskInfo = deadlineFile.get(0);
             String[] taskInfoArray = taskInfo.split("\\| by:");
+
             deadlineFile.set(0, taskInfoArray[0].trim());
-            deadlineFile.add(1, taskInfoArray[1].trim());
+            deadlineFile.add(taskInfoArray[1].trim());
+
             DeadlineChecker.checkDeadlineFormat(deadlineFile);
         } catch (DeadlineException | ArrayIndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();

@@ -1,6 +1,5 @@
 package checker;
 
-
 import exceptions.FindException;
 
 public class FindChecker {

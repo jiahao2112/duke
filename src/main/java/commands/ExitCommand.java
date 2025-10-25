@@ -20,6 +20,7 @@ public class ExitCommand extends Command {
      */
     protected ExitCommand(ArrayList<Task> tasklist) throws FileException {
         super(tasklist);
+
         FileManager.saveFile(tasklist); //ensure tasklist file updated before exit
     }
 

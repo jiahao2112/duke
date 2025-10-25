@@ -21,12 +21,14 @@ public class DeadlineParserTests {
         @Test
         @DisplayName("Success")
         public void parseDeadline_Success() {
-            deadline.getValue().add("task /by 13/10/25 0000");
-            assertDoesNotThrow(() -> DeadlineParser.parseDeadline(deadline));
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadlineCheck =
                     new AbstractMap.SimpleEntry<>(CommandType.DEADLINE, new ArrayList<>());
+
+            deadline.getValue().add("task /by 13/10/25 0000");
             deadlineCheck.getValue().add("task");
             deadlineCheck.getValue().add("13/10/25 0000");
+
+            assertDoesNotThrow(() -> DeadlineParser.parseDeadline(deadline));
             assertEquals(deadline, deadlineCheck);
         }
     }

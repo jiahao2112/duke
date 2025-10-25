@@ -17,6 +17,7 @@ public class FindCheckerTests {
         @DisplayName("Success")
         public void checkKeyword_Success() {
             keyword = "task1";
+
             assertDoesNotThrow(() -> FindChecker.checkKeyword(keyword));
         }
 
@@ -24,8 +25,10 @@ public class FindCheckerTests {
         @DisplayName("Throws MissingKeywordException")
         public void checkKeyword_MissingKeyword_MissingKeywordException() {
             keyword = "";
+
             FindException findException = assertThrows(FindException.MissingKeywordException.class,
                     () -> FindChecker.checkKeyword(keyword));
+
             assertEquals("Keyword to find is missing. Usage: find <keyword>", findException.getMessage());
         }
     }

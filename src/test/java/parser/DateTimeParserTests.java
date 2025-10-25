@@ -94,6 +94,7 @@ public class DateTimeParserTests {
         @DisplayName("InvalidDate Throws DateTimeException")
         void parseDateTime_InvalidDate_DateTimeException() {
             String date = "131025 0000";
+
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDateTime(date));
         }
 
@@ -101,6 +102,7 @@ public class DateTimeParserTests {
         @DisplayName("InvalidTime Throws DateTimeException")
         void parseDateTime_InvalidTime_DateTimeException() {
             String date = "13-10-25 2500";
+
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDateTime(date));
         }
     }
@@ -120,6 +122,7 @@ public class DateTimeParserTests {
         @DisplayName("InvalidDate Throws DateTimeException")
         void parseDate_InvalidDate_DateTimeException() {
             String date = "13-13-25";
+
             assertThrows(DateTimeException.class, () -> DateTimeParser.parseDate(date));
         }
     }
@@ -131,7 +134,9 @@ public class DateTimeParserTests {
         @DisplayName("Success")
         void formatDateTime_Success() {
             LocalDateTime date = LocalDateTime.parse("2025-05-25T00:00:00");
+
             String dateTime = assertDoesNotThrow(() -> DateTimeParser.formatDateTime(date));
+
             assertEquals("25 May 2025 0000", dateTime);
         }
     }

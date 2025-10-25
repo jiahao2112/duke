@@ -94,6 +94,7 @@ public class DateTimeParser {
         for (String format : acceptedDateTimeFormats) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+
                 return LocalDateTime.parse(date, formatter);
             } catch (DateTimeParseException ignored) {
             }
@@ -113,8 +114,9 @@ public class DateTimeParser {
         for (String format : acceptedDateFormats) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+
                 return LocalDate.parse(date, formatter);
-            } catch (DateTimeParseException ignored) {
+            } catch (DateTimeParseException ignored) { //ignore if exception thrown
             }
         }
         throw new DateTimeException();

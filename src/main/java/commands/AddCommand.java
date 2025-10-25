@@ -42,6 +42,7 @@ public class AddCommand extends Command {
         super(tasklist);
         this.commandType = commandLine.getKey();
         this.taskName = commandLine.getValue().get(0);
+
         if (commandType == CommandType.DEADLINE) {
             String by = commandLine.getValue().get(1);
             this.by = DateTimeParser.parseDateTime(by);
@@ -58,12 +59,14 @@ public class AddCommand extends Command {
      */
     private Task createTask() {
         Task task;
+
         task = switch (commandType) {
             case TODO -> new ToDo(taskName);
             case DEADLINE -> new Deadline(taskName, by);
             case EVENT -> new Event(taskName, from, to);
             default -> null;
         };
+
         return task;
     }
 
@@ -79,17 +82,17 @@ public class AddCommand extends Command {
             throws FileException { //overload function for file parsing
         try {
             Task task;
+
             task = switch (commandLine.getKey()) {
                 case TODO -> new ToDo(commandLine.getValue().get(0));
-                case DEADLINE ->
-                        new Deadline(commandLine.getValue().get(0),
+                case DEADLINE -> new Deadline(commandLine.getValue().get(0),
                                 DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
-                case EVENT ->
-                        new Event(commandLine.getValue().get(0),
+                case EVENT ->new Event(commandLine.getValue().get(0),
                                 DateTimeParser.parseDateTime(commandLine.getValue().get(1)),
                                 DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
                 default -> throw new FileException.FileCorruptedException();
             };
+
             return task;
         } catch (DateTimeException | IndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();
@@ -101,10 +104,9 @@ public class AddCommand extends Command {
      */
     private void addTask() {
         Task task = createTask();
-        if (task == null) {
-            return;
-        }
+
         tasklist.add(task);
+
         UserInteraction.printMessage("Task added: " + task,
                 "Now you have " + tasklist.size() + " tasks in the list.");
     }

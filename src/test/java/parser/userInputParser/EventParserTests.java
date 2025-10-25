@@ -21,13 +21,15 @@ public class EventParserTests {
         @Test
         @DisplayName("Success")
         public void parseEvent_Success() {
-            event.getValue().add("task /from 13/10/25 0000 /to 14/10/25 0000");
-            assertDoesNotThrow(() -> EventParser.parseEvent(event));
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> eventCheck =
                     new AbstractMap.SimpleEntry<>(CommandType.EVENT, new ArrayList<>());
+
+            event.getValue().add("task /from 13/10/25 0000 /to 14/10/25 0000");
             eventCheck.getValue().add("task");
             eventCheck.getValue().add("13/10/25 0000");
             eventCheck.getValue().add("14/10/25 0000");
+
+            assertDoesNotThrow(() -> EventParser.parseEvent(event));
             assertEquals(event, eventCheck);
         }
     }

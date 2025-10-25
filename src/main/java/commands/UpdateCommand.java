@@ -3,9 +3,10 @@ package commands;
 import checker.UpdateChecker;
 import enums.CommandType;
 import exceptions.DateTimeException;
+import exceptions.TaskNumberException;
 import exceptions.UpdateException;
 import parser.DateTimeParser;
-import parser.userInputParser.UpdateParser;
+import parser.userInputParser.TaskNumberParser;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
@@ -26,83 +27,98 @@ public class UpdateCommand extends Command {
     public UpdateCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update,
                          ArrayList<Task> tasklist) throws UpdateException {
         super(tasklist);
-        int taskNumber = UpdateParser.getTaskNumber(update.getValue().get(0), tasklist.size());
+        int taskNumber;
+
+        try {
+            taskNumber = TaskNumberParser.getTaskNumber(update.getValue().get(0), tasklist.size());
+        } catch (TaskNumberException e) {
+            throw new UpdateException(e.getMessage());
+        }
+
         task = tasklist.get(taskNumber - 1);
-        update.getValue().remove(0);
+        update.getValue().remove(0); //remove task number from update
+
         setUpdateFields(update.getValue());
     }
 
-    private void setUpdateFields(ArrayList<String> updateFields) throws UpdateException {
-
-        ArrayList<String> update = new ArrayList<>();
+    private void splitUpdateFields(ArrayList<String> update, ArrayList<String> updateFields) throws UpdateException {
         try {
             for (String field : updateFields) {
                 String[] fields = field.split(":", -1);
+
                 update.add(fields[0].trim());
                 update.add(fields[1].trim());
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new UpdateException.InvalidUpdateFormatException();
         }
-        if (task instanceof ToDo) {
-            UpdateChecker.checkTodoUpdateValid(update);
-            taskName = update.get(1);
-        } else if (task instanceof Deadline) {
-            UpdateChecker.checkDeadlineUpdateValid(update);
-            for (int i = 0; i < update.size(); i += 2) {
-                if (update.get(i).equals("taskName")) {
-                    taskName = update.get(i + 1);
-                } else if (update.get(i).equals("by")) {
-                    try {
-                        byDate = DateTimeParser.parseDateTime(update.get(i + 1));
-                    } catch (DateTimeException e) {
-                        throw new UpdateException.InvalidUpdateDeadlineDateException();
-                    }
-                }
-            }
-        } else if (task instanceof Event) {
-            UpdateChecker.checkEventUpdateValid(update);
+    }
+
+    private void setFields(ArrayList<String> update) throws UpdateException {
+        try {
             for (int i = 0; i < update.size(); i += 2) {
                 switch (update.get(i)) {
-                    case "taskName" -> taskName = update.get(i + 1);
-                    case "start" -> {
-                        try {
-                            fromDate = DateTimeParser.parseDateTime(update.get(i + 1));
-                        } catch (DateTimeException e) {
-                            throw new UpdateException.InvalidUpdateEventDateException();
-                        }
-                    }
-                    case "end" -> {
-                        try {
-                            toDate = DateTimeParser.parseDateTime(update.get(i + 1));
-                        } catch (DateTimeException e) {
-                            throw new UpdateException.InvalidUpdateEventDateException();
-                        }
-                    }
+                case "taskName" -> taskName = update.get(i + 1);
+                case "by" -> byDate = DateTimeParser.parseDateTime(update.get(i + 1));
+                case "from" -> fromDate = DateTimeParser.parseDateTime(update.get(i + 1));
+                case "to" -> toDate = DateTimeParser.parseDateTime(update.get(i + 1));
                 }
             }
+        } catch (DateTimeException e) {
+            throw new UpdateException.InvalidUpdateDeadlineDateException();
         }
     }
 
+    private void setUpdateFields(ArrayList<String> updateFields) throws UpdateException {
+        ArrayList<String> update = new ArrayList<>();
+        boolean isTodo = task instanceof ToDo;
+        boolean isDeadline = task instanceof Deadline;
+        boolean isEvent = task instanceof Event;
+
+        splitUpdateFields(update, updateFields);
+
+        if (isTodo) {
+            UpdateChecker.checkTodoUpdateValid(update);
+        } else if (isDeadline) {
+            UpdateChecker.checkDeadlineUpdateValid(update);
+        } else if (isEvent) {
+            UpdateChecker.checkEventUpdateValid(update);
+        }
+
+        setFields(update);
+    }
+
     private void updateTask() {
-        if (task instanceof ToDo) {
-            task.setDescription(taskName);
-        } else if (task instanceof Deadline) {
+        boolean isTodo = task instanceof ToDo;
+        boolean isDeadline = task instanceof Deadline;
+        boolean isEvent = task instanceof Event;
+
+        if (isTodo) {
+            ToDo todoTask = ((ToDo) task);
+
             if (taskName != null) {
-                task.setDescription(taskName);
+                todoTask.setDescription(taskName);
+            }
+        } else if (isDeadline) { // ensure type casting works
+            Deadline deadlineTask = ((Deadline) task);
+
+            if (taskName != null) {
+                deadlineTask.setDescription(taskName);
             }
             if (byDate != null) {
-                ((Deadline) task).setBy(byDate);
+                deadlineTask.setBy(byDate);
             }
-        } else if (task instanceof Event) {
+        } else if (isEvent) {
+            Event eventTask = ((Event) task);
+
             if (taskName != null) {
-                task.setDescription(taskName);
+                eventTask.setDescription(taskName);
             }
             if (fromDate != null) {
-                ((Event) task).setStartDateTime(fromDate);
+                eventTask.setStartDateTime(fromDate);
             }
             if (toDate != null) {
-                ((Event) task).setEndDateTime(toDate);
+                eventTask.setEndDateTime(toDate);
             }
         }
 

@@ -21,10 +21,15 @@ public class FileParser {
      */
     public Task parseTaskFile(String taskFile) throws FileException {
         taskFile = taskFile.trim();
+
         CommandType taskType = parseCommandType(taskFile); //[T/D/E] task definition
+
         boolean taskDone = taskIsDone(taskFile); // [X/_]
+
         ArrayList<String> taskInfoInput = new ArrayList<>();
+
         taskInfoInput.add(taskFile.substring(6));
+
         switch (taskType) {
             case TODO:
                 TodoFileParser.parseTodoFile(taskInfoInput);
@@ -38,8 +43,10 @@ public class FileParser {
             default:
                 throw new FileException.FileCorruptedException();
         }
+
         Task task = AddCommand.createTask(new AbstractMap.SimpleEntry<>(taskType, taskInfoInput));
         task.setIsDone(taskDone);
+
         return task;
     }
 
@@ -48,6 +55,7 @@ public class FileParser {
      */
     private CommandType parseCommandType(String taskLine) throws FileException {
         String taskType = taskLine.substring(0, 3);
+
         return switch (taskType) {
             case "[T]" -> CommandType.TODO;
             case "[D]" -> CommandType.DEADLINE;
@@ -61,9 +69,11 @@ public class FileParser {
      */
     private boolean taskIsDone(String taskLine) throws FileException {
         String taskIsDone = taskLine.substring(3, 6);
+
         if (taskIsDone.equals("[X]") || taskIsDone.equals("[ ]")) {
             return taskIsDone.charAt(1) == 'X';
         }
+
         throw new FileException.FileCorruptedException();
     }
 }

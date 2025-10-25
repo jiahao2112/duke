@@ -20,7 +20,9 @@ public class FindParserTests {
         public void parseFind_Success() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
                     new AbstractMap.SimpleEntry<>(CommandType.FIND, new ArrayList<>());
+
             commandLine.getValue().add("task");
+
             assertDoesNotThrow(()->FindParser.parseFind(commandLine));
         }
 
@@ -29,9 +31,12 @@ public class FindParserTests {
         public void parseFind_MissingKeyword_MissingKeywordException() {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
                     new AbstractMap.SimpleEntry<>(CommandType.FIND, new ArrayList<>());
+
             commandLine.getValue().add("");
+
             FindException findException = assertThrows(FindException.MissingKeywordException.class,
                     ()->FindParser.parseFind(commandLine));
+
             assertEquals("Keyword to find is missing. Usage: find <keyword>", findException.getMessage());
         }
     }

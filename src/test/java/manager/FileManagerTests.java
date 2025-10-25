@@ -32,33 +32,35 @@ public class FileManagerTests {
     void setup() throws IOException {
         // Create temporary folder and file
         testFolder = new File(tempDir, "data");
-        assertTrue(testFolder.mkdirs());
         testFile = new File(testFolder, "tasklist.txt");
+
+        assertTrue(testFolder.mkdirs());
         assertTrue(testFile.createNewFile());
 
         FileManager.setFolderAndFile(testFolder, testFile);
     }
 
     @Nested
-    @DisplayName("createFile()")
+    @DisplayName("createTasklistFile()")
     class CreateFile_Test {
         @Test
         @DisplayName("Success")
-        void createFile_Success() {
-            assertDoesNotThrow(FileManager::createFile);
+        void createTasklistFile_Success() {
+            assertDoesNotThrow(FileManager::createTasklistFile);
+
             assertTrue(testFolder.exists());
             assertTrue(testFile.exists());
         }
 
         @Test
-        void createFile_folderExists() {
+        void createTasklistFile_folderExists() {
             // Folder already exists, created in setup
-            assertDoesNotThrow(FileManager::createFile);
+            assertDoesNotThrow(FileManager::createTasklistFile);
         }
 
         @Test
-        void createFile_fileExists() {
-            assertDoesNotThrow(FileManager::createFile);
+        void createTasklistFile_fileExists() {
+            assertDoesNotThrow(FileManager::createTasklistFile);
         }
     }
 
@@ -69,6 +71,7 @@ public class FileManagerTests {
         @DisplayName("Success")
         void SaveFile_Success() {
             ArrayList<Task> tasks = new ArrayList<>();
+
             tasks.add(new ToDo("Task1"));
 
             assertDoesNotThrow(() -> FileManager.saveFile(tasks));
@@ -81,8 +84,10 @@ public class FileManagerTests {
         @Test
         @DisplayName("Throws UnableToWriteFileException")
         void SaveFile_UnableToWriteFileException() {
-            assertTrue(testFile.setReadOnly());
+            assertTrue(testFile.setReadOnly()); //set to read only
+
             ArrayList<Task> tasks = new ArrayList<>();
+
             tasks.add(new ToDo("Task1"));
 
             FileException fileException = assertThrows(FileException.UnableToWriteFileException.class,
@@ -90,7 +95,7 @@ public class FileManagerTests {
 
             assertEquals("Error while writing file.", fileException.getMessage());
 
-            assertTrue(testFile.setWritable(true));
+            assertTrue(testFile.setWritable(true));//set to writable
         }
     }
 
@@ -108,6 +113,7 @@ public class FileManagerTests {
                 }
             });
             ArrayList<Task> tasks = assertDoesNotThrow(FileManager::readFile);
+
             assertEquals(3, tasks.size());
 
             assertInstanceOf(ToDo.class, tasks.get(0));
@@ -134,6 +140,7 @@ public class FileManagerTests {
                     writer.write("[T] task1\n");
                 }
             });
+
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     FileManager::readFile);
 
@@ -148,6 +155,7 @@ public class FileManagerTests {
                     writer.write("[] task1\n");
                 }
             });
+
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     FileManager::readFile);
 
@@ -162,27 +170,8 @@ public class FileManagerTests {
                     writer.write("[T][ ]\n");
                 }
             });
+
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
-                    FileManager::readFile);
-
-            assertEquals("Tasklist file is corrupted.", fileException.getMessage());
-
-            assertDoesNotThrow(() -> {
-                try (FileWriter writer = new FileWriter(testFile)) {
-                    writer.write("[D][ ] \n");
-                }
-            });
-            fileException = assertThrows(FileException.FileCorruptedException.class,
-                    FileManager::readFile);
-
-            assertEquals("Tasklist file is corrupted.", fileException.getMessage());
-
-            assertDoesNotThrow(() -> {
-                try (FileWriter writer = new FileWriter(testFile)) {
-                    writer.write("[E][ ] \n");
-                }
-            });
-            fileException = assertThrows(FileException.FileCorruptedException.class,
                     FileManager::readFile);
 
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());

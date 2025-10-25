@@ -18,6 +18,7 @@ public class TodoFileParserTests {
         @DisplayName("Success")
         void parseTodoFile_Success() {
             ArrayList<String> input = new ArrayList<>(List.of("task1"));
+
             assertDoesNotThrow(() -> TodoFileParser.parseTodoFile(input));
         }
 
@@ -25,8 +26,10 @@ public class TodoFileParserTests {
         @DisplayName("Empty Task Name Throws FileCorruptedException")
         void parseTodoFile_EmptyTaskName_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>(List.of(" "));
+
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> TodoFileParser.parseTodoFile(input));
+
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());
         }
 
@@ -34,8 +37,10 @@ public class TodoFileParserTests {
         @DisplayName("Missing TaskName Throws FileCorruptedException")
         void parseTodoFile_MissingTaskName_FileCorruptedException() {
             ArrayList<String> input = new ArrayList<>();
+
             FileException fileException = assertThrows(FileException.FileCorruptedException.class,
                     () -> TodoFileParser.parseTodoFile(input));
+
             assertEquals("Tasklist file is corrupted.", fileException.getMessage());
         }
     }

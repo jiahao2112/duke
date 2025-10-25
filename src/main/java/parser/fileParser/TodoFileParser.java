@@ -19,6 +19,7 @@ public class TodoFileParser {
     protected static void parseTodoFile(ArrayList<String> todoFile) throws FileException.FileCorruptedException {
         try {
             todoFile.set(0, todoFile.get(0).trim());
+
             TodoChecker.checkTodoTaskName(todoFile.get(0));
         } catch (TodoException | IndexOutOfBoundsException e) {
             throw new FileException.FileCorruptedException();

@@ -32,22 +32,36 @@ public class FileManager {
      *
      * @throws FileException if directory and/or file cannot be created
      */
-    protected static void createFile() throws FileException {
-        if (!folder.exists()) {
-            if (!folder.mkdirs()) {
+    protected static void createTasklistFile() throws FileException {
+        createFolder();
+        createFile();
+    }
+
+    private static void createFolder() throws FileException {
+        boolean folderExists = folder.exists();
+
+        if (!folderExists) {
+            boolean folderCreated = folder.mkdir();
+
+            if (!folderCreated) {
                 throw new FileException.UnableToCreateDirectoryException();
             }
         }
+    }
+
+    private static void createFile() throws FileException {
+        boolean fileExists = file.exists();
+
         try {
-            if (!file.exists()) {
-                if (!file.createNewFile()) {
+            if (!fileExists) {
+                boolean fileCreated = file.createNewFile();
+                if (!fileCreated) {
                     throw new FileException.UnableToCreateFileException();
                 }
             }
         } catch (IOException e) {
             throw new FileException.UnableToCreateFileException();
         }
-
     }
 
     /**
@@ -59,14 +73,18 @@ public class FileManager {
     protected static ArrayList<Task> readFile() throws FileException {
         try (Scanner scanTasklist = new Scanner(file)) {
             ArrayList<Task> tasklist = new ArrayList<>();
+
             while (scanTasklist.hasNextLine()) {
                 String line = scanTasklist.nextLine();
+
                 if (line.isBlank()) {
                     break;
                 }
+
                 Task task = fileParser.parseTaskFile(line);
                 tasklist.add(task);
             }
+
             return tasklist;
         } catch (FileNotFoundException e) {
             throw new FileException.FileDoesNotExistException();
@@ -83,12 +101,12 @@ public class FileManager {
         if (tasklist.isEmpty()) {
             return;
         }
+
         try (FileWriter fileWriter = new FileWriter(file)) {
             for (Task task : tasklist) {
                 fileWriter.write(task.toString());
                 fileWriter.write(System.lineSeparator());
             }
-
         } catch (IOException e) {
             throw new FileException.UnableToWriteFileException();
         }
