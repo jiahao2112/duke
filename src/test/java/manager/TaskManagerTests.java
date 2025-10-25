@@ -111,6 +111,20 @@ public class TaskManagerTests {
         }
 
         @Test
+        @DisplayName("clone success")
+        public void manageTask_Clone_Success() {
+            String userInput = "clone 1";
+
+            TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
+
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+
+            assertEquals(4, TaskManager.getTasklist().size());
+            assertInstanceOf(ToDo.class, TaskManager.getTasklist().get(3));
+            assertEquals("task1", TaskManager.getTasklist().get(3).getDescription());
+            assertTrue(TaskManager.getTasklist().get(3).getIsDone());
+        }
+        @Test
         void manageTask_invalidInput_doesNotModifyTasklistOrFile() throws IOException {
             TaskManager taskManager = new TaskManager();
             List<String> before = Files.readAllLines(testFile.toPath());

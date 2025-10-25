@@ -24,7 +24,7 @@ public class UserInputParser {
         switch (inputs.getKey()) {
             case NONE, LIST -> {} // no additional parsing needed
             case VIEW -> ViewParser.parseView(inputs); //{"viewDate"}
-            case MARK, UNMARK, DELETE -> TaskNumberParser.parseTaskNumber(inputs); //{"taskNumber"}
+            case MARK, UNMARK, DELETE, CLONE -> TaskNumberParser.parseTaskNumber(inputs); //{"taskNumber"}
             case TODO -> TodoParser.parseTodo(inputs); //{"taskName"}
             case DEADLINE -> DeadlineParser.parseDeadline(inputs); //{"taskName", "by"}
             case EVENT -> EventParser.parseEvent(inputs); //{"taskName", "from", "by"}

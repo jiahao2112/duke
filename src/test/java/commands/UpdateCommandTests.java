@@ -38,59 +38,77 @@ public class UpdateCommandTests {
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update deadline taskName
-            updateInput.getValue().set(0, "2");
-            updateInput.getValue().set(1, "taskName: task5");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("taskName: task5");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update deadline by
-            updateInput.getValue().set(1, "by: 13/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("by: 13/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update deadline taskName and by
-            updateInput.getValue().set(1, "taskName: task4");
-            updateInput.getValue().add(2, "by: 13/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("taskName: task4");
+            updateInput.getValue().add("by: 13/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event taskName
-            updateInput.getValue().set(0, "3");
-            updateInput.getValue().set(1, "taskName: task4");
-            updateInput.getValue().remove(2);
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task4");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event start
-            updateInput.getValue().set(1, "start: 13/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("start: 13/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event end
-            updateInput.getValue().set(1, "end: 13/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("end: 13/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event taskName and start
-            updateInput.getValue().set(1, "taskName: task4");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task4");
             updateInput.getValue().add("start: 13/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event taskName and end
-            updateInput.getValue().set(2, "end: 14/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task5");
+            updateInput.getValue().add("end: 14/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event start and end
-            updateInput.getValue().set(1, "start: 13/10/25 0000");
-            updateInput.getValue().set(2, "end: 14/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("start: 13/10/25 0000");
+            updateInput.getValue().add("end: 14/10/25 0000");
 
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
 
             //update event taskName, start and end
-            updateInput.getValue().set(1, "taskName: task4");
-            updateInput.getValue().set(2, "start: 13/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task4");
+            updateInput.getValue().add("start: 13/10/25 0000");
             updateInput.getValue().add("end: 14/10/25 0000");
             assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
         }
@@ -109,7 +127,9 @@ public class UpdateCommandTests {
                             "<update-info>", updateException.getMessage());
 
             //invalid for deadline task
-            updateInput.getValue().set(0, "2");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add(": task4");
 
             updateException = assertThrows(UpdateException.InvalidUpdateDeadlineFieldException.class,
                     ()->new UpdateCommand(updateInput, tasklist));
@@ -119,7 +139,9 @@ public class UpdateCommandTests {
                     updateException.getMessage());
 
             //invalid for event task
-            updateInput.getValue().set(0, "3");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add(": task4");
 
             updateException = assertThrows(UpdateException.InvalidUpdateEventFieldException.class,
                     ()->new UpdateCommand(updateInput, tasklist));
@@ -142,7 +164,9 @@ public class UpdateCommandTests {
                             "<update-info>", updateException.getMessage());
 
             //missing info for deadline task
-            updateInput.getValue().set(0, "2");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("taskName:");
 
             updateException = assertThrows(UpdateException.InvalidUpdateDeadlineInfoException.class,
                     ()->new UpdateCommand(updateInput, tasklist));
@@ -152,7 +176,9 @@ public class UpdateCommandTests {
                     updateException.getMessage());
 
             //missing info for event task
-            updateInput.getValue().set(0, "3");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName:");
 
             updateException = assertThrows(UpdateException.InvalidUpdateEventInfoException.class,
                     ()->new UpdateCommand(updateInput, tasklist));
@@ -178,8 +204,9 @@ public class UpdateCommandTests {
                     updateException.getMessage());
 
             //invalid date time for event task
-            updateInput.getValue().set(0,"3");
-            updateInput.getValue().set(1, "start: 13/10/25");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("start: 13/10/25");
 
             updateException = assertThrows(UpdateException.InvalidUpdateEventDateException.class,
                     ()->new UpdateCommand(updateInput, tasklist));
@@ -206,8 +233,9 @@ public class UpdateCommandTests {
             assertEquals("task4", tasklist.get(0).getDescription());
 
             //update deadline taskName
-            updateInput.getValue().set(0, "2");
-            updateInput.getValue().set(1, "taskName: task5");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("taskName: task5");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -215,7 +243,9 @@ public class UpdateCommandTests {
             assertEquals("task5", tasklist.get(1).getDescription());
 
             //update deadline by
-            updateInput.getValue().set(1, "by: 21/10/25 0800");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("by: 21/10/25 0800");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -223,7 +253,9 @@ public class UpdateCommandTests {
             assertEquals(LocalDateTime.parse("2025-10-21T08:00:00"), ((Deadline)tasklist.get(1)).getBy());
 
             //update deadline taskName and by
-            updateInput.getValue().set(1, "taskName: task50");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("2");
+            updateInput.getValue().add("taskName: task50");
             updateInput.getValue().add("by: 21/10/25 0801");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
@@ -233,9 +265,9 @@ public class UpdateCommandTests {
             assertEquals(LocalDateTime.parse("2025-10-21T08:01:00"), ((Deadline)tasklist.get(1)).getBy());
 
             //update event taskName
-            updateInput.getValue().set(0, "3"); //Event task
-            updateInput.getValue().set(1, "taskName: task6");
-            updateInput.getValue().remove(2);
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3"); //Event task
+            updateInput.getValue().add("taskName: task6");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -243,7 +275,9 @@ public class UpdateCommandTests {
             assertEquals("task6", tasklist.get(2).getDescription());
 
             //update event start
-            updateInput.getValue().set(1, "start: 21/10/25 0800");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("start: 21/10/25 0800");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -251,7 +285,9 @@ public class UpdateCommandTests {
             assertEquals(LocalDateTime.parse("2025-10-21T08:00:00"), ((Event)tasklist.get(2)).getStartDateTime());
 
             //update event end
-            updateInput.getValue().set(1, "end: 21/10/25 0800");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("end: 21/10/25 0800");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -259,7 +295,9 @@ public class UpdateCommandTests {
             assertEquals(LocalDateTime.parse("2025-10-21T08:00:00"), ((Event)tasklist.get(2)).getEndDateTime());
 
             //update event taskName and start
-            updateInput.getValue().set(1, "taskName: task60");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task60");
             updateInput.getValue().add("start: 21/10/25 0801");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
@@ -270,8 +308,10 @@ public class UpdateCommandTests {
                     ((Event)tasklist.get(2)).getStartDateTime());
 
             //update event taskName and end
-            updateInput.getValue().set(1, "taskName: task61");
-            updateInput.getValue().set(2, "end: 21/10/25 0802");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task61");
+            updateInput.getValue().add("end: 21/10/25 0802");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -281,8 +321,10 @@ public class UpdateCommandTests {
                     ((Event)tasklist.get(2)).getEndDateTime());
 
             //update event start and end
-            updateInput.getValue().set(1, "start: 21/10/25 0000");
-            updateInput.getValue().set(2, "end: 21/10/25 0803");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("start: 21/10/25 0000");
+            updateInput.getValue().add("end: 21/10/25 0803");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));
             assertDoesNotThrow(command::execute);
@@ -293,8 +335,10 @@ public class UpdateCommandTests {
                     ((Event)tasklist.get(2)).getEndDateTime());
 
             //update event taskName, start and end
-            updateInput.getValue().set(1, "taskName: task6");
-            updateInput.getValue().set(2, "start: 21/10/25 0000");
+            updateInput.getValue().clear();
+            updateInput.getValue().add("3");
+            updateInput.getValue().add("taskName: task6");
+            updateInput.getValue().add("start: 21/10/25 0000");
             updateInput.getValue().add("end: 21/10/25 0800");
 
             command = assertDoesNotThrow(()->new UpdateCommand(updateInput, tasklist));

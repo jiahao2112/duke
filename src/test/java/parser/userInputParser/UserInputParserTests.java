@@ -102,18 +102,22 @@ public class UserInputParserTests {
             assertEquals("taskName: task1", result.getValue().get(1));
             assertEquals("start: 13/10/25 0000", result.getValue().get(2));
             assertEquals("to: 14/10/25 0000", result.getValue().get(3));
-        }
 
-        @Test
-        @DisplayName("find Success")
-        public void parseUserInput_Find_Success() {
-            String input = "find task";
+            //find command
+            String findInput = "find task";
 
-            AbstractMap.SimpleEntry<CommandType, ArrayList<String>> result =
-                    assertDoesNotThrow(() -> UserInputParser.parseUserInput(input));
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(findInput));
 
             assertEquals(CommandType.FIND, result.getKey());
             assertEquals("task", result.getValue().get(0));
+
+            //clone command
+            String cloneInput = "clone 1";
+
+            result = assertDoesNotThrow(() -> UserInputParser.parseUserInput(cloneInput));
+
+            assertEquals(CommandType.CLONE, result.getKey());
+            assertEquals("1", result.getValue().get(0));
         }
 
         @Test

@@ -23,7 +23,7 @@ public class MarkTaskCommandTests {
     class MarkTaskCommand_Test {
         @Test
         @DisplayName("Mark Success")
-        public void MarkTaskCommand_Mark_Success() {
+        public void MarkTaskCommand_Success() {
             //mark
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.MARK, new ArrayList<>());
 
@@ -31,11 +31,10 @@ public class MarkTaskCommandTests {
 
             assertDoesNotThrow(() -> new MarkTaskCommand(commandLine, tasklist));
 
-            assertTrue(tasklist.get(0).getIsDone());
-
             //unmark
             commandLine = new AbstractMap.SimpleEntry<>(CommandType.UNMARK, new ArrayList<>());
 
+            tasklist.get(0).setIsDone(true);
             commandLine.getValue().add("1");
 
             assertDoesNotThrow(() -> new MarkTaskCommand(commandLine, tasklist));

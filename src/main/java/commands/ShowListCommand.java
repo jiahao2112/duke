@@ -36,6 +36,9 @@ public class ShowListCommand extends Command {
                               ArrayList<Task> tasklist) throws GrootException {
         super(tasklist);
         this.commandType = commandLine.getKey();
+        if (tasklist.isEmpty()) {
+            throw new GrootException.EmptyListException();
+        }
 
         if (commandType == CommandType.VIEW) {
             LocalDate date = DateTimeParser.parseDate(commandLine.getValue().get(0));

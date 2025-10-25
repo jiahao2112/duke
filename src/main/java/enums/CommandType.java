@@ -15,5 +15,6 @@ public enum CommandType {
     NONE,
     VIEW,
     UPDATE,
-    FIND
+    FIND,
+    CLONE
 }

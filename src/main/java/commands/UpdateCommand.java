@@ -55,17 +55,30 @@ public class UpdateCommand extends Command {
     }
 
     private void setFields(ArrayList<String> update) throws UpdateException {
-        try {
-            for (int i = 0; i < update.size(); i += 2) {
-                switch (update.get(i)) {
-                case "taskName" -> taskName = update.get(i + 1);
-                case "by" -> byDate = DateTimeParser.parseDateTime(update.get(i + 1));
-                case "from" -> fromDate = DateTimeParser.parseDateTime(update.get(i + 1));
-                case "to" -> toDate = DateTimeParser.parseDateTime(update.get(i + 1));
+        for (int i = 0; i < update.size(); i += 2) {
+            switch (update.get(i)) {
+            case "taskName":
+                taskName = update.get(i + 1);
+                break;
+            case "by":
+                try {
+                    byDate = DateTimeParser.parseDateTime(update.get(i + 1));
+                } catch (DateTimeException e) {
+                    throw new UpdateException.InvalidUpdateDeadlineDateException();
+                }
+            case "start":
+                try {
+                    fromDate = DateTimeParser.parseDateTime(update.get(i + 1));
+                } catch (DateTimeException e) {
+                    throw new UpdateException.InvalidUpdateEventDateException();
+                }
+            case "end":
+                try {
+                    toDate = DateTimeParser.parseDateTime(update.get(i + 1));
+                } catch (DateTimeException e) {
+                    throw new UpdateException.InvalidUpdateEventDateException();
                 }
             }
-        } catch (DateTimeException e) {
-            throw new UpdateException.InvalidUpdateDeadlineDateException();
         }
     }
 

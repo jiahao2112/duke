@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MarkUnmarkDeleteCheckerTests {
+public class TaskNumberCheckerTests {
     @Nested
     @DisplayName("checkTaskNumberFormat()")
     class CheckTaskNumberFormat_Test {

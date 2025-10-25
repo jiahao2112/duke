@@ -45,6 +45,7 @@ public abstract class Command {
                 case BYE -> new ExitCommand(tasklist);
                 case UPDATE -> new UpdateCommand(commandLine, tasklist);
                 case FIND -> new FindCommand(commandLine, tasklist);
+                case CLONE -> new CloneCommand(commandLine, tasklist);
             };
         } catch (DateTimeException e) {
             switch (commandLine.getKey()) {

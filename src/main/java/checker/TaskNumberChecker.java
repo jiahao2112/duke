@@ -53,7 +53,7 @@ public class TaskNumberChecker {
      */
     public static void checkTaskNumberValid(int taskNumber, int tasklistSize)
             throws TaskNumberException.TaskNotFoundException {
-        boolean isWithinRange = taskNumber < tasklistSize && taskNumber > 0;
+        boolean isWithinRange = taskNumber <= tasklistSize && taskNumber > 0;
         if (!isWithinRange) {
             throw new TaskNumberException.TaskNotFoundException();
         }
