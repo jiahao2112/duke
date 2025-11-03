@@ -20,27 +20,20 @@ public class TaskManager {
     /**
      * Initialise tasklist from tasklist file
      */
-    public TaskManager() {
-        try {
-            FileManager.createTasklistFile(); //create tasklist file if not exist
+    public TaskManager() throws FileException {
+        FileManager.createTasklistFile(); //create tasklist file if not exist
 
-            clearTasklist(); //ensure tasklist is empty before updating with file content
+        clearTasklist(); //ensure tasklist is empty before updating with file content
 
-            tasklist.addAll(FileManager.readFile()); //load tasklist content
-        } catch (FileException.FileCorruptedException e) {
-            UserInteraction.printMessage(e.getMessage());
-            UserInteraction.fileCorruptedHandler();
-        } catch (FileException e) {
-            UserInteraction.printMessage(e.getMessage());
-        }
+        tasklist.addAll(FileManager.readFile()); //load tasklist content
     }
 
     /**
      * clear all contents in tasklist. Used when file is corrupted and initialisation
      */
-    public static void clearTasklist() {
+    public static void clearTasklist() { //clear tasklist for initial file read and if error in parsing
         tasklist.clear();
-    } //clear tasklist for initial file read and if error in parsing
+    }
 
     /**
      * Getter function to get tasklist
@@ -55,22 +48,31 @@ public class TaskManager {
      * Manage task given and update tasklist file after each operation
      *
      * @param userInput input given by user
+     * @return messages for the task
      */
-    public void manageTask(String userInput) {
+    public String manageTask(String userInput, boolean isForGUI) {
         try {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
                     UserInputParser.parseUserInput(userInput);
             Command cmd = Command.createCommand(commandLine, tasklist);
 
             if (cmd == null) { //No command given
-                return;
+                return userInput;
             }
 
-            cmd.execute();
+            String response = cmd.execute();
 
             FileManager.saveFile(tasklist);
+            if (isForGUI) {
+                return response;
+            }
+            return "";
         } catch (GrootException e) {
+            if (isForGUI) {
+                return e.getMessage();
+            }
             UserInteraction.printMessage(e.getMessage());
+            return "";
         }
     }
 }

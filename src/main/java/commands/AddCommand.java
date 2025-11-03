@@ -3,12 +3,12 @@ package commands;
 import enums.CommandType;
 import exceptions.DateTimeException;
 import exceptions.FileException;
+import gui.GrootGUI;
 import parser.DateTimeParser;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
 import tasks.ToDo;
-import ui.UserInteraction;
 
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
@@ -102,12 +102,12 @@ public class AddCommand extends Command {
     /**
      * Adds task to tasklist
      */
-    private void addTask() {
+    private String addTask() {
         Task task = createTask();
 
         tasklist.add(task);
 
-        UserInteraction.printMessage("Task added: " + task,
+        return GrootGUI.buildReply( "Task added: " + task,
                 "Now you have " + tasklist.size() + " tasks in the list.");
     }
 
@@ -115,7 +115,7 @@ public class AddCommand extends Command {
      * Execution of the command
      */
     @Override
-    public void execute() {
-        addTask();
+    public String execute() {
+        return addTask();
     }
 }

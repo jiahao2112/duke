@@ -2,8 +2,8 @@ package commands;
 
 import enums.CommandType;
 import exceptions.FindException;
+import gui.GrootGUI;
 import tasks.Task;
-import ui.UserInteraction;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -37,16 +37,19 @@ public class FindCommand extends Command {
         return list;
     }
 
-    private void printFoundTasks() {
-        UserInteraction.printMessage("Found " + foundList.size() + " tasks");
+    private String printFoundTasks() {
+        ArrayList<String> message = new ArrayList<>();
+        message.add("Found " + foundList.size() + " tasks");
 
         for (Task task : foundList) {
-            UserInteraction.printMessage(task.toString());
+            message.add(task.toString());
         }
+
+        return GrootGUI.buildReply(message.toArray(new String[0]));
     }
 
     @Override
-    public void execute() {
-        printFoundTasks();
+    public String execute() {
+        return printFoundTasks();
     }
 }

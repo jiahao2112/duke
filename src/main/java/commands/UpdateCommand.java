@@ -101,7 +101,7 @@ public class UpdateCommand extends Command {
         setFields(update);
     }
 
-    private void updateTask() {
+    private String updateTask() {
         boolean isTodo = task instanceof ToDo;
         boolean isDeadline = task instanceof Deadline;
         boolean isEvent = task instanceof Event;
@@ -135,11 +135,11 @@ public class UpdateCommand extends Command {
             }
         }
 
-        UserInteraction.printMessage("task updated: " + task);
+        return "Task updated: " + task;
     }
 
     @Override
-    public void execute() {
-        updateTask();
+    public String execute() {
+        return updateTask();
     }
 }

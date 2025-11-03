@@ -84,7 +84,7 @@ public class TaskManagerTests {
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
             assertEquals(3, TaskManager.getTasklist().size());
 
-            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput, false));
             assertEquals(4, TaskManager.getTasklist().size());
 
             assertInstanceOf(ToDo.class, TaskManager.getTasklist().get(3));
@@ -102,7 +102,7 @@ public class TaskManagerTests {
 
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
 
-            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput, false));
 
             assertInstanceOf(Event.class, TaskManager.getTasklist().get(2));
             assertEquals("task10", TaskManager.getTasklist().get(2).getDescription());
@@ -117,7 +117,7 @@ public class TaskManagerTests {
 
             TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
 
-            assertDoesNotThrow(() -> taskManager.manageTask(userInput));
+            assertDoesNotThrow(() -> taskManager.manageTask(userInput, false));
 
             assertEquals(4, TaskManager.getTasklist().size());
             assertInstanceOf(ToDo.class, TaskManager.getTasklist().get(3));
@@ -126,10 +126,10 @@ public class TaskManagerTests {
         }
         @Test
         void manageTask_invalidInput_doesNotModifyTasklistOrFile() throws IOException {
-            TaskManager taskManager = new TaskManager();
+            TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
             List<String> before = Files.readAllLines(testFile.toPath());
 
-            taskManager.manageTask("invalidCommand xyz");
+            taskManager.manageTask("invalidCommand xyz", false);
 
             assertEquals(3, TaskManager.getTasklist().size());
 

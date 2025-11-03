@@ -60,5 +60,5 @@ public abstract class Command {
     /**
      * Function used by all commands to execute itself
      */
-    public abstract void execute();
+    public abstract String execute();
 }

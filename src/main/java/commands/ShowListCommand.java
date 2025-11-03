@@ -3,11 +3,11 @@ package commands;
 import enums.CommandType;
 import exceptions.GrootException;
 import exceptions.ViewException;
+import gui.GrootGUI;
 import parser.DateTimeParser;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.Task;
-import ui.UserInteraction;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,21 +51,25 @@ public class ShowListCommand extends Command {
     /**
      * Display entire tasklist
      */
-    public void displayTasks() {
+    public String displayTasks() {
+        ArrayList<String> showTasks = new ArrayList<>();
         int taskNumber = 1;
         for (Task task : list) {
-            UserInteraction.printMessage(taskNumber + ": " + task);
+            showTasks.add(taskNumber + ": " + task);
             taskNumber++;
         }
+        return GrootGUI.buildReply(showTasks.toArray(new String[0]));
     }
 
     /**
      * Display filtered tasks for viewing
      */
-    public void viewTasks() {
+    public String viewTasks() {
+        ArrayList<String> viewTasks = new ArrayList<>();
         for (Task task : list) {
-            UserInteraction.printMessage(task.toString());
+            viewTasks.add(task.toString());
         }
+        return GrootGUI.buildReply(viewTasks.toArray(new String[0]));
     }
 
     /*
@@ -133,10 +137,11 @@ public class ShowListCommand extends Command {
      * Display entire list or display tasks that fit the date given
      */
     @Override
-    public void execute() {
-        switch (commandType) {
+    public String execute() {
+        return switch (commandType) {
             case VIEW -> viewTasks();
             case LIST -> displayTasks();
-        }
+            default -> "";
+        };
     }
 }

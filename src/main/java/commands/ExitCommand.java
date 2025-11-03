@@ -1,9 +1,9 @@
 package commands;
 
 import exceptions.FileException;
+import gui.GrootGUI;
 import manager.FileManager;
 import tasks.Task;
-import ui.UserInteraction;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,8 @@ public class ExitCommand extends Command {
      *
      */
     @Override
-    public void execute() {
-        UserInteraction.exit();
+    public String execute() {
+        return GrootGUI.exit();
+//        UserInteraction.exit();
     }
 }

@@ -2,9 +2,9 @@ package commands;
 
 import enums.CommandType;
 import exceptions.TaskNumberException;
+import gui.GrootGUI;
 import parser.userInputParser.TaskNumberParser;
 import tasks.Task;
-import ui.UserInteraction;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -33,12 +33,12 @@ public class DeleteCommand extends Command {
     /**
      * Delete task from task list
      */
-    public void deleteTask() {
+    public String deleteTask() {
         Task task = tasklist.get(taskIndex);
 
         tasklist.remove(taskIndex);
 
-        UserInteraction.printMessage("Task deleted: " + task,
+        return GrootGUI.buildReply("Task deleted: " + task,
                 "Now you have " + tasklist.size() + " tasks in the list.");
     }
 
@@ -46,7 +46,7 @@ public class DeleteCommand extends Command {
      * Execution of command
      */
     @Override
-    public void execute() {
-        deleteTask();
+    public String execute() {
+         return deleteTask();
     }
 }

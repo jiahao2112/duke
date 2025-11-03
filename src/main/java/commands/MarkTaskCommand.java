@@ -3,9 +3,9 @@ package commands;
 import checker.TaskNumberChecker;
 import enums.CommandType;
 import exceptions.TaskNumberException;
+import gui.GrootGUI;
 import parser.userInputParser.TaskNumberParser;
 import tasks.Task;
-import ui.UserInteraction;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -30,8 +30,8 @@ public class MarkTaskCommand extends Command {
         int taskNumber = TaskNumberParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
 
         switch (commandLine.getKey()) {
-            case MARK -> markDone = true;
-            case UNMARK -> markDone = false;
+        case MARK -> markDone = true;
+        case UNMARK -> markDone = false;
         }
 
         task = tasklist.get(taskNumber - 1);
@@ -41,13 +41,13 @@ public class MarkTaskCommand extends Command {
     /**
      * Mark task as done or not done
      */
-    public void markTask() {
+    public String markTask() {
         task.setIsDone(markDone);
 
         if (markDone) {
-            UserInteraction.printMessage("Task marked as done: " + task);
+            return GrootGUI.buildReply("Task marked as done: " + task);
         } else {
-            UserInteraction.printMessage("Task marked as not done yet: " + task);
+            return GrootGUI.buildReply("Task marked as not done yet: " + task);
         }
     }
 
@@ -55,8 +55,8 @@ public class MarkTaskCommand extends Command {
      * Execution of command
      */
     @Override
-    public void execute() {
-        markTask();
+    public String execute() {
+        return markTask();
     }
 
 }
