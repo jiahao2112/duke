@@ -19,6 +19,9 @@ public class DeadlineParser {
      */
     protected static void parseDeadline(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> deadline)
             throws DeadlineException {
+        assert deadline.getValue() != null;
+        assert !deadline.getValue().isEmpty();
+
         ArrayList<String> deadlineInformation = deadline.getValue();
 
         DeadlineChecker.checkDeadlineByKeyword(deadlineInformation.get(0));
@@ -35,6 +38,10 @@ public class DeadlineParser {
      */
     private static void splitDeadlineInformation(ArrayList<String> deadlineInformation) {
         String[] info = deadlineInformation.get(0).split("/by", -1);
+
+        assert info.length == 2;
+        assert info[0] != null;
+        assert info[1] != null;
 
         String taskName = info[0].trim();
         String by = info[1].trim();

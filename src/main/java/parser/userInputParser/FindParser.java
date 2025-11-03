@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class FindParser {
     public static void parseFind (AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws FindException {
+        assert input.getValue() != null;
+        assert input.getValue().get(0) != null;
+
         FindChecker.checkKeyword(input.getValue().get(0));
     }
 }

@@ -16,6 +16,10 @@ public class ViewParser {
      */
     protected static void parseView(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input)
             throws ViewException.MissingViewDateException {
+        assert input.getValue() != null;
+        assert !input.getValue().isEmpty();
+        assert input.getValue().get(0) != null;
+
         ViewChecker.checkViewDate(input.getValue().get(0));
     }
 }

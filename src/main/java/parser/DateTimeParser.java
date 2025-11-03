@@ -91,6 +91,8 @@ public class DateTimeParser {
      * @throws DateTimeException if date given is not of accepted format
      */
     public static LocalDateTime parseDateTime(String date) throws DateTimeException {
+        assert date != null;
+
         for (String format : acceptedDateTimeFormats) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
@@ -111,6 +113,8 @@ public class DateTimeParser {
      * @throws DateTimeException if date is of not accepted format
      */
     public static LocalDate parseDate(String date) throws DateTimeException {
+        assert date != null;
+
         for (String format : acceptedDateFormats) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
@@ -130,6 +134,8 @@ public class DateTimeParser {
      * @return dateTime in string
      */
     public static String formatDateTime(LocalDateTime dateTime) {
+        assert dateTime != null;
+
         return dateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HHmm"));
     }
 }

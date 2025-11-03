@@ -22,6 +22,8 @@ public class Task {
      * @param description task name
      */
     public Task(String description) {
+        assert description != null;
+
         description = description.trim();
         this.description = description;
         isDone = false;
@@ -60,6 +62,8 @@ public class Task {
      * @param description to set description as
      */
     public void setDescription(String description) {
+        assert description != null;
+
         this.description = description;
     }
 

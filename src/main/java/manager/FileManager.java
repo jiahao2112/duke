@@ -98,6 +98,8 @@ public class FileManager {
      * @throws FileException if there are any errors in updating
      */
     public static void saveFile(ArrayList<Task> tasklist) throws FileException {
+        assert tasklist != null;
+
         if (tasklist.isEmpty()) {
             return;
         }

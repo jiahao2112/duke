@@ -17,10 +17,11 @@ public class EventFileParser {
      * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
      */
     protected static void parseEventFile(ArrayList<String> eventFile) throws FileException.FileCorruptedException {
-        try {
-            eventFile.set(0, eventFile.get(0).trim());
+        assert eventFile != null;
+        assert !eventFile.isEmpty();
 
-            String taskInfo = eventFile.get(0);
+        try {
+            String taskInfo = eventFile.get(0). trim();
             String[] taskInfoArray = taskInfo.split("\\| from:");
 
             eventFile.set(0, taskInfoArray[0].trim());

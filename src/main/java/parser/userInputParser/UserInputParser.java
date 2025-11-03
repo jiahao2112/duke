@@ -21,6 +21,9 @@ public class UserInputParser {
             throws GrootException {
         //split and trim the 2 parts of command {command, info}
         AbstractMap.SimpleEntry<CommandType, ArrayList<String>> inputs = splitInput(input);
+        assert inputs.getKey() != null;
+        assert inputs.getValue() != null;
+
         switch (inputs.getKey()) {
             case NONE, LIST -> {} // no additional parsing needed
             case VIEW -> ViewParser.parseView(inputs); //{"viewDate"}
@@ -38,6 +41,8 @@ public class UserInputParser {
      * Convert command from string to CommandType enum
      */
     private static CommandType parseCommand(String command) throws GrootException.InvalidCommandException {
+        assert command != null;
+
         try {
             command = command.trim();
 

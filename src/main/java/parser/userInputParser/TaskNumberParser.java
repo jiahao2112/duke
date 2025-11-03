@@ -21,6 +21,13 @@ public class TaskNumberParser {
      */
     protected static void parseTaskNumber(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> command)
             throws GrootException {
+        assert command.getValue() != null;
+        assert !command.getValue().isEmpty();
+        assert command.getValue().get(0) != null;
+        assert command.getKey() != null;
+        assert command.getKey() == CommandType.MARK || command.getKey() == CommandType.UNMARK ||
+                command.getKey() == CommandType.DELETE || command.getKey() == CommandType.CLONE;
+
         TaskNumberChecker.checkTaskNumberFormat(command.getValue().get(0), command.getKey());
     }
 
@@ -34,6 +41,8 @@ public class TaskNumberParser {
      */
     public static int getTaskNumber(String taskNumber, int tasklistSize)
             throws TaskNumberException.TaskNotFoundException {
+        assert taskNumber != null;
+
         int taskNumberInt = Integer.parseInt(taskNumber);
         TaskNumberChecker.checkTaskNumberValid(taskNumberInt, tasklistSize);
         return taskNumberInt;

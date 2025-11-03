@@ -17,6 +17,9 @@ public class TodoFileParser {
      * @throws FileException.FileCorruptedException if it cannot be parsed, i.e. file is corrupted or modified
      */
     protected static void parseTodoFile(ArrayList<String> todoFile) throws FileException.FileCorruptedException {
+        assert todoFile != null;
+        assert !todoFile.isEmpty();
+
         try {
             todoFile.set(0, todoFile.get(0).trim());
 

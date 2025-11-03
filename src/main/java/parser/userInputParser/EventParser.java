@@ -19,6 +19,10 @@ public class EventParser {
      */
     protected static void parseEvent(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> event)
             throws GrootException {
+        assert event != null;
+        assert event.getValue() != null;
+        assert event.getValue().get(0) != null;
+
         ArrayList<String> eventInput = event.getValue();
 
         EventChecker.checkEventKeywords(eventInput.get(0));
@@ -35,6 +39,11 @@ public class EventParser {
      */
     private static void splitEventInformation(ArrayList<String> eventInfo) {
         String[] eventParts = eventInfo.get(0).split("/from|/to", -1);
+
+        assert eventParts.length == 3;
+        assert eventParts[0] != null;
+        assert eventParts[1] != null;
+        assert eventParts[2] != null;
 
         String taskName = eventParts[0].trim();
         String from = eventParts[1].trim();

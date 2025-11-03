@@ -27,6 +27,12 @@ public class UpdateCommand extends Command {
     public UpdateCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update,
                          ArrayList<Task> tasklist) throws UpdateException {
         super(tasklist);
+
+        assert update != null;
+        assert update.getKey().equals(CommandType.UPDATE);
+        assert update.getValue()!=null;
+        assert !update.getValue().isEmpty();
+
         int taskNumber;
 
         try {
@@ -42,6 +48,9 @@ public class UpdateCommand extends Command {
     }
 
     private void splitUpdateFields(ArrayList<String> update, ArrayList<String> updateFields) throws UpdateException {
+        assert updateFields != null;
+        assert update != null;
+
         try {
             for (String field : updateFields) {
                 String[] fields = field.split(":", -1);
@@ -55,6 +64,8 @@ public class UpdateCommand extends Command {
     }
 
     private void setFields(ArrayList<String> update) throws UpdateException {
+        assert update != null;
+
         for (int i = 0; i < update.size(); i += 2) {
             switch (update.get(i)) {
             case "taskName":
@@ -83,6 +94,8 @@ public class UpdateCommand extends Command {
     }
 
     private void setUpdateFields(ArrayList<String> updateFields) throws UpdateException {
+        assert updateFields != null;
+
         ArrayList<String> update = new ArrayList<>();
         boolean isTodo = task instanceof ToDo;
         boolean isDeadline = task instanceof Deadline;
