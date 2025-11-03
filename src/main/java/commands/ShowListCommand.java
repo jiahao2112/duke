@@ -35,12 +35,20 @@ public class ShowListCommand extends Command {
     protected ShowListCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine,
                               ArrayList<Task> tasklist) throws GrootException {
         super(tasklist);
+
+        assert commandLine != null;
+        assert commandLine.getKey().equals(CommandType.LIST) || commandLine.getKey().equals(CommandType.VIEW);
+        assert commandLine.getValue()!=null;
+
         this.commandType = commandLine.getKey();
         if (tasklist.isEmpty()) {
             throw new GrootException.EmptyListException();
         }
 
         if (commandType == CommandType.VIEW) {
+            assert !commandLine.getValue().isEmpty();
+            assert commandLine.getValue().get(0) != null;
+
             LocalDate date = DateTimeParser.parseDate(commandLine.getValue().get(0));
             list = viewTasksOnDate(date);
         } else {
@@ -102,6 +110,11 @@ public class ShowListCommand extends Command {
      * Add deadline task if it has the date given as deadline
      */
     private void viewDeadline(Task task, LocalDate date, ArrayList<Task> viewList) {
+        assert task != null;
+        assert task instanceof Deadline;
+        assert date!=null;
+        assert viewList != null;
+
         LocalDateTime deadlineDateTime = ((Deadline) task).getBy();
 
         LocalDate deadlineDate = deadlineDateTime.toLocalDate();
@@ -118,8 +131,16 @@ public class ShowListCommand extends Command {
      * Add event task if the date given is between the from and to of event
      */
     private void viewEvent(Task task, LocalDate date, ArrayList<Task> viewList) {
+        assert task != null;
+        assert task instanceof Event;
+        assert date!=null;
+        assert viewList != null;
+
         LocalDateTime from = ((Event) task).getStartDateTime();
         LocalDateTime to = ((Event) task).getEndDateTime();
+
+        assert from!=null;
+        assert to!=null;
 
         LocalDate fromDate = from.toLocalDate();
         LocalDate toDate = to.toLocalDate();

@@ -14,6 +14,11 @@ public class FindCommand extends Command {
     protected FindCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine,
                           ArrayList<Task> tasklist) throws FindException {
         super(tasklist);
+
+        assert commandLine != null;
+        assert commandLine.getValue()!=null;
+        assert !commandLine.getValue().isEmpty();
+
         String keyword = commandLine.getValue().get(0);
 
         foundList = findTasks(keyword);

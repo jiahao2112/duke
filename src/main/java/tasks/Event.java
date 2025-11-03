@@ -20,6 +20,10 @@ public class Event extends Task {
      */
     public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         super(description);
+
+        assert startDateTime != null;
+        assert endDateTime != null;
+
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
@@ -48,6 +52,8 @@ public class Event extends Task {
      * @param startDateTime to set by-date as
      */
     public void setStartDateTime(LocalDateTime startDateTime) {
+        assert startDateTime != null;
+
         this.startDateTime = startDateTime;
     }
 
@@ -57,6 +63,8 @@ public class Event extends Task {
      * @param endDateTime to set by-date as
      */
     public void setEndDateTime(LocalDateTime endDateTime) {
+        assert endDateTime != null;
+
         this.endDateTime = endDateTime;
     }
 

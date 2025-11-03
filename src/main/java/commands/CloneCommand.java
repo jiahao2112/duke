@@ -15,14 +15,18 @@ public class CloneCommand extends Command {
     public CloneCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> command,
                         ArrayList<Task> tasklist) throws TaskNumberException {
         super(tasklist);
-        String taskNum =  command.getValue().get(0);
+
+        assert command != null;
+        assert command.getValue().size() == 1;
+
+        String taskNum = command.getValue().get(0);
         int taskNumber = TaskNumberParser.getTaskNumber(taskNum, tasklist.size());
-        this.task = tasklist.get(taskNumber-1);
+        this.task = tasklist.get(taskNumber - 1);
     }
 
-    private String cloneTask(){
+    private String cloneTask() {
         tasklist.add(task);
-        return GrootGUI.buildReply("Task cloned: "+task);
+        return GrootGUI.buildReply("Task cloned: " + task);
     }
 
     @Override

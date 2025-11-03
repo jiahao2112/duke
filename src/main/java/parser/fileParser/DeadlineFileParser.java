@@ -18,11 +18,14 @@ public class DeadlineFileParser {
      */
     protected static void parseDeadlineFile(ArrayList<String> deadlineFile)
             throws FileException.FileCorruptedException {
-        try {
-            deadlineFile.set(0, deadlineFile.get(0).trim());
+        assert deadlineFile != null;
+        assert !deadlineFile.isEmpty();
 
-            String taskInfo = deadlineFile.get(0);
-            String[] taskInfoArray = taskInfo.split("\\| by:");
+        try {
+            String taskInfo = deadlineFile.get(0).trim();
+            String[] taskInfoArray = taskInfo.split("\\| by:", -1);
+
+            assert taskInfoArray.length == 2;
 
             deadlineFile.set(0, taskInfoArray[0].trim());
             deadlineFile.add(taskInfoArray[1].trim());

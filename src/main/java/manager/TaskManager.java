@@ -51,6 +51,8 @@ public class TaskManager {
      * @return messages for the task
      */
     public String manageTask(String userInput, boolean isForGUI) {
+        assert userInput != null;
+
         try {
             AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine =
                     UserInputParser.parseUserInput(userInput);

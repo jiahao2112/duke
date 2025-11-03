@@ -25,6 +25,11 @@ public class DeleteCommand extends Command {
     protected DeleteCommand(AbstractMap.SimpleEntry<CommandType,
             ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws TaskNumberException {
         super(tasklist);
+
+        assert commandLine != null;
+        assert commandLine.getValue()!=null;
+        assert commandLine.getValue().size() == 1;
+
         String taskNum = commandLine.getValue().get(0);
         int taskNumber = TaskNumberParser.getTaskNumber(taskNum, tasklist.size());
         this.taskIndex = taskNumber - 1;

@@ -22,6 +22,8 @@ public abstract class Command {
      * @param tasklist tasklist in task manager
      */
     public Command(ArrayList<Task> tasklist) {
+        assert tasklist != null;
+
         this.tasklist = tasklist;
     }
 
@@ -35,6 +37,10 @@ public abstract class Command {
      */
     public static Command createCommand(AbstractMap.SimpleEntry<CommandType,
             ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws GrootException {
+        assert commandLine != null;
+        assert commandLine.getKey() != null;
+        assert tasklist != null;
+
         try {
             return switch (commandLine.getKey()) {
                 case MARK, UNMARK -> new MarkTaskCommand(commandLine, tasklist);

@@ -18,6 +18,9 @@ public class Deadline extends Task {
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);
+
+        assert by != null;
+
         this.by = by;
     }
 
@@ -36,6 +39,8 @@ public class Deadline extends Task {
      * @param by to set by-date as
      */
     public void setBy(LocalDateTime by) {
+        assert by != null;
+
         this.by = by;
     }
 

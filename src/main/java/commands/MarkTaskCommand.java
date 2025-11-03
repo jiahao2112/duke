@@ -27,6 +27,12 @@ public class MarkTaskCommand extends Command {
     protected MarkTaskCommand(AbstractMap.SimpleEntry<CommandType,
             ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws TaskNumberException {
         super(tasklist);
+
+        assert commandLine != null;
+        assert commandLine.getKey().equals(CommandType.MARK) || commandLine.getKey().equals(CommandType.UNMARK);
+        assert commandLine.getValue()!=null;
+        assert !commandLine.getValue().isEmpty();
+
         int taskNumber = TaskNumberParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
 
         switch (commandLine.getKey()) {

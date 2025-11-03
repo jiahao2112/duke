@@ -20,6 +20,10 @@ public class TodoParser {
      */
     protected static void parseTodo(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input)
             throws TodoException.MissingTodoTaskNameException {
+        assert input.getValue() != null;
+        assert !input.getValue().isEmpty();
+        assert input.getValue().get(0) != null;
+
         TodoChecker.checkTodoTaskName(input.getValue().get(0));
     }
 }
