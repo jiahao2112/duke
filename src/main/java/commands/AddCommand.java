@@ -40,13 +40,24 @@ public class AddCommand extends Command {
     protected AddCommand(AbstractMap.SimpleEntry<CommandType,
             ArrayList<String>> commandLine, ArrayList<Task> tasklist) throws DateTimeException {
         super(tasklist);
+
+        assert commandLine != null;
+        assert commandLine.getKey().equals(CommandType.TODO) || commandLine.getKey().equals(CommandType.DEADLINE)
+                || commandLine.getKey().equals(CommandType.EVENT);
+        assert commandLine.getValue() != null;
+        assert !commandLine.getValue().isEmpty();
+
         this.commandType = commandLine.getKey();
         this.taskName = commandLine.getValue().get(0);
 
         if (commandType == CommandType.DEADLINE) {
+            assert commandLine.getValue().size() == 2;
+
             String by = commandLine.getValue().get(1);
             this.by = DateTimeParser.parseDateTime(by);
         } else if (commandType == CommandType.EVENT) {
+            assert commandLine.getValue().size() == 3;
+
             String from = commandLine.getValue().get(1);
             String to = commandLine.getValue().get(2);
             this.from = DateTimeParser.parseDateTime(from);
@@ -67,6 +78,8 @@ public class AddCommand extends Command {
             default -> null;
         };
 
+        assert task != null;
+
         return task;
     }
 
@@ -77,20 +90,23 @@ public class AddCommand extends Command {
      * @param commandLine parsed task information from tasklist file
      * @return todo, deadline or event task based on task information
      * @throws FileException if there is any error in creating the task where the only reason it cannot be
-     * created is where the tasklist file is corrupted
+     *                       created is where the tasklist file is corrupted
      */
     public static Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine)
             throws FileException { //overload function for file parsing
+        assert commandLine != null;
+        assert !commandLine.getValue().isEmpty();
+
         try {
             Task task;
 
             task = switch (commandLine.getKey()) {
                 case TODO -> new ToDo(commandLine.getValue().get(0));
                 case DEADLINE -> new Deadline(commandLine.getValue().get(0),
-                                DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
-                case EVENT ->new Event(commandLine.getValue().get(0),
-                                DateTimeParser.parseDateTime(commandLine.getValue().get(1)),
-                                DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
+                        DateTimeParser.parseDateTime(commandLine.getValue().get(1)));
+                case EVENT -> new Event(commandLine.getValue().get(0),
+                        DateTimeParser.parseDateTime(commandLine.getValue().get(1)),
+                        DateTimeParser.parseDateTime(commandLine.getValue().get(2)));
                 default -> throw new FileException.FileCorruptedException();
             };
 

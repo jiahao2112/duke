@@ -1,4 +1,4 @@
-import ui.UserInteraction;
+package ui;
 
 public class Groot {
 

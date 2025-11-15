@@ -27,7 +27,7 @@ public class DeleteCommand extends Command {
         super(tasklist);
 
         assert commandLine != null;
-        assert commandLine.getValue()!=null;
+        assert commandLine.getValue() != null;
         assert commandLine.getValue().size() == 1;
 
         String taskNum = commandLine.getValue().get(0);

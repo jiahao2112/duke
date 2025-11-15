@@ -112,4 +112,18 @@ public class FileManager {
             throw new FileException.UnableToWriteFileException();
         }
     }
+
+    /**
+     * Empty the tasklist file when file is corrupted
+     *
+     * @throws FileException if it cannot empty the file
+     */
+    public static void emptyFile() throws FileException { //empty contents of file
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.close();
+        }catch (IOException e) {
+            throw new FileException.UnableToWriteFileException();
+        }
+    }
 }

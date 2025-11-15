@@ -23,7 +23,7 @@ test {
 }
 
 application {
-    mainClass.set("Groot")
+    mainClass.set("ui.Groot")
 }
 
 shadowJar {
@@ -33,5 +33,4 @@ shadowJar {
 
 run{
     standardInput = System.in
-    jvmArgs
 }

@@ -1,5 +1,8 @@
 package ui;
 
+import exceptions.FileException;
+import exceptions.GrootException;
+import manager.FileManager;
 import manager.TaskManager;
 
 import java.util.Scanner;
@@ -16,7 +19,14 @@ public class UserInteraction {
      */
     public static void run() {
         greet();
-        taskManager = new TaskManager();
+        try {
+            taskManager = new TaskManager();
+        } catch (FileException.FileCorruptedException e) {
+            UserInteraction.printMessage(e.getMessage());
+            UserInteraction.fileCorruptedHandler();
+        } catch (GrootException e) {
+            UserInteraction.printMessage(e.getMessage());
+        }
         Scanner input = new Scanner(System.in);
         while (isRunning) {
             String userInput = input.nextLine();
@@ -42,6 +52,11 @@ public class UserInteraction {
         String userResponse = sc.nextLine();
         if (userResponse.equalsIgnoreCase("y")) {
             TaskManager.clearTasklist();
+            try {
+                FileManager.emptyFile();
+            } catch (FileException e) {
+                printMessage(e.getMessage());
+            }
         } else if (userResponse.equalsIgnoreCase("n")) {
             exit();
         } else {

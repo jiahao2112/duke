@@ -126,7 +126,7 @@ public class TaskManagerTests {
         }
         @Test
         void manageTask_invalidInput_doesNotModifyTasklistOrFile() throws IOException {
-            TaskManager taskManager = new TaskManager();
+            TaskManager taskManager = assertDoesNotThrow(TaskManager::new);
             List<String> before = Files.readAllLines(testFile.toPath());
 
             taskManager.manageTask("invalidCommand xyz");

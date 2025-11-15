@@ -9,14 +9,14 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class FindCommand extends Command {
-    private ArrayList<Task> foundList = new ArrayList<>();
+    private final ArrayList<Task> foundList;
 
     protected FindCommand(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine,
                           ArrayList<Task> tasklist) throws FindException {
         super(tasklist);
 
         assert commandLine != null;
-        assert commandLine.getValue()!=null;
+        assert commandLine.getValue() != null;
         assert !commandLine.getValue().isEmpty();
 
         String keyword = commandLine.getValue().get(0);
@@ -43,11 +43,14 @@ public class FindCommand extends Command {
     }
 
     private void printFoundTasks() {
-        UserInteraction.printMessage("Found " + foundList.size() + " tasks");
+        ArrayList<String> message = new ArrayList<>();
+        message.add("Found " + foundList.size() + " tasks");
 
         for (Task task : foundList) {
-            UserInteraction.printMessage(task.toString());
+            message.add(task.toString());
         }
+
+        UserInteraction.printMessage(message.toArray(new String[0]));
     }
 
     @Override

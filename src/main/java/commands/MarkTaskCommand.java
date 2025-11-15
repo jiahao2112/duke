@@ -30,14 +30,14 @@ public class MarkTaskCommand extends Command {
 
         assert commandLine != null;
         assert commandLine.getKey().equals(CommandType.MARK) || commandLine.getKey().equals(CommandType.UNMARK);
-        assert commandLine.getValue()!=null;
+        assert commandLine.getValue() != null;
         assert !commandLine.getValue().isEmpty();
 
         int taskNumber = TaskNumberParser.getTaskNumber(commandLine.getValue().get(0), tasklist.size());
 
         switch (commandLine.getKey()) {
-            case MARK -> markDone = true;
-            case UNMARK -> markDone = false;
+        case MARK -> markDone = true;
+        case UNMARK -> markDone = false;
         }
 
         task = tasklist.get(taskNumber - 1);
