@@ -27,10 +27,11 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "groot"
     archiveClassifier = null
 }
 
 run{
     standardInput = System.in
+    jvmArgs
 }

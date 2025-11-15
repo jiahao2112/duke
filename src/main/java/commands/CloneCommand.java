@@ -4,6 +4,7 @@ import enums.CommandType;
 import exceptions.TaskNumberException;
 import parser.userInputParser.TaskNumberParser;
 import tasks.Task;
+import ui.UserInteraction;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class CloneCommand extends Command {
 
     private void cloneTask(){
         tasklist.add(task);
+
+        UserInteraction.printMessage("Task cloned: " + task,
+                "Now you have " + tasklist.size() + " tasks in the list.");
     }
 
     @Override

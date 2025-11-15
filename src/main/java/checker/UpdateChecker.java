@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class UpdateChecker {
     private static void checkUpdateSize(int updateSize) throws UpdateException.InvalidUpdateFormatException {
-        if (updateSize % 2 == 1) { // update size not even number == missing part
+        if (updateSize % 2 == 1 || updateSize == 0) { // update size not even number == missing part
             throw new UpdateException.InvalidUpdateFormatException();
         }
     }

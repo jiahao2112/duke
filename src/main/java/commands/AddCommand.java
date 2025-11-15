@@ -76,7 +76,8 @@ public class AddCommand extends Command {
      *
      * @param commandLine parsed task information from tasklist file
      * @return todo, deadline or event task based on task information
-     * @throws FileException if there is any error in creating the task where the only reason it cannot be created is where the tasklist file is corrupted
+     * @throws FileException if there is any error in creating the task where the only reason it cannot be
+     * created is where the tasklist file is corrupted
      */
     public static Task createTask(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> commandLine)
             throws FileException { //overload function for file parsing

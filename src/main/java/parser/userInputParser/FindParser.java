@@ -8,7 +8,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class FindParser {
-    public static void parseFind (AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws FindException {
+    protected static void parseFind (AbstractMap.SimpleEntry<CommandType, ArrayList<String>> input) throws FindException {
         assert input.getValue() != null;
         assert input.getValue().get(0) != null;
 

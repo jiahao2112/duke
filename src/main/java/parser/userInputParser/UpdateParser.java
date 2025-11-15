@@ -3,13 +3,14 @@ package parser.userInputParser;
 import checker.TaskNumberChecker;
 import enums.CommandType;
 import exceptions.TaskNumberException;
+import exceptions.UpdateException;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class UpdateParser {
     public static void parseUpdate(AbstractMap.SimpleEntry<CommandType, ArrayList<String>> update)
-            throws TaskNumberException {
+            throws UpdateException {
         assert update != null;
         assert update.getValue() != null;
 
@@ -19,7 +20,7 @@ public class UpdateParser {
         update.setValue(updateInput);
     }
 
-    private static void splitUpdateInformation(ArrayList<String> updateInput) throws TaskNumberException {
+    private static void splitUpdateInformation(ArrayList<String> updateInput) throws UpdateException {
         assert updateInput != null;
         assert !updateInput.isEmpty();
         assert updateInput.get(0) != null;
@@ -30,7 +31,11 @@ public class UpdateParser {
 
         assert infoArray.length > 0;
 
-        TaskNumberChecker.checkTaskNumberFormat(infoArray[0], CommandType.UPDATE);
+        try{
+            TaskNumberChecker.checkTaskNumberFormat(infoArray[0], CommandType.UPDATE);
+        }catch (TaskNumberException e){
+            throw new UpdateException.InvalidTaskNumberException();
+        }
         updateInput.set(0, infoArray[0]); //task number
         for (int i = 1; i < infoArray.length; i++) { // add update fields
             updateInput.add(infoArray[i].trim());

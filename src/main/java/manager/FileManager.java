@@ -17,7 +17,6 @@ import java.util.Scanner;
 public class FileManager {
     private static File folder = new File("data");
     private static File file = new File(folder, "tasklist.txt");
-    private static final FileParser fileParser = new FileParser();
 
     /**
      * For testing only
@@ -81,7 +80,7 @@ public class FileManager {
                     break;
                 }
 
-                Task task = fileParser.parseTaskFile(line);
+                Task task = FileParser.parseTaskFile(line);
                 tasklist.add(task);
             }
 

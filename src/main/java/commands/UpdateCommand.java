@@ -30,17 +30,16 @@ public class UpdateCommand extends Command {
 
         assert update != null;
         assert update.getKey().equals(CommandType.UPDATE);
-        assert update.getValue()!=null;
+        assert update.getValue() != null;
         assert !update.getValue().isEmpty();
 
         int taskNumber;
 
         try {
             taskNumber = TaskNumberParser.getTaskNumber(update.getValue().get(0), tasklist.size());
-        } catch (TaskNumberException e) {
-            throw new UpdateException(e.getMessage());
+        } catch (TaskNumberException.TaskNotFoundException e) {
+            throw new UpdateException.TaskNotFoundException();
         }
-
         task = tasklist.get(taskNumber - 1);
         update.getValue().remove(0); //remove task number from update
 
@@ -148,7 +147,7 @@ public class UpdateCommand extends Command {
             }
         }
 
-        UserInteraction.printMessage("task updated: " + task);
+        UserInteraction.printMessage("Task updated: " + task);
     }
 
     @Override

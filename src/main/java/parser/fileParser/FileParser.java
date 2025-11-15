@@ -19,7 +19,7 @@ public class FileParser {
      * @return task based on information
      * @throws FileException if there are any errors during function
      */
-    public Task parseTaskFile(String taskFile) throws FileException {
+    public static Task parseTaskFile(String taskFile) throws FileException {
         assert taskFile != null;
 
         taskFile = taskFile.trim();
@@ -55,7 +55,7 @@ public class FileParser {
     /*
      * Get type of task from task information and convert to CommandType enum
      */
-    private CommandType parseCommandType(String taskLine) throws FileException {
+    private static CommandType parseCommandType(String taskLine) throws FileException {
         assert taskLine != null;
         assert taskLine.length() >= 4;
 
@@ -72,7 +72,7 @@ public class FileParser {
     /*
      * Get task is marked as done or undone from task information
      */
-    private boolean taskIsDone(String taskLine) throws FileException {
+    private static boolean taskIsDone(String taskLine) throws FileException {
         assert taskLine != null;
         assert taskLine.length() >= 7;
 
